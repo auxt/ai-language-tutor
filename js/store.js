@@ -16,6 +16,7 @@ export const DEFAULT_SETTINGS = {
   skVoice: '',
   azureKey: '',
   azureRegion: 'westeurope',
+  bundledVoices: true,     // play the bundled natural voice clips (audio/) when available
   azureTts: true,          // use Azure neural voices when a key is set
   productionAfter: 3,      // successful recalls before L1 -> L2 trials start
 };

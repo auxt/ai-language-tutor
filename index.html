@@ -103,6 +103,7 @@
     </header>
 
     <h2>Zvuk</h2>
+    <label class="check"><input type="checkbox" id="s-bundledVoices"> Nahraté prirodzené hlasy (odporúčané)</label>
     <label class="row">Španielsky hlas (prehliadač)<select id="s-esVoice"></select></label>
     <label class="row">Slovenský hlas (prehliadač)<select id="s-skVoice"></select></label>
     <label class="row">Rýchlosť reči <output id="o-rate"></output><input type="range" id="s-rate" min="0.6" max="1.2" step="0.05"></label>
@@ -116,7 +117,7 @@
     <label class="row">Vedel som × koľkokrát, kým príde smer SK → ES<input type="number" id="s-productionAfter" min="1" max="10"></label>
 
     <h2>Azure Speech (voliteľné)</h2>
-    <p class="note">S kľúčom Azure Speech dostaneš neurónové hlasy a presné hodnotenie výslovnosti. Kľúč ostáva len v tomto prehliadači. Bez kľúča sa použijú hlasy prehliadača a približné skóre (Chrome/Edge).</p>
+    <p class="note">S kľúčom Azure Speech dostaneš neurónové hlasy a presné hodnotenie výslovnosti. Kľúč ostáva len v tomto prehliadači. Frázy z aplikácie majú nahraté hlasy aj bez kľúča; Azure sa použije pre text bez nahrávky. Bez kľúča je skóre výslovnosti len približné (Chrome/Edge).</p>
     <label class="row">Kľúč<input type="password" id="s-azureKey" autocomplete="off" placeholder="nie je nastavený"></label>
     <label class="row">Región<input type="text" id="s-azureRegion" placeholder="westeurope"></label>
     <label class="check"><input type="checkbox" id="s-azureTts"> Používať Azure hlasy</label>

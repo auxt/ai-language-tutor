@@ -1,5 +1,10 @@
-// Audio output: Azure neural TTS (if a key is set) played through one HTMLAudioElement,
-// otherwise the browser's built-in speechSynthesis. Plus cancellable pauses and a
+// Audio output, in order of preference:
+//   1. bundled clips (audio/<voice>/<id>.mp3, natural Microsoft neural voices, made by
+//      tools/make_audio.py): same voice on every device, no key, offline once cached;
+//   2. Azure neural TTS (if a key is set), for text that has no bundled clip;
+//   3. the browser's speechSynthesis, preferring a real Slovak voice and falling back
+//      to Czech rather than letting an English voice mangle Slovak text.
+// All recorded audio goes through one HTMLAudioElement. Plus cancellable pauses and a
 // silent keep-alive track so lock-screen / earbud buttons reach the page.
 import { settings } from './store.js';
 
@@ -50,11 +55,17 @@ export function voicesFor(lang) {
   return [...exact, ...loose];
 }
 
+// Without a Slovak voice the browser would read Slovak with its default (often English)
+// voice. Czech is close enough to be understood and sounds far more natural.
+const FALLBACK_LANG = { 'sk-SK': 'cs-CZ' };
+const bestOf = (list) => list.find((v) => /natural|neural|online|google|premium|enhanced/i.test(v.name)) || list[0] || null;
+
 function pickVoice(lang) {
   const s = settings();
   const wanted = lang === 'es-ES' ? s.esVoice : s.skVoice;
   const list = voicesFor(lang);
-  return list.find((v) => v.name === wanted) || list.find((v) => /natural|neural|online|google/i.test(v.name)) || list[0] || null;
+  if (list.length) return list.find((v) => v.name === wanted) || bestOf(list);
+  return FALLBACK_LANG[lang] ? bestOf(voicesFor(FALLBACK_LANG[lang])) : null;
 }
 
 export function hasBrowserVoice(lang) { return voicesFor(lang).length > 0; }
@@ -67,8 +78,8 @@ function speakBrowser(text, lang, sig) {
       return wait(estimateMs(text), sig).then(resolve, reject);
     }
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang;
     const v = pickVoice(lang);
+    u.lang = v ? v.lang : lang;
     if (v) u.voice = v;
     u.rate = settings().rate;
     let done = false;
@@ -89,6 +100,35 @@ function estimateMs(text) {
 export function syllables(text) {
   const m = text.toLowerCase().match(/[aeiouáéíóúüyäôľŕ]+/g);
   return m ? m.length : 1;
+}
+
+// ---------- bundled clips ----------
+let bundle = null; // { voices: { lang: [folder] }, clips: { lang: { text: id } } }
+const bundleReady = fetch('audio/manifest.json')
+  .then((r) => (r.ok ? r.json() : null))
+  .then((j) => { bundle = j; })
+  .catch(() => {});
+
+export function bundledEnabled() { return settings().bundledVoices !== false; }
+
+function bundledUrl(text, lang, voiceIndex) {
+  const id = bundle?.clips?.[lang]?.[text];
+  const folders = bundle?.voices?.[lang];
+  if (!id || !folders?.length) return null;
+  return `audio/${folders[voiceIndex % folders.length]}/${id}.mp3`;
+}
+
+// Fetch as a blob (not <audio src=url>): no range requests, so the service worker can
+// cache the whole clip and playback works offline.
+async function bundledClip(text, lang, voiceIndex) {
+  const url = bundledUrl(text, lang, voiceIndex);
+  if (!url) return null;
+  if (ttsCache.has(url)) return ttsCache.get(url);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`clip ${res.status}`);
+  const obj = URL.createObjectURL(await res.blob());
+  ttsCache.set(url, obj);
+  return obj;
 }
 
 // ---------- Azure TTS ----------
@@ -139,7 +179,7 @@ async function azureClip(text, lang, voiceIndex) {
   return url;
 }
 
-function playUrl(url, sig) {
+function playUrl(url, sig, rate = 1) {
   return new Promise((resolve, reject) => {
     if (sig.aborted) return reject(new Aborted());
     const cleanup = () => { player.onended = null; player.onerror = null; };
@@ -147,6 +187,8 @@ function playUrl(url, sig) {
     player.onerror = () => { cleanup(); reject(new Error('audio error')); };
     sig.addEventListener('abort', () => { cleanup(); player.pause(); reject(new Aborted()); }, { once: true });
     player.src = url;
+    // Setting src resets the rate, so set it after. Pitch is preserved by default.
+    player.defaultPlaybackRate = player.playbackRate = rate;
     player.play().catch((e) => { cleanup(); reject(e); });
   });
 }
@@ -157,6 +199,21 @@ export let lastAudioError = '';
 // Speak one phrase. voiceIndex rotates Spanish voices (speaker variability helps learning).
 export async function say(text, lang, { voiceIndex = 0 } = {}) {
   const sig = signal();
+  if (bundledEnabled()) {
+    await bundleReady;
+    try {
+      const url = await bundledClip(text, lang, voiceIndex);
+      if (url) {
+        if (sig.aborted) throw new Aborted();
+        await playUrl(url, sig, settings().rate || 1);
+        return;
+      }
+    } catch (e) {
+      if (isAbort(e)) throw e;
+      lastAudioError = String(e.message || e);
+      console.warn('Bundled clip failed, trying the next voice source', e);
+    }
+  }
   if (azureEnabled() && azureFailures < 3) {
     try {
       const url = await azureClip(text, lang, voiceIndex);
@@ -176,6 +233,15 @@ export async function say(text, lang, { voiceIndex = 0 } = {}) {
 
 // Pre-generate the clips for upcoming phrases so playback has no gaps.
 export function prefetch(phrases) {
+  if (bundledEnabled()) {
+    bundleReady.then(() => {
+      for (const p of phrases) {
+        const n = bundle?.voices?.['es-ES']?.length || 1;
+        for (let v = 0; v < n; v++) bundledClip(p.es, 'es-ES', v).catch(() => {});
+        bundledClip(p.sk, 'sk-SK', 0).catch(() => {});
+      }
+    });
+  }
   if (!azureEnabled()) return;
   for (const [i, p] of phrases.entries()) {
     azureClip(p.es, 'es-ES', i).catch(() => {});

@@ -1,7 +1,7 @@
 import { PHRASES, TOPICS } from './phrases.js';
 import * as store from './store.js';
 import { Session, plan } from './session.js';
-import { voicesFor, startKeepAlive, stopKeepAlive, setMediaHandlers, azureEnabled, lastAudioError } from './audio.js';
+import { voicesFor, startKeepAlive, stopKeepAlive, setMediaHandlers, azureEnabled, bundledEnabled, lastAudioError } from './audio.js';
 import { scoringMethod } from './pron.js';
 
 const $ = (s) => document.querySelector(s);
@@ -93,12 +93,14 @@ function setCountdown(ms) {
 }
 
 let cur = null;
+// Slovak line as shown on screen: the spoken text plus any usage note.
+const skText = (p) => (p.note ? `${p.sk} (${p.note})` : p.sk);
 const sessionUi = {
   item({ phrase, dir, isNew, progress }) {
     cur = { phrase, dir };
     const show = store.settings().showText;
     $('#p-badge').hidden = !isNew;
-    $('#prompt-text').textContent = show ? (dir === 'recv' ? phrase.es : phrase.sk) : '';
+    $('#prompt-text').textContent = show ? (dir === 'recv' ? phrase.es : skText(phrase)) : '';
     $('#answer-text').textContent = '';
     $('#score').hidden = true;
     $('#progress').style.width = `${Math.round(progress * 100)}%`;
@@ -112,7 +114,7 @@ const sessionUi = {
     el.classList.toggle('mic', name.startsWith('mic'));
     setCountdown(name === 'pause' || name === 'shadow' ? ms : 0);
     if ((name === 'answer' || name === 'rate') && cur && store.settings().showText) {
-      $('#answer-text').textContent = cur.dir === 'recv' ? cur.phrase.sk : cur.phrase.es;
+      $('#answer-text').textContent = cur.dir === 'recv' ? skText(cur.phrase) : cur.phrase.es;
     }
     if (name === 'rate') $('#rate-speak').classList.add('waiting');
   },
@@ -212,9 +214,12 @@ function fillVoices() {
     sel.innerHTML = '<option value="">Automaticky</option>' + list.map((v) => `<option ${v.name === s[key] ? 'selected' : ''}>${escapeHtml(v.name)}</option>`).join('');
   }
   const missing = ['es-ES', 'sk-SK'].filter((l) => !voicesFor(l).length);
-  $('#voice-note').textContent = missing.length
-    ? `Prehliadač nemá hlas pre: ${missing.join(', ')}. Doinštaluj ho v systéme (Nastavenia > Jazyk/Reč) alebo použi Azure kľúč.`
-    : (azureEnabled() ? 'Používajú sa Azure neurónové hlasy; hlasy prehliadača sú záloha.' : '');
+  const fallback = missing.includes('sk-SK') && voicesFor('cs-CZ').length ? ' Pre slovenčinu sa zatiaľ použije český hlas.' : '';
+  $('#voice-note').textContent = bundledEnabled()
+    ? 'Frázy hrajú nahraté prirodzené hlasy (Viktória, Elvira, Álvaro, Ximena). Hlasy prehliadača sú len záloha pre text bez nahrávky.'
+    : missing.length
+      ? `Prehliadač nemá hlas pre: ${missing.join(', ')}.${fallback} Zapni nahraté hlasy alebo doinštaluj hlas v systéme (Nastavenia > Jazyk/Reč).`
+      : (azureEnabled() ? 'Používajú sa Azure neurónové hlasy; hlasy prehliadača sú záloha.' : '');
 }
 
 function renderSettings() {
@@ -222,6 +227,7 @@ function renderSettings() {
   fillVoices();
   for (const k of ['rate', 'pauseFactor']) { $('#s-' + k).value = s[k]; $('#o-' + k).textContent = k === 'rate' ? `${s[k]}×` : `${s[k]}×`; }
   for (const k of ['repeatTarget', 'showText', 'azureTts']) $('#s-' + k).checked = !!s[k];
+  $('#s-bundledVoices').checked = s.bundledVoices !== false;
   for (const k of ['dailyNewCap', 'productionAfter', 'azureKey', 'azureRegion']) $('#s-' + k).value = s[k];
   $('#azure-status').textContent = lastAudioError ? `Posledná chyba: ${lastAudioError}` : '';
 }
@@ -235,6 +241,7 @@ $('#settings').addEventListener('input', (e) => {
   if (['dailyNewCap', 'productionAfter'].includes(k)) v = Math.max(0, Number(v) || 0);
   if (k === 'azureKey' || k === 'azureRegion') v = String(v).trim();
   store.updateSettings({ [k]: v });
+  if (k === 'bundledVoices') fillVoices();
 });
 $('#s-esVoice').addEventListener('change', (e) => store.updateSettings({ esVoice: e.target.value }));
 $('#s-skVoice').addEventListener('change', (e) => store.updateSettings({ skVoice: e.target.value }));
