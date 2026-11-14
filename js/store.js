@@ -12,7 +12,9 @@ export const DEFAULT_SETTINGS = {
   lang: 'es',              // current target language (js/lang/<id>.js)
   repeatTarget: true,      // replay the target-language phrase after the answer
   showText: true,          // show the transcript on screen
-  dailyNewCap: 15,
+  dailyNewCap: 50,
+  level: 'A1',             // CEFR level new phrases are taken from (film lines: every level)
+  settingsVersion: 2,
   esVoice: '',             // browser voice name for Spanish ('' = best guess)
   skVoice: '',
   voicePrefs: {},          // browser voice name per language code, e.g. { 'de-DE': '…' }
@@ -34,7 +36,14 @@ function load() {
     const raw = localStorage.getItem(KEY);
     if (!raw) return blank();
     const parsed = JSON.parse(raw);
-    return { ...blank(), ...parsed, settings: { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) } };
+    const settings = { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) };
+    // v2: phrases now return after 5 minutes, so sessions need more new material.
+    // Raise the old default limit of 15; a limit the user chose stays as it is.
+    if ((parsed.settings?.settingsVersion || 1) < 2) {
+      if (settings.dailyNewCap === 15) settings.dailyNewCap = DEFAULT_SETTINGS.dailyNewCap;
+      settings.settingsVersion = 2;
+    }
+    return { ...blank(), ...parsed, settings };
   } catch {
     return blank();
   }

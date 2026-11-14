@@ -31,6 +31,7 @@ VOICES = {
     'fr-FR': {'denise': 'fr-FR-DeniseNeural', 'henri': 'fr-FR-HenriNeural', 'vivienne': 'fr-FR-VivienneMultilingualNeural'},
     'ar-AE': {'fatima': 'ar-AE-FatimaNeural', 'hamdan': 'ar-AE-HamdanNeural', 'zariyah': 'ar-SA-ZariyahNeural'},
     'ru-RU': {'svetlana': 'ru-RU-SvetlanaNeural', 'dmitry': 'ru-RU-DmitryNeural'},
+    'ar-EG': {'salma': 'ar-EG-SalmaNeural', 'shakir': 'ar-EG-ShakirNeural'},
     'sk-SK': {'viktoria': 'sk-SK-ViktoriaNeural'},
 }
 
@@ -102,7 +103,7 @@ async def main(force):
         wanted.setdefault('sk-SK', {}).setdefault(p['sk'], p['id'])
 
     manifest = {'voices': {lang: list(v) for lang, v in VOICES.items() if lang in wanted}, 'clips': {}}
-    jobs, sem = [], asyncio.Semaphore(2)
+    jobs, sem = [], asyncio.Semaphore(4)
     for lang, texts in wanted.items():
         manifest['clips'][lang] = texts
         prev = {cid: text for text, cid in old.get(lang, {}).items()}
@@ -126,6 +127,15 @@ async def main(force):
         for text, cid in list(texts.items()):
             if not any((OUT / v / f'{cid}.mp3').exists() for v in VOICES[lang]):
                 del texts[text]
+    # List per voice the clips it lacks, so the app goes straight to another voice.
+    missing = {}
+    for lang, texts in manifest['clips'].items():
+        for cid in texts.values():
+            for v in VOICES[lang]:
+                if not (OUT / v / f'{cid}.mp3').exists():
+                    missing.setdefault(v, []).append(cid)
+    if missing:
+        manifest['missing'] = missing
     mf.write_text(json.dumps(manifest, ensure_ascii=False, indent=0) + '\n', encoding='utf-8')
     print('done:', mf.relative_to(ROOT), f'({len(failed)} failed)' if failed else '')
 

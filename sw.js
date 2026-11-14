@@ -1,5 +1,5 @@
 // Offline cache for the app shell. Bump VERSION when files change.
-const VERSION = 'frazy-es-v3';
+const VERSION = 'frazy-es-v5';
 const FILES = [
   './', 'index.html', 'styles.css', 'manifest.webmanifest', 'icons/icon.svg',
   'js/app.js', 'js/audio.js', 'js/phrases.js', 'js/pron.js', 'js/session.js', 'js/store.js',

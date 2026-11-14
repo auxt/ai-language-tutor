@@ -14,6 +14,7 @@ const AZURE_VOICES = {
   'fr-FR': ['fr-FR-DeniseNeural', 'fr-FR-HenriNeural', 'fr-FR-VivienneMultilingualNeural'],
   'ar-AE': ['ar-AE-FatimaNeural', 'ar-AE-HamdanNeural', 'ar-SA-ZariyahNeural'],
   'ru-RU': ['ru-RU-SvetlanaNeural', 'ru-RU-DmitryNeural'],
+  'ar-EG': ['ar-EG-SalmaNeural', 'ar-EG-ShakirNeural'],
   'sk-SK': ['sk-SK-ViktoriaNeural'],
 };
 
@@ -120,6 +121,7 @@ const bundleReady = fetch('audio/manifest.json')
 export function bundledEnabled() { return settings().bundledVoices !== false; }
 
 const missingClips = new Set();
+let listedMissing = false;
 
 // Fetch as a blob (not <audio src=url>): no range requests, so the service worker can
 // cache the whole clip and playback works offline. Starts with the voice for this turn;
@@ -128,6 +130,10 @@ async function bundledClip(text, lang, voiceIndex) {
   const id = bundle?.clips?.[lang]?.[text];
   const folders = bundle?.voices?.[lang];
   if (!id || !folders?.length) return null;
+  if (!listedMissing) {
+    listedMissing = true;
+    for (const [folder, ids] of Object.entries(bundle.missing || {})) for (const m of ids) missingClips.add(`audio/${folder}/${m}.mp3`);
+  }
   for (let k = 0; k < folders.length; k++) {
     const url = `audio/${folders[(voiceIndex + k) % folders.length]}/${id}.mp3`;
     if (ttsCache.has(url)) return ttsCache.get(url);

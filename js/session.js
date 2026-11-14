@@ -1,15 +1,22 @@
 // Builds and runs one topic session.
-// Reviews come from every topic by due date; the chosen topic only decides which
-// NEW phrases appear. New phrases come back after other items have played
-// (expanding gaps), never back-to-back.
+// Reviews come from every topic by due date; the chosen topic and level only decide
+// which NEW phrases appear. Within a session a phrase never comes back sooner than
+// MIN_GAP (5 minutes of session time); the time in between is filled with other new
+// phrases and reviews instead of quick repeats.
 import { PHRASES, LANG } from './phrases.js';
 import * as store from './store.js';
 import { say, wait, cancelAll, isAbort, syllables, prefetch, setNowPlaying } from './audio.js';
 import { assess, scoringMethod } from './pron.js';
 
 const NEW_BY_LENGTH = { 5: 2, 10: 5, 20: 9, 30: 12 };
-const NEW_LADDER = [3, 7, 15, 30];   // positions after the previous play
-const AGAIN_GAP = 4;
+const MIN = 60000;
+const MIN_GAP = 5 * MIN;                 // shortest time before the same phrase returns
+const NEW_LADDER = [5 * MIN, 12 * MIN];  // a new phrase returns after 5, then 12 minutes
+const AGAIN_GAP = 5 * MIN;               // "again" brings it back after 5 minutes
+const UNRATED_GAP = 8 * MIN;             // an unrated review is heard once more after 8
+
+// New phrases come from the chosen level; the film lines belong to every level.
+export const levelMatch = (p, level) => p.topic === 'quotes' || p.level === level;
 
 let idMap = null, idMapFor = null;
 function byId(id) {
@@ -17,7 +24,7 @@ function byId(id) {
   return idMap[id];
 }
 
-export function plan({ topic, minutes, mode }) {
+export function plan({ topic, minutes, mode, level = 'A1' }) {
   const s = store.settings();
   const now = new Date();
   const perMin = mode === 'speak' ? 3 : 5;
@@ -33,7 +40,7 @@ export function plan({ topic, minutes, mode }) {
   if (mode === 'speak') newCount = Math.ceil(newCount / 2);
   newCount = Math.max(0, Math.min(newCount, s.dailyNewCap - store.newToday()));
   if (reviews.length >= 0.8 * capacity) newCount = 0; // backlog: reviews only
-  const news = PHRASES.filter((p) => p.topic === topic && !store.item(p.id).introduced).slice(0, newCount);
+  const news = PHRASES.filter((p) => p.topic === topic && levelMatch(p, level) && !store.item(p.id).introduced).slice(0, newCount);
 
   const reviewSlots = Math.max(0, capacity - news.length * 4);
   // Warm-up: a couple of reviews from the chosen topic first.
@@ -51,8 +58,8 @@ export function plan({ topic, minutes, mode }) {
 }
 
 export class Session {
-  constructor({ topic, minutes, mode }, ui) {
-    this.opts = { topic, minutes, mode };
+  constructor({ topic, minutes, mode, level = 'A1' }, ui) {
+    this.opts = { topic, minutes, mode, level };
     this.ui = ui;
     this.plan = plan(this.opts);
     this.fresh = this.plan.fresh.map((p) => p.id);
@@ -67,42 +74,60 @@ export class Session {
     this.ratingWaiter = null;
     this.summary = { plays: 0, newIntroduced: 0, rated: 0, again: 0, pron: [] };
     this.voiceTurn = 0;
+    this.endedEarly = false;
   }
 
   st(id) {
-    return this.state[id] || (this.state[id] = { plays: 0, rated: false, again: 0, knewStreak: 0, ladder: 0, isNew: this.plan.newIds.has(id), extra: 0, ratedThisPlay: false });
+    return this.state[id] || (this.state[id] = { plays: 0, rated: false, again: 0, knewStreak: 0, ladder: 0, isNew: this.plan.newIds.has(id), extra: 0, ratedThisPlay: false, lastAt: -Infinity });
   }
 
-  timeUp() { return this.elapsed + (this.startedAt ? Date.now() - this.startedAt : 0) >= this.opts.minutes * 60000; }
+  // Session clock in ms, paused time excluded.
+  now() { return this.elapsed + (this.startedAt ? Date.now() - this.startedAt : 0); }
+  timeUp() { return this.now() >= this.opts.minutes * 60000; }
+  restedEnough(id) { return this.now() - this.st(id).lastAt >= MIN_GAP; }
 
   pickNext() {
-    const ready = this.pending.filter((x) => x.at <= this.pos).sort((a, b) => a.at - b.at);
+    const now = this.now();
     const take = (x) => { this.pending.splice(this.pending.indexOf(x), 1); return x.id; };
+    // 1. a spaced repeat whose time has come
+    const ready = this.pending.filter((x) => x.at <= now).sort((a, b) => a.at - b.at);
     if (ready.length) return take(ready[0]);
-    if (this.fresh.length) return this.fresh.shift();
-    // Nothing due and time left (e.g. the first sessions): bring in another new
-    // phrase rather than replaying the same few back-to-back.
+    // 2. the planned reviews and new phrases
+    while (this.fresh.length) {
+      const id = this.fresh.shift();
+      if (this.restedEnough(id)) return id;
+    }
+    // 3. another new phrase (chosen topic first, then the rest of the level)
     const extra = this.topUpNew();
     if (extra) return extra;
-    if (this.pending.length) return take([...this.pending].sort((a, b) => a.at - b.at)[0]);
-    // Consolidation: replay what was hardest this session.
-    const cands = Object.entries(this.state)
-      .filter(([id, s]) => s.extra < 2 && id !== this.current)
-      .sort((a, b) => (b[1].again - a[1].again) || (a[1].plays - b[1].plays));
-    if (cands.length && Object.keys(this.state).length > 2) { cands[0][1].extra++; return cands[0][0]; }
+    // 4. an older phrase of this language that has not played for a while
+    const review = this.extraReview();
+    if (review) return review;
+    // 5. a spaced repeat that is nearly due (at most a minute early)
+    const soon = [...this.pending].sort((a, b) => a.at - b.at)[0];
+    if (soon && soon.at - now <= MIN) return take(soon);
+    // Nothing left that would not repeat too soon: end here rather than drill.
+    this.endedEarly = true;
     return null;
   }
 
   topUpNew() {
     const s = store.settings();
     if (store.newToday() >= s.dailyNewCap) return null;
-    // Keep in-flight new phrases to a handful so each still gets spaced repeats.
-    const inFlight = this.pending.filter((x) => this.st(x.id).isNew).length;
-    if (inFlight >= 4) return null;
-    const p = PHRASES.find((x) => x.topic === this.opts.topic && !store.item(x.id).introduced && !this.state[x.id]);
+    const fresh = (p) => levelMatch(p, this.opts.level) && !store.item(p.id).introduced && !this.state[p.id];
+    const p = PHRASES.find((x) => x.topic === this.opts.topic && fresh(x))
+      || PHRASES.find((x) => x.topic !== 'quotes' && x.level === this.opts.level && fresh(x));
     if (!p) return null;
     this.plan.newIds.add(p.id);
     return p.id;
+  }
+
+  extraReview() {
+    const seen = PHRASES.filter((p) => store.item(p.id).introduced && this.restedEnough(p.id) && !this.pending.some((x) => x.id === p.id));
+    if (!seen.length) return null;
+    // least recently heard first, so the whole set gets refreshed over time
+    seen.sort((a, b) => store.item(a.id).lastSeen - store.item(b.id).lastSeen);
+    return seen[0].id;
   }
 
   pauseFor(id, dir) {
@@ -129,7 +154,7 @@ export class Session {
     if (grade === store.Rating.Again) {
       st.again++; st.knewStreak = 0; this.summary.again++;
       this.pending = this.pending.filter((x) => x.id !== id);
-      this.pending.push({ id, at: this.pos + AGAIN_GAP });
+      this.pending.push({ id, at: this.now() + AGAIN_GAP });
       st.ladder = 1;
     } else {
       st.knewStreak++;
@@ -188,7 +213,7 @@ export class Session {
     if (this.startedAt) this.elapsed += Date.now() - this.startedAt;
     this.startedAt = 0;
     cancelAll();
-    return { ...this.summary, minutes: this.elapsed / 60000, plan: this.plan };
+    return { ...this.summary, minutes: this.elapsed / 60000, plan: this.plan, endedEarly: this.endedEarly };
   }
 
   afterPlay(id) {
@@ -197,10 +222,10 @@ export class Session {
     if (st.isNew) {
       const done = st.knewStreak >= 2 || st.ladder >= NEW_LADDER.length;
       const alreadyQueued = this.pending.some((x) => x.id === id);
-      if (!done && !alreadyQueued) { this.pending.push({ id, at: this.pos + NEW_LADDER[st.ladder] }); st.ladder++; }
+      if (!done && !alreadyQueued) { this.pending.push({ id, at: this.now() + NEW_LADDER[st.ladder] }); st.ladder++; }
     } else if (!st.rated && st.plays === 1 && !this.pending.some((x) => x.id === id)) {
       // Unrated review: hear it once more later in the session.
-      this.pending.push({ id, at: this.pos + 12 });
+      this.pending.push({ id, at: this.now() + UNRATED_GAP });
     }
   }
 
@@ -215,6 +240,7 @@ export class Session {
     this.currentDir = dir;
     if (st.plays === 0 && st.isNew) this.summary.newIntroduced++;
     st.plays++;
+    st.lastAt = this.now();
     this.summary.plays++;
     store.noteExposure(id);
 

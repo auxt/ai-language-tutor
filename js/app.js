@@ -1,6 +1,6 @@
-import { PHRASES, TOPICS, LANG, LANGS, setLanguage } from './phrases.js';
+import { PHRASES, TOPICS, LANG, LANGS, LEVELS, setLanguage } from './phrases.js';
 import * as store from './store.js';
-import { Session, plan } from './session.js';
+import { Session, plan, levelMatch } from './session.js';
 import { voicesFor, startKeepAlive, stopKeepAlive, setMediaHandlers, azureEnabled, bundledEnabled, lastAudioError } from './audio.js';
 import { scoringMethod } from './pron.js';
 
@@ -28,6 +28,9 @@ function renderLang() {
   $('#lang-name').textContent = `${LANG.name} zo slovenčiny`;
   document.title = `Frázy ${LANG.short}`;
   $('#langs').innerHTML = LANGS.map((l) => `<button role="radio" data-lang="${l.id}" aria-checked="${l.id === LANG.id}" title="${l.name}" aria-label="${l.name}">${l.short}</button>`).join('');
+  const level = store.settings().level;
+  $('#levels').innerHTML = LEVELS.map((l) => `<button role="radio" data-level="${l.id}" aria-checked="${l.id === level}" title="${l.sk}">${l.id}</button>`).join('');
+  $('#level-note').textContent = LEVELS.find((l) => l.id === level)?.sk || '';
 }
 
 function renderHome() {
@@ -40,15 +43,16 @@ function renderHome() {
     [s.streak, s.streak === 1 ? 'deň v rade' : 'dní v rade'],
   ]);
 
+  const level = store.settings().level;
   $('#topics').innerHTML = TOPICS.map((t) => {
-    const all = PHRASES.filter((p) => p.topic === t.id);
+    const all = PHRASES.filter((p) => p.topic === t.id && levelMatch(p, level));
     const seen = all.filter((p) => store.item(p.id).introduced).length;
     return `<button role="radio" data-topic="${t.id}" aria-checked="${t.id === ui.topic}"><span>${t.sk}<br><small lang="${LANG.id}" dir="auto">${LANG.topics[t.id]}</small></span><small>${seen}/${all.length}</small></button>`;
   }).join('');
   for (const b of document.querySelectorAll('#lengths button')) b.setAttribute('aria-checked', String(Number(b.dataset.min) === ui.minutes));
   for (const b of document.querySelectorAll('#modes button')) b.setAttribute('aria-checked', String(b.dataset.mode === ui.mode));
 
-  const p = plan(ui);
+  const p = plan({ ...ui, level: store.settings().level });
   const parts = [];
   if (p.dueCount) parts.push(`${p.dueCount} na opakovanie`);
   if (p.unratedCount) parts.push(`${p.unratedCount} počutých bez hodnotenia`);
@@ -66,6 +70,12 @@ $('#langs').addEventListener('click', (e) => {
   if (!b || b.dataset.lang === LANG.id) return;
   store.updateSettings({ lang: b.dataset.lang });
   setLanguage(b.dataset.lang);
+  renderHome();
+});
+$('#levels').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-level]');
+  if (!b) return;
+  store.updateSettings({ level: b.dataset.level });
   renderHome();
 });
 $('#topics').addEventListener('click', (e) => { const b = e.target.closest('[data-topic]'); if (b) { ui.topic = b.dataset.topic; remember(); renderHome(); } });
@@ -159,13 +169,13 @@ function escapeHtml(t) { return String(t).replace(/[&<>"]/g, (c) => ({ '&': '&am
 
 async function startSession() {
   if (!PHRASES.some(() => true)) return;
-  const p = plan(ui);
+  const p = plan({ ...ui, level: store.settings().level });
   if (!p.fresh.length) {
     $('#plan-note').textContent = 'Na dnes nič nečaká a denný limit nových fráz je vyčerpaný. Zvýš limit v nastaveniach alebo príď zajtra.';
     return;
   }
-  session = new Session(ui, sessionUi);
-  $('#p-topic').textContent = `${TOPICS.find((t) => t.id === ui.topic).sk} · ${ui.minutes} min · ${ui.mode === 'listen' ? 'počúvanie' : 'hovorenie'}`;
+  session = new Session({ ...ui, level: store.settings().level }, sessionUi);
+  $('#p-topic').textContent = `${LANG.short} ${store.settings().level} · ${TOPICS.find((t) => t.id === ui.topic).sk} · ${ui.minutes} min · ${ui.mode === 'listen' ? 'počúvanie' : 'hovorenie'}`;
   $('#rate-listen').hidden = ui.mode !== 'listen';
   $('#rate-speak').hidden = ui.mode !== 'speak';
   $('#rate-hint').hidden = ui.mode !== 'speak';
@@ -202,6 +212,7 @@ function showSummary(r) {
   const notes = [`Trvanie ${Math.max(1, Math.round(r.minutes))} min.`];
   if (!r.rated) notes.push('Žiadne hodnotenie: frázy sa zaznamenali len ako vypočuté, plánovač sa nepohol. Stlač „Vedel som“ alebo tlačidlo ďalšej skladby na slúchadlách.');
   else if (r.again) notes.push(`${r.again}× znova. Tieto frázy prídu skôr.`);
+  if (r.endedEarly) notes.push('Skončili sme skôr: všetko ostatné by sa opakovalo skôr ako o 5 minút a denný limit nových fráz je vyčerpaný. Zvýš ho v nastaveniach, ak chceš viac.');
   notes.push('Krátke opakovanie ráno po večernom učení pomáha najviac.');
   $('#sum-note').textContent = notes.join(' ');
   show('summary');
