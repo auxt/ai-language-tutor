@@ -1,0 +1,285 @@
+import { PHRASES, TOPICS } from './phrases.js';
+import * as store from './store.js';
+import { Session, plan } from './session.js';
+import { voicesFor, startKeepAlive, stopKeepAlive, setMediaHandlers, azureEnabled, lastAudioError } from './audio.js';
+import { scoringMethod } from './pron.js';
+
+const $ = (s) => document.querySelector(s);
+const screens = ['home', 'player', 'summary', 'settings'];
+function show(name) { for (const s of screens) $('#' + s).hidden = s !== name; window.scrollTo(0, 0); }
+
+const ui = {
+  topic: localStorage.getItem('tutor.topic') || TOPICS[0].id,
+  minutes: Number(localStorage.getItem('tutor.minutes') || 10),
+  mode: localStorage.getItem('tutor.mode') || 'listen',
+};
+function remember() {
+  try { localStorage.setItem('tutor.topic', ui.topic); localStorage.setItem('tutor.minutes', ui.minutes); localStorage.setItem('tutor.mode', ui.mode); } catch {}
+}
+
+// ---------- home ----------
+function statTiles(el, tiles) {
+  el.innerHTML = tiles.map(([v, label]) => `<div class="stat"><b>${v}</b><span>${label}</span></div>`).join('');
+}
+
+function renderHome() {
+  const s = store.stats();
+  statTiles($('#stats'), [
+    [s.known, 'fráz vieš'],
+    [s.due, 'na opakovanie'],
+    [`${s.introduced}/${s.total}`, 'počutých'],
+    [s.streak, s.streak === 1 ? 'deň v rade' : 'dní v rade'],
+  ]);
+
+  $('#topics').innerHTML = TOPICS.map((t) => {
+    const all = PHRASES.filter((p) => p.topic === t.id);
+    const seen = all.filter((p) => store.item(p.id).introduced).length;
+    return `<button role="radio" data-topic="${t.id}" aria-checked="${t.id === ui.topic}"><span>${t.sk}<br><small>${t.es}</small></span><small>${seen}/${all.length}</small></button>`;
+  }).join('');
+  for (const b of document.querySelectorAll('#lengths button')) b.setAttribute('aria-checked', String(Number(b.dataset.min) === ui.minutes));
+  for (const b of document.querySelectorAll('#modes button')) b.setAttribute('aria-checked', String(b.dataset.mode === ui.mode));
+
+  const p = plan(ui);
+  const parts = [];
+  if (p.dueCount) parts.push(`${p.dueCount} na opakovanie`);
+  if (p.unratedCount) parts.push(`${p.unratedCount} počutých bez hodnotenia`);
+  parts.push(p.newCount ? `${p.newCount} nových fráz` : 'žiadne nové frázy');
+  let note = `Plán: ${parts.join(', ')}.`;
+  if (ui.mode === 'speak') {
+    const m = scoringMethod();
+    note += m === 'azure' ? ' Výslovnosť hodnotí Azure.' : m === 'browser' ? ' Výslovnosť: približné skóre z prehliadača.' : ' Tento prehliadač nevie rozpoznať reč, skóre nebude.';
+  }
+  $('#plan-note').textContent = note;
+}
+
+$('#topics').addEventListener('click', (e) => { const b = e.target.closest('[data-topic]'); if (b) { ui.topic = b.dataset.topic; remember(); renderHome(); } });
+$('#lengths').addEventListener('click', (e) => { const b = e.target.closest('[data-min]'); if (b) { ui.minutes = Number(b.dataset.min); remember(); renderHome(); } });
+$('#modes').addEventListener('click', (e) => { const b = e.target.closest('[data-mode]'); if (b) { ui.mode = b.dataset.mode; remember(); renderHome(); } });
+
+// ---------- player ----------
+let session = null;
+let wakeLock = null;
+let progressTimer = null;
+
+const PHASE_TEXT = {
+  listen: {
+    prompt: 'Počúvaj…',
+    pause: 'Povedz význam nahlas',
+    answer: 'Odpoveď',
+    repeat: 'Ešte raz po španielsky',
+    shadow: 'Zopakuj po španielsky',
+    window: 'Vedel si to?',
+  },
+  speak: {
+    prompt: 'Počúvaj…',
+    pause: 'Povedz význam nahlas',
+    answer: 'Odpoveď',
+    'mic-repeat': '🎙 Zopakuj španielsku frázu',
+    'mic-produce': '🎙 Povedz to po španielsky',
+    rate: 'Vedel si to? Ohodnoť sa.',
+  },
+};
+
+function setCountdown(ms) {
+  const cd = $('#countdown');
+  const bar = cd.firstElementChild;
+  if (!ms) { cd.classList.remove('on'); bar.style.transition = 'none'; bar.style.transform = 'scaleX(1)'; return; }
+  cd.classList.add('on');
+  bar.style.transition = 'none';
+  bar.style.transform = 'scaleX(1)';
+  void bar.offsetWidth;
+  bar.style.transition = `transform ${ms}ms linear`;
+  bar.style.transform = 'scaleX(0)';
+}
+
+let cur = null;
+const sessionUi = {
+  item({ phrase, dir, isNew, progress }) {
+    cur = { phrase, dir };
+    const show = store.settings().showText;
+    $('#p-badge').hidden = !isNew;
+    $('#prompt-text').textContent = show ? (dir === 'recv' ? phrase.es : phrase.sk) : '';
+    $('#answer-text').textContent = '';
+    $('#score').hidden = true;
+    $('#progress').style.width = `${Math.round(progress * 100)}%`;
+    for (const b of document.querySelectorAll('.rate button')) b.classList.remove('flash');
+    $('#rate-speak').classList.remove('waiting');
+  },
+  phase(name, ms) {
+    const mode = session.opts.mode;
+    const el = $('#phase');
+    el.textContent = PHASE_TEXT[mode][name] || '';
+    el.classList.toggle('mic', name.startsWith('mic'));
+    setCountdown(name === 'pause' || name === 'shadow' ? ms : 0);
+    if ((name === 'answer' || name === 'rate') && cur && store.settings().showText) {
+      $('#answer-text').textContent = cur.dir === 'recv' ? cur.phrase.sk : cur.phrase.es;
+    }
+    if (name === 'rate') $('#rate-speak').classList.add('waiting');
+  },
+  rated(grade) {
+    const b = document.querySelector(`.rate:not([hidden]) button[data-grade="${grade}"]`);
+    if (b) b.classList.add('flash');
+    if (session.opts.mode === 'listen') $('#phase').textContent = grade === 1 ? 'Znova o chvíľu' : 'Výborne';
+  },
+  score(res, phrase) {
+    const el = $('#score');
+    el.hidden = false;
+    if (!res) { el.innerHTML = '<small>Nič som nepočul. Skús nabudúce hovoriť hneď po signáli.</small>'; return; }
+    const words = (res.words || []).map((w) => `<span class="w ${w.score < 60 || w.error !== 'None' ? 'bad' : w.score < 80 ? 'mid' : ''}">${escapeHtml(w.word)} ${w.score}</span>`).join('');
+    const d = res.detail ? `<small>Presnosť ${res.detail.accuracy} · Plynulosť ${res.detail.fluency} · Úplnosť ${res.detail.completeness}</small>` : '<small>Približné skóre z rozpoznávania reči prehliadača</small>';
+    el.innerHTML = `<div><span class="num">${res.score}</span><small> / 100 výslovnosť</small></div>${d}<div><small>Počul som: „${escapeHtml(res.heard || '')}“</small></div>${words ? `<div class="words">${words}</div>` : ''}`;
+    if (!store.settings().showText) $('#answer-text').textContent = phrase.es;
+  },
+  paused(p) { $('#pause-btn').textContent = p ? 'Pokračovať' : 'Pauza'; if (p) $('#phase').textContent = 'Pozastavené'; setCountdown(0); },
+  error(msg) { const e = $('#error'); e.hidden = false; e.textContent = msg; setTimeout(() => { e.hidden = true; }, 6000); },
+};
+
+function escapeHtml(t) { return String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+async function startSession() {
+  if (!PHRASES.some(() => true)) return;
+  const p = plan(ui);
+  if (!p.fresh.length) {
+    $('#plan-note').textContent = 'Na dnes nič nečaká a denný limit nových fráz je vyčerpaný. Zvýš limit v nastaveniach alebo príď zajtra.';
+    return;
+  }
+  session = new Session(ui, sessionUi);
+  $('#p-topic').textContent = `${TOPICS.find((t) => t.id === ui.topic).sk} · ${ui.minutes} min · ${ui.mode === 'listen' ? 'počúvanie' : 'hovorenie'}`;
+  $('#rate-listen').hidden = ui.mode !== 'listen';
+  $('#rate-speak').hidden = ui.mode !== 'speak';
+  $('#rate-hint').hidden = ui.mode !== 'speak';
+  $('#pause-btn').textContent = 'Pauza';
+  show('player');
+
+  startKeepAlive();
+  setMediaHandlers({
+    knew: () => session && session.rate(store.Rating.Good, 'media'),
+    again: () => session && session.rate(store.Rating.Again, 'media'),
+    pause: () => session && session.pause(),
+    play: () => session && session.resume(),
+  });
+  try { wakeLock = await navigator.wakeLock?.request('screen'); } catch {}
+  progressTimer = setInterval(() => { if (session) $('#progress').style.width = `${Math.round(session.progress() * 100)}%`; }, 1000);
+
+  const result = await session.run();
+  clearInterval(progressTimer);
+  stopKeepAlive();
+  try { await wakeLock?.release(); } catch {}
+  wakeLock = null;
+  session = null;
+  showSummary(result);
+}
+
+function showSummary(r) {
+  const avg = r.pron.length ? Math.round(r.pron.reduce((a, b) => a + b, 0) / r.pron.length) : '–';
+  statTiles($('#sum-stats'), [
+    [r.plays, 'prehratí'],
+    [r.newIntroduced, 'nových fráz'],
+    [r.rated ? `${r.rated - r.again}/${r.rated}` : '–', 'vedel som'],
+    [avg, 'výslovnosť ⌀'],
+  ]);
+  const notes = [`Trvanie ${Math.max(1, Math.round(r.minutes))} min.`];
+  if (!r.rated) notes.push('Žiadne hodnotenie: frázy sa zaznamenali len ako vypočuté, plánovač sa nepohol. Stlač „Vedel som“ alebo tlačidlo ďalšej skladby na slúchadlách.');
+  else if (r.again) notes.push(`${r.again}× znova. Tieto frázy prídu skôr.`);
+  notes.push('Krátke opakovanie ráno po večernom učení pomáha najviac.');
+  $('#sum-note').textContent = notes.join(' ');
+  show('summary');
+}
+
+$('#start').addEventListener('click', startSession);
+$('#rate-listen').addEventListener('click', (e) => { const b = e.target.closest('[data-grade]'); if (b && session) session.rate(Number(b.dataset.grade), 'button'); });
+$('#rate-speak').addEventListener('click', (e) => { const b = e.target.closest('[data-grade]'); if (b && session) session.rate(Number(b.dataset.grade), 'self'); });
+$('#pause-btn').addEventListener('click', () => { if (!session) return; session.paused ? session.resume() : session.pause(); });
+$('#stop-btn').addEventListener('click', () => session && session.stop());
+$('#sum-home').addEventListener('click', () => { renderHome(); show('home'); });
+
+document.addEventListener('keydown', (e) => {
+  if (!session || e.target.closest('input, select, textarea')) return;
+  const k = e.key;
+  if (session.opts.mode === 'listen') {
+    if (k === 'ArrowRight' || k === 'k') session.rate(3, 'key');
+    else if (k === 'ArrowLeft' || k === 'j') session.rate(1, 'key');
+  } else if (['1', '2', '3', '4'].includes(k)) session.rate(Number(k), 'self');
+  if (k === ' ') { e.preventDefault(); session.paused ? session.resume() : session.pause(); }
+});
+
+// ---------- settings ----------
+function fillVoices() {
+  const s = store.settings();
+  for (const [id, lang, key] of [['#s-esVoice', 'es-ES', 'esVoice'], ['#s-skVoice', 'sk-SK', 'skVoice']]) {
+    const list = voicesFor(lang);
+    const sel = $(id);
+    sel.innerHTML = '<option value="">Automaticky</option>' + list.map((v) => `<option ${v.name === s[key] ? 'selected' : ''}>${escapeHtml(v.name)}</option>`).join('');
+  }
+  const missing = ['es-ES', 'sk-SK'].filter((l) => !voicesFor(l).length);
+  $('#voice-note').textContent = missing.length
+    ? `Prehliadač nemá hlas pre: ${missing.join(', ')}. Doinštaluj ho v systéme (Nastavenia > Jazyk/Reč) alebo použi Azure kľúč.`
+    : (azureEnabled() ? 'Používajú sa Azure neurónové hlasy; hlasy prehliadača sú záloha.' : '');
+}
+
+function renderSettings() {
+  const s = store.settings();
+  fillVoices();
+  for (const k of ['rate', 'pauseFactor']) { $('#s-' + k).value = s[k]; $('#o-' + k).textContent = k === 'rate' ? `${s[k]}×` : `${s[k]}×`; }
+  for (const k of ['repeatTarget', 'showText', 'azureTts']) $('#s-' + k).checked = !!s[k];
+  for (const k of ['dailyNewCap', 'productionAfter', 'azureKey', 'azureRegion']) $('#s-' + k).value = s[k];
+  $('#azure-status').textContent = lastAudioError ? `Posledná chyba: ${lastAudioError}` : '';
+}
+
+$('#settings').addEventListener('input', (e) => {
+  const el = e.target;
+  if (!el.id?.startsWith('s-')) return;
+  const k = el.id.slice(2);
+  let v = el.type === 'checkbox' ? el.checked : el.value;
+  if (['rate', 'pauseFactor'].includes(k)) { v = Number(v); $('#o-' + k).textContent = `${v}×`; }
+  if (['dailyNewCap', 'productionAfter'].includes(k)) v = Math.max(0, Number(v) || 0);
+  if (k === 'azureKey' || k === 'azureRegion') v = String(v).trim();
+  store.updateSettings({ [k]: v });
+});
+$('#s-esVoice').addEventListener('change', (e) => store.updateSettings({ esVoice: e.target.value }));
+$('#s-skVoice').addEventListener('change', (e) => store.updateSettings({ skVoice: e.target.value }));
+$('#open-settings').addEventListener('click', () => { renderSettings(); show('settings'); });
+$('#close-settings').addEventListener('click', () => { renderHome(); show('home'); });
+if ('speechSynthesis' in window) speechSynthesis.addEventListener?.('voiceschanged', () => { if (!$('#settings').hidden) fillVoices(); });
+
+$('#test-azure').addEventListener('click', async () => {
+  const s = store.settings();
+  const out = $('#azure-status');
+  if (!s.azureKey) { out.textContent = 'Najprv zadaj kľúč.'; return; }
+  out.textContent = 'Testujem…';
+  try {
+    const r = await fetch(`https://${s.azureRegion}.api.cognitive.microsoft.com/sts/v1.0/issueToken`, { method: 'POST', headers: { 'Ocp-Apim-Subscription-Key': s.azureKey } });
+    out.textContent = r.ok ? 'Kľúč funguje.' : `Kľúč nefunguje (HTTP ${r.status}). Skontroluj kľúč a región.`;
+  } catch (e) { out.textContent = `Spojenie zlyhalo: ${e.message}`; }
+});
+
+$('#export').addEventListener('click', () => {
+  const blob = new Blob([store.exportData()], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `frazy-es-${store.today()}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+});
+$('#import').addEventListener('change', async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  try { store.importData(await f.text()); $('#azure-status').textContent = 'Pokrok importovaný.'; renderSettings(); }
+  catch (err) { $('#azure-status').textContent = `Import zlyhal: ${err.message}`; }
+  e.target.value = '';
+});
+$('#reset').addEventListener('click', () => {
+  const btn = $('#reset');
+  if (btn.dataset.armed) { store.resetProgress(); btn.textContent = 'Vymazané'; delete btn.dataset.armed; return; }
+  btn.dataset.armed = '1';
+  btn.textContent = 'Naozaj? Klikni znova';
+  setTimeout(() => { delete btn.dataset.armed; btn.textContent = 'Vymazať pokrok'; }, 4000);
+});
+
+// ---------- boot ----------
+renderHome();
+show('home');
+try { navigator.storage?.persist?.(); } catch {}
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}

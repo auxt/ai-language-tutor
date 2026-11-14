@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Frázy ES</title>
+<meta name="description" content="Audio phrase tutor: Slovak to Spanish">
+<meta name="theme-color" content="#1f6f5c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main id="app">
+
+  <!-- HOME -->
+  <section id="home" class="screen">
+    <header class="top">
+      <h1>Frázy <span class="accent">ES</span></h1>
+      <button class="icon-btn" id="open-settings" aria-label="Nastavenia">⚙︎</button>
+    </header>
+
+    <div class="stats" id="stats"></div>
+
+    <p class="tip">Počas pauzy povedz význam nahlas skôr, než ho začuješ. Práve pokus o vybavenie ťa učí.</p>
+
+    <h2>Téma</h2>
+    <div class="topics" id="topics" role="radiogroup" aria-label="Téma"></div>
+
+    <h2>Dĺžka</h2>
+    <div class="seg" id="lengths" role="radiogroup" aria-label="Dĺžka">
+      <button data-min="5">5 min</button><button data-min="10">10 min</button><button data-min="20">20 min</button><button data-min="30">30 min</button>
+    </div>
+
+    <h2>Režim</h2>
+    <div class="modes" id="modes" role="radiogroup" aria-label="Režim">
+      <button data-mode="listen">
+        <strong>Počúvanie</strong>
+        <span>Bez rúk. Tlačidlá na slúchadlách: ďalšia = vedel som, predošlá = znova.</span>
+      </button>
+      <button data-mode="speak">
+        <strong>Hovorenie</strong>
+        <span>Opakuj nahlas, dostaneš skóre výslovnosti 0–100 a ohodnotíš sa sám.</span>
+      </button>
+    </div>
+
+    <p class="plan" id="plan-note"></p>
+    <button class="primary big" id="start">Začať</button>
+  </section>
+
+  <!-- PLAYER -->
+  <section id="player" class="screen" hidden>
+    <div class="bar"><div id="progress"></div></div>
+    <header class="top small">
+      <span id="p-topic"></span>
+      <span id="p-badge" class="badge" hidden>nové</span>
+    </header>
+
+    <div class="stage">
+      <p class="phase" id="phase" aria-live="polite">…</p>
+      <div class="countdown" id="countdown"><div></div></div>
+      <div class="card" id="card">
+        <p class="prompt" id="prompt-text"></p>
+        <p class="answer" id="answer-text"></p>
+      </div>
+      <div class="score" id="score" hidden></div>
+    </div>
+
+    <div class="rate listen-only" id="rate-listen">
+      <button class="again" data-grade="1"><span>↺</span>Znova</button>
+      <button class="good" data-grade="3"><span>✓</span>Vedel som</button>
+    </div>
+    <div class="rate speak-only" id="rate-speak" hidden>
+      <button class="again" data-grade="1">Znova</button>
+      <button class="hard" data-grade="2">Ťažké</button>
+      <button class="good" data-grade="3">Dobré</button>
+      <button class="easy" data-grade="4">Ľahké</button>
+    </div>
+    <p class="hint" id="rate-hint">Hodnotenie je len o tom, či si si spomenul. Výslovnosť sa počíta zvlášť.</p>
+
+    <div class="controls">
+      <button id="pause-btn">Pauza</button>
+      <button id="stop-btn">Ukončiť</button>
+    </div>
+    <p class="error" id="error" hidden></p>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="summary" class="screen" hidden>
+    <header class="top"><h1>Hotovo</h1></header>
+    <div class="stats" id="sum-stats"></div>
+    <p class="tip" id="sum-note"></p>
+    <button class="primary big" id="sum-home">Späť</button>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="settings" class="screen" hidden>
+    <header class="top">
+      <h1>Nastavenia</h1>
+      <button class="icon-btn" id="close-settings" aria-label="Zavrieť">✕</button>
+    </header>
+
+    <h2>Zvuk</h2>
+    <label class="row">Španielsky hlas (prehliadač)<select id="s-esVoice"></select></label>
+    <label class="row">Slovenský hlas (prehliadač)<select id="s-skVoice"></select></label>
+    <label class="row">Rýchlosť reči <output id="o-rate"></output><input type="range" id="s-rate" min="0.6" max="1.2" step="0.05"></label>
+    <label class="row">Dĺžka pauzy <output id="o-pauseFactor"></output><input type="range" id="s-pauseFactor" min="0.6" max="2.5" step="0.1"></label>
+    <label class="check"><input type="checkbox" id="s-repeatTarget"> Po odpovedi zopakovať španielsku frázu</label>
+    <label class="check"><input type="checkbox" id="s-showText"> Zobrazovať text na obrazovke</label>
+    <p class="note" id="voice-note"></p>
+
+    <h2>Učenie</h2>
+    <label class="row">Nové frázy denne (max)<input type="number" id="s-dailyNewCap" min="0" max="40"></label>
+    <label class="row">Vedel som × koľkokrát, kým príde smer SK → ES<input type="number" id="s-productionAfter" min="1" max="10"></label>
+
+    <h2>Azure Speech (voliteľné)</h2>
+    <p class="note">S kľúčom Azure Speech dostaneš neurónové hlasy a presné hodnotenie výslovnosti. Kľúč ostáva len v tomto prehliadači. Bez kľúča sa použijú hlasy prehliadača a približné skóre (Chrome/Edge).</p>
+    <label class="row">Kľúč<input type="password" id="s-azureKey" autocomplete="off" placeholder="nie je nastavený"></label>
+    <label class="row">Región<input type="text" id="s-azureRegion" placeholder="westeurope"></label>
+    <label class="check"><input type="checkbox" id="s-azureTts"> Používať Azure hlasy</label>
+    <button id="test-azure">Otestovať kľúč</button>
+    <p class="note" id="azure-status"></p>
+
+    <h2>Údaje</h2>
+    <div class="controls left">
+      <button id="export">Exportovať pokrok</button>
+      <label class="file-btn">Importovať<input type="file" id="import" accept="application/json" hidden></label>
+      <button id="reset" class="danger">Vymazať pokrok</button>
+    </div>
+    <p class="note">Všetko sa ukladá iba v tomto zariadení.</p>
+  </section>
+</main>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
