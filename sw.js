@@ -1,9 +1,10 @@
 // Offline cache for the app shell. Bump VERSION when files change.
-const VERSION = 'frazy-es-v2';
+const VERSION = 'frazy-es-v3';
 const FILES = [
   './', 'index.html', 'styles.css', 'manifest.webmanifest', 'icons/icon.svg',
   'js/app.js', 'js/audio.js', 'js/phrases.js', 'js/pron.js', 'js/session.js', 'js/store.js',
   'vendor/ts-fsrs.mjs', 'audio/manifest.json',
+  'js/lang/es.js', 'js/lang/de.js', 'js/lang/fr.js', 'js/lang/ar.js', 'js/lang/ru.js',
 ];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));

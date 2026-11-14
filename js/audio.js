@@ -10,6 +10,10 @@ import { settings } from './store.js';
 
 const AZURE_VOICES = {
   'es-ES': ['es-ES-ElviraNeural', 'es-ES-AlvaroNeural', 'es-ES-XimenaNeural'],
+  'de-DE': ['de-DE-TanjaNeural', 'de-DE-ChristophNeural'],
+  'fr-FR': ['fr-FR-DeniseNeural', 'fr-FR-HenriNeural', 'fr-FR-VivienneMultilingualNeural'],
+  'ar-AE': ['ar-AE-FatimaNeural', 'ar-AE-HamdanNeural', 'ar-SA-ZariyahNeural'],
+  'ru-RU': ['ru-RU-SvetlanaNeural', 'ru-RU-DmitryNeural'],
   'sk-SK': ['sk-SK-ViktoriaNeural'],
 };
 
@@ -62,7 +66,7 @@ const bestOf = (list) => list.find((v) => /natural|neural|online|google|premium|
 
 function pickVoice(lang) {
   const s = settings();
-  const wanted = lang === 'es-ES' ? s.esVoice : s.skVoice;
+  const wanted = lang === 'sk-SK' ? s.skVoice : (s.voicePrefs?.[lang] ?? (lang === 'es-ES' ? s.esVoice : ''));
   const list = voicesFor(lang);
   if (list.length) return list.find((v) => v.name === wanted) || bestOf(list);
   return FALLBACK_LANG[lang] ? bestOf(voicesFor(FALLBACK_LANG[lang])) : null;
@@ -98,7 +102,11 @@ function estimateMs(text) {
 }
 
 export function syllables(text) {
-  const m = text.toLowerCase().match(/[aeiouáéíóúüyäôľŕ]+/g);
+  const t = text.toLowerCase();
+  // Arabic script mostly omits short vowels: estimate from the letter count.
+  const arabic = t.match(/[\u0621-\u064A]/g);
+  if (arabic && arabic.length > t.replace(/\s/g, '').length / 2) return Math.max(1, Math.round(arabic.length / 2.2));
+  const m = t.match(/[aeiouáéíóúüyäôľŕàâèêëîïœùûÿöß]+|[аеёиоуыэюя]+/g);
   return m ? m.length : 1;
 }
 
@@ -111,24 +119,26 @@ const bundleReady = fetch('audio/manifest.json')
 
 export function bundledEnabled() { return settings().bundledVoices !== false; }
 
-function bundledUrl(text, lang, voiceIndex) {
+const missingClips = new Set();
+
+// Fetch as a blob (not <audio src=url>): no range requests, so the service worker can
+// cache the whole clip and playback works offline. Starts with the voice for this turn;
+// if that voice has no file for the line, another voice of the same language is used.
+async function bundledClip(text, lang, voiceIndex) {
   const id = bundle?.clips?.[lang]?.[text];
   const folders = bundle?.voices?.[lang];
   if (!id || !folders?.length) return null;
-  return `audio/${folders[voiceIndex % folders.length]}/${id}.mp3`;
-}
-
-// Fetch as a blob (not <audio src=url>): no range requests, so the service worker can
-// cache the whole clip and playback works offline.
-async function bundledClip(text, lang, voiceIndex) {
-  const url = bundledUrl(text, lang, voiceIndex);
-  if (!url) return null;
-  if (ttsCache.has(url)) return ttsCache.get(url);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`clip ${res.status}`);
-  const obj = URL.createObjectURL(await res.blob());
-  ttsCache.set(url, obj);
-  return obj;
+  for (let k = 0; k < folders.length; k++) {
+    const url = `audio/${folders[(voiceIndex + k) % folders.length]}/${id}.mp3`;
+    if (ttsCache.has(url)) return ttsCache.get(url);
+    if (missingClips.has(url)) continue;
+    const res = await fetch(url).catch(() => null);
+    if (!res || !res.ok) { missingClips.add(url); continue; }
+    const obj = URL.createObjectURL(await res.blob());
+    ttsCache.set(url, obj);
+    return obj;
+  }
+  throw new Error(`no recording for "${text}"`);
 }
 
 // ---------- Azure TTS ----------
@@ -143,7 +153,8 @@ function escapeXml(t) {
 
 async function azureClip(text, lang, voiceIndex) {
   const s = settings();
-  const list = AZURE_VOICES[lang] || AZURE_VOICES['es-ES'];
+  const list = AZURE_VOICES[lang];
+  if (!list) throw new Error(`no Azure voice for ${lang}`);
   const voice = list[voiceIndex % list.length];
   const pct = Math.round((s.rate - 1) * 100);
   const cacheKey = `${voice}|${pct}|${text}`;
@@ -236,15 +247,15 @@ export function prefetch(phrases) {
   if (bundledEnabled()) {
     bundleReady.then(() => {
       for (const p of phrases) {
-        const n = bundle?.voices?.['es-ES']?.length || 1;
-        for (let v = 0; v < n; v++) bundledClip(p.es, 'es-ES', v).catch(() => {});
+        const n = bundle?.voices?.[p.code]?.length || 1;
+        for (let v = 0; v < n; v++) bundledClip(p.tl, p.code, v).catch(() => {});
         bundledClip(p.sk, 'sk-SK', 0).catch(() => {});
       }
     });
   }
   if (!azureEnabled()) return;
   for (const [i, p] of phrases.entries()) {
-    azureClip(p.es, 'es-ES', i).catch(() => {});
+    azureClip(p.tl, p.code, i).catch(() => {});
     azureClip(p.sk, 'sk-SK', 0).catch(() => {});
   }
 }

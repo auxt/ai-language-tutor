@@ -1,4 +1,4 @@
-# Frázy ES: Slovak → Spanish audio phrase tutor (v1)
+# Frázy: audio phrase tutor from Slovak (Spanish, German, French, Arabic, Russian)
 
 A standalone web app (no build step, no account, no server code). Everything runs in the browser and progress is stored in that browser only.
 
@@ -15,9 +15,23 @@ Live copy: https://auxt.github.io/ai-language-tutor/ (GitHub Pages, served from 
 
 Open http://localhost:8000 in Chrome or Edge. The microphone and "install as app" need HTTPS (or localhost), so to use it on a phone, host the folder on any static host (GitHub Pages, Netlify, Cloudflare Pages).
 
+## Languages
+
+Pick the language on the home screen. Each has the same 145 phrases in five topics, with its own progress, daily new-phrase limit and recorded voices:
+
+| | Variety | Recorded voices | Notes |
+|---|---|---|---|
+| ES | Spain | Elvira, Álvaro, Ximena | |
+| DE | Germany | Tanja, Christoph | du with friends, Sie with staff and strangers |
+| FR | France | Denise, Henri, Vivienne | tu/vous the same way |
+| AR | Modern Standard Arabic | Fatima, Hamdan (UAE), Zariyah (Saudi) | right-to-left, Slovak-friendly transliteration, a few items adapted to the Gulf |
+| RU | Russian | Svetlana, Dmitry | Slovak-friendly transliteration |
+
+Slovak lines are adapted per language where needed (for example "Učím sa nemčinu"). Every set still needs a check by a native speaker. To add a language, copy `js/lang/de.js`, add it to `LANGS` in `js/phrases.js` and its voices in `tools/make_audio.py` and `AZURE_VOICES` in `js/audio.js`, then run the audio script.
+
 ## What's in v1
 
-- **145 starter phrases** in 5 topics (greetings, café/restaurant, getting around, shopping, small talk), European Spanish with Slovak. Hand-written; still needs a native check before the set grows.
+- **145 starter phrases per language** in 5 topics (greetings, café/restaurant, getting around, shopping, small talk). Hand-written; still needs a native check before the sets grow.
 - **Audio loop**: Spanish → pause (say the meaning) → Slovak → Spanish again. Pauses: ~3 s for new items, ~2 s for known ones, longer for production; adjustable in settings.
 - **Direction switch**: after 3 "knew it" ratings, a phrase flips to Slovak → pause → Spanish (you produce the Spanish).
 - **Spacing within a session**: new phrases come back after 3, 7, 15 and 30 other items, never back-to-back; "again" brings an item back after 4.
@@ -25,7 +39,7 @@ Open http://localhost:8000 in Chrome or Edge. The microphone and "install as app
 - **Sessions** of 5/10/20/30 min, starting with reviews.
 - **Listen mode**: hands-free. Earbud/lock-screen *next track* = knew it, *previous track* = again (also on-screen buttons and ← / → keys).
 - **Speak mode**: you say the answer or repeat the Spanish aloud, get a 0–100 pronunciation score, then rate your recall yourself (Again/Hard/Good/Easy, keys 1–4). The score never changes the schedule.
-- **Voices**: every phrase ships with recorded natural neural voices in `audio/`: Slovak by Viktória, Spanish rotating between Elvira, Álvaro and Ximena. They sound the same on every device, need no key, work offline once played, and keep playing with the screen locked. Text without a recording falls back to Azure (if a key is set) and then to the browser voice. When the browser has no Slovak voice, the app uses a Czech one, never an English one. An optional Azure Speech key (Settings) also enables Azure pronunciation assessment. Without a key, speak mode uses the browser's speech recognition (Chrome/Edge/Android) for a rough similarity score.
+- **Voices**: every phrase ships with recorded natural neural voices in `audio/`: Slovak by Viktória, each target language rotating between 2–3 native voices (table above). They sound the same on every device, need no key, work offline once played, and keep playing with the screen locked. Text without a recording falls back to Azure (if a key is set) and then to the browser voice. When the browser has no Slovak voice, the app uses a Czech one, never an English one. An optional Azure Speech key (Settings) also enables Azure pronunciation assessment. Without a key, speak mode uses the browser's speech recognition (Chrome/Edge/Android) for a rough similarity score.
 - **Spoken vs. shown Slovak**: `sk` holds exactly what is said aloud. Alternatives and usage hints go in an optional third field (`note`), which is shown on screen but never spoken.
 - Offline cache (service worker), export/import of progress, day streak.
 
@@ -37,7 +51,8 @@ Open http://localhost:8000 in Chrome or Edge. The microphone and "install as app
 
 ## Files
 
-- `js/phrases.js`: phrase data
+- `js/phrases.js`: language registry and phrase model
+- `js/lang/<id>.js`: phrase data per language
 - `audio/`: recorded clips (`<voice>/<phrase-id>.mp3`) and `manifest.json`, which maps phrase text to clip
 - `tools/make_audio.py`: regenerates the clips after you add or edit phrases (`pip install edge-tts`, then `python3 tools/make_audio.py`; only changed phrases are redone)
 - `js/session.js`: session planning and the audio loop

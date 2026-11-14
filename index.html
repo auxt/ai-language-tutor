@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Frázy ES</title>
+<title>Frázy</title>
 <meta name="description" content="Audio phrase tutor: Slovak to Spanish">
 <meta name="theme-color" content="#1f6f5c">
 <link rel="manifest" href="manifest.webmanifest">
@@ -18,9 +18,12 @@
   <!-- HOME -->
   <section id="home" class="screen">
     <header class="top">
-      <h1>Frázy <span class="accent">ES</span></h1>
+      <h1>Frázy <span class="accent" id="lang-short">ES</span></h1>
       <button class="icon-btn" id="open-settings" aria-label="Nastavenia">⚙︎</button>
     </header>
+
+    <div class="seg langs" id="langs" role="radiogroup" aria-label="Jazyk"></div>
+    <p class="lang-name" id="lang-name"></p>
 
     <div class="stats" id="stats"></div>
 
@@ -104,17 +107,17 @@
 
     <h2>Zvuk</h2>
     <label class="check"><input type="checkbox" id="s-bundledVoices"> Nahraté prirodzené hlasy (odporúčané)</label>
-    <label class="row">Španielsky hlas (prehliadač)<select id="s-esVoice"></select></label>
+    <label class="row"><span id="tl-voice-label">Hlas cieľového jazyka (prehliadač)</span><select id="s-tlVoice"></select></label>
     <label class="row">Slovenský hlas (prehliadač)<select id="s-skVoice"></select></label>
     <label class="row">Rýchlosť reči <output id="o-rate"></output><input type="range" id="s-rate" min="0.6" max="1.2" step="0.05"></label>
     <label class="row">Dĺžka pauzy <output id="o-pauseFactor"></output><input type="range" id="s-pauseFactor" min="0.6" max="2.5" step="0.1"></label>
-    <label class="check"><input type="checkbox" id="s-repeatTarget"> Po odpovedi zopakovať španielsku frázu</label>
+    <label class="check"><input type="checkbox" id="s-repeatTarget"> Po odpovedi zopakovať cudzojazyčnú frázu</label>
     <label class="check"><input type="checkbox" id="s-showText"> Zobrazovať text na obrazovke</label>
     <p class="note" id="voice-note"></p>
 
     <h2>Učenie</h2>
     <label class="row">Nové frázy denne (max)<input type="number" id="s-dailyNewCap" min="0" max="40"></label>
-    <label class="row">Vedel som × koľkokrát, kým príde smer SK → ES<input type="number" id="s-productionAfter" min="1" max="10"></label>
+    <label class="row">Vedel som × koľkokrát, kým príde smer SK → cudzí jazyk<input type="number" id="s-productionAfter" min="1" max="10"></label>
 
     <h2>Azure Speech (voliteľné)</h2>
     <p class="note">S kľúčom Azure Speech dostaneš neurónové hlasy a presné hodnotenie výslovnosti. Kľúč ostáva len v tomto prehliadači. Frázy z aplikácie majú nahraté hlasy aj bez kľúča; Azure sa použije pre text bez nahrávky. Bez kľúča je skóre výslovnosti len približné (Chrome/Edge).</p>

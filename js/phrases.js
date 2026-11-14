@@ -1,175 +1,50 @@
-// Starter phrase set for v1: Slovak (native) -> European Spanish (target).
-// Written by hand for a first test. Every line still needs a check by a native
-// speaker before the set grows. Fields: id, topic, es (Spanish), sk (Slovak),
-// note (optional, shown on screen but never spoken). Keep `sk` and `es` as exactly
-// what should be said aloud: no slashes, brackets or alternatives in them.
+// Phrase sets: Slovak (native) -> one target language at a time. Each language lives in
+// js/lang/<id>.js with the same five topics. Every line still needs a check by a
+// native speaker before the sets grow.
+//
+// A phrase: { id, topic, lang, code, tl, tr, sk, note }
+//   tl   target-language text, exactly as spoken
+//   tr   transliteration for non-Latin scripts (shown on screen, never spoken)
+//   sk   Slovak text, exactly as spoken (no slashes, brackets or alternatives)
+//   note optional usage hint for the Slovak side, shown on screen only
+// Ids: Spanish keeps `<topic>-NN` so earlier progress still matches; other languages
+// use `<lang>-<topic>-NN`.
+import es from './lang/es.js';
+import de from './lang/de.js';
+import fr from './lang/fr.js';
+import ar from './lang/ar.js';
+import ru from './lang/ru.js';
 
 export const TOPICS = [
-  { id: 'basics', sk: 'Pozdravy a základy', es: 'Saludos y lo básico' },
-  { id: 'cafe', sk: 'Kaviareň a reštaurácia', es: 'Bar y restaurante' },
-  { id: 'travel', sk: 'Cestovanie a orientácia', es: 'Viajes y direcciones' },
-  { id: 'shopping', sk: 'Nakupovanie', es: 'De compras' },
-  { id: 'smalltalk', sk: 'Rozhovor o sebe', es: 'Hablar de uno mismo' },
+  { id: 'basics', sk: 'Pozdravy a základy' },
+  { id: 'cafe', sk: 'Kaviareň a reštaurácia' },
+  { id: 'travel', sk: 'Cestovanie a orientácia' },
+  { id: 'shopping', sk: 'Nakupovanie' },
+  { id: 'smalltalk', sk: 'Rozhovor o sebe' },
 ];
 
-const RAW = {
-  basics: [
-    ['Hola, ¿qué tal?', 'Ahoj, ako sa máš?'],
-    ['Buenos días.', 'Dobré ráno.', 'do obeda aj: Dobrý deň.'],
-    ['Buenas tardes.', 'Dobrý deň.', 'poobede'],
-    ['Buenas noches.', 'Dobrý večer.', 'pri odchode: Dobrú noc.'],
-    ['Muy bien, gracias. ¿Y tú?', 'Veľmi dobre, ďakujem. A ty?'],
-    ['Encantado de conocerte.', 'Teší ma.'],
-    ['Me llamo Robert.', 'Volám sa Robert.'],
-    ['¿Cómo te llamas?', 'Ako sa voláš?'],
-    ['Gracias.', 'Ďakujem.'],
-    ['Muchas gracias.', 'Ďakujem pekne.'],
-    ['De nada.', 'Nemáš za čo.'],
-    ['Por favor.', 'Prosím.'],
-    ['Perdón.', 'Prepáč.'],
-    ['Lo siento.', 'Je mi to ľúto.'],
-    ['No pasa nada.', 'To nič.'],
-    ['Sí, claro.', 'Áno, jasné.'],
-    ['No, gracias.', 'Nie, ďakujem.'],
-    ['Vale.', 'Dobre.', 'aj: Okej.'],
-    ['No entiendo.', 'Nerozumiem.'],
-    ['¿Puedes repetirlo, por favor?', 'Môžeš to zopakovať, prosím?'],
-    ['Más despacio, por favor.', 'Pomalšie, prosím.'],
-    ['¿Hablas inglés?', 'Hovoríš po anglicky?'],
-    ['Hablo un poco de español.', 'Hovorím trochu po španielsky.'],
-    ['¿Cómo se dice esto en español?', 'Ako sa to povie po španielsky?'],
-    ['¿Qué significa esto?', 'Čo to znamená?'],
-    ['No lo sé.', 'Neviem.'],
-    ['Hasta luego.', 'Tak zatiaľ.', 'aj: Uvidíme sa.'],
-    ['Hasta mañana.', 'Do zajtra.'],
-    ['Adiós.', 'Dovidenia.'],
-    ['¡Que tengas un buen día!', 'Pekný deň!'],
-  ],
-  cafe: [
-    ['Una mesa para dos, por favor.', 'Stôl pre dvoch, prosím.'],
-    ['¿Está libre esta mesa?', 'Je tento stôl voľný?'],
-    ['La carta, por favor.', 'Jedálny lístok, prosím.'],
-    ['Un café con leche, por favor.', 'Kávu s mliekom, prosím.'],
-    ['Un café solo.', 'Jedno espresso.'],
-    ['Una caña, por favor.', 'Jedno malé pivo, prosím.', 'čapované'],
-    ['Un vaso de agua.', 'Pohár vody.'],
-    ['Una botella de agua sin gas.', 'Fľašu neperlivej vody.'],
-    ['Un zumo de naranja.', 'Pomarančový džús.'],
-    ['¿Qué me recomiendas?', 'Čo mi odporúčaš?'],
-    ['Quiero esto, por favor.', 'Dám si toto, prosím.'],
-    ['Para mí, el menú del día.', 'Pre mňa denné menu.'],
-    ['¿Qué lleva este plato?', 'Čo je v tomto jedle?'],
-    ['Soy vegetariano.', 'Som vegetarián.'],
-    ['Soy alérgico a los frutos secos.', 'Som alergický na orechy.'],
-    ['Sin cebolla, por favor.', 'Bez cibule, prosím.'],
-    ['¿Tenéis algo sin gluten?', 'Máte niečo bez lepku?'],
-    ['Está muy rico.', 'Je to veľmi dobré.'],
-    ['Otra, por favor.', 'Ešte jedno, prosím.'],
-    ['¿Me trae un poco más de pan?', 'Prinesiete mi ešte trochu chleba?'],
-    ['La cuenta, por favor.', 'Účet, prosím.'],
-    ['¿Puedo pagar con tarjeta?', 'Môžem platiť kartou?'],
-    ['Pagamos por separado.', 'Platíme každý zvlášť.'],
-    ['Invito yo.', 'Ja pozývam.'],
-    ['Quédese con el cambio.', 'Drobné si nechajte.'],
-    ['¿Dónde están los servicios?', 'Kde sú toalety?'],
-    ['Para llevar, por favor.', 'So sebou, prosím.'],
-    ['¿A qué hora cierra la cocina?', 'O koľkej zatvára kuchyňa?'],
-    ['Tengo una reserva a nombre de Robert.', 'Mám rezerváciu na meno Robert.'],
-    ['¡Que aproveche!', 'Dobrú chuť!'],
-  ],
-  travel: [
-    ['¿Dónde está la estación de tren?', 'Kde je železničná stanica?'],
-    ['¿Dónde está la parada de autobús?', 'Kde je autobusová zastávka?'],
-    ['¿Cómo llego al centro?', 'Ako sa dostanem do centra?'],
-    ['¿Está lejos?', 'Je to ďaleko?'],
-    ['Está cerca.', 'Je to blízko.'],
-    ['Todo recto.', 'Stále rovno.'],
-    ['Gira a la derecha.', 'Odboč doprava.'],
-    ['Gira a la izquierda.', 'Odboč doľava.'],
-    ['En la esquina.', 'Na rohu.'],
-    ['Un billete para Madrid, por favor.', 'Jeden lístok do Madridu, prosím.'],
-    ['Ida y vuelta.', 'Spiatočný.'],
-    ['¿A qué hora sale el próximo tren?', 'O koľkej odchádza ďalší vlak?'],
-    ['¿De qué andén sale?', 'Z ktorého nástupišťa odchádza?'],
-    ['¿Este autobús va al aeropuerto?', 'Ide tento autobus na letisko?'],
-    ['¿Cuánto tarda?', 'Ako dlho to trvá?'],
-    ['Me he perdido.', 'Stratil som sa.'],
-    ['¿Me lo puedes enseñar en el mapa?', 'Môžeš mi to ukázať na mape?'],
-    ['Necesito un taxi.', 'Potrebujem taxík.'],
-    ['A esta dirección, por favor.', 'Na túto adresu, prosím.'],
-    ['Pare aquí, por favor.', 'Zastavte tu, prosím.'],
-    ['Tengo una reserva.', 'Mám rezerváciu.'],
-    ['¿A qué hora es el desayuno?', 'O koľkej sú raňajky?'],
-    ['¿Cuál es la contraseña del wifi?', 'Aké je heslo na wifi?'],
-    ['La habitación no tiene agua caliente.', 'V izbe nie je teplá voda.'],
-    ['¿Puedo dejar la maleta aquí?', 'Môžem si tu nechať kufor?'],
-    ['He perdido el pasaporte.', 'Stratil som pas.'],
-    ['¿Dónde hay una farmacia?', 'Kde je lekáreň?'],
-    ['Necesito ayuda.', 'Potrebujem pomoc.'],
-    ['¡Llame a un médico!', 'Zavolajte lekára!'],
-    ['Mi vuelo sale a las ocho.', 'Môj let je o ôsmej.'],
-  ],
-  shopping: [
-    ['¿Cuánto cuesta?', 'Koľko to stojí?'],
-    ['Es demasiado caro.', 'Je to príliš drahé.'],
-    ['¿Tienes algo más barato?', 'Máš niečo lacnejšie?'],
-    ['Solo estoy mirando, gracias.', 'Len sa pozerám, ďakujem.'],
-    ['Me lo llevo.', 'Vezmem si to.'],
-    ['¿Lo tienes en otra talla?', 'Máš to v inej veľkosti?'],
-    ['¿Lo tienes en otro color?', 'Máš to v inej farbe?'],
-    ['¿Puedo probármelo?', 'Môžem si to vyskúšať?'],
-    ['Me queda grande.', 'Je mi to veľké.'],
-    ['Me queda pequeño.', 'Je mi to malé.'],
-    ['¿Dónde están los probadores?', 'Kde sú kabínky?'],
-    ['¿A qué hora abrís?', 'O koľkej otvárate?'],
-    ['¿Aceptáis tarjeta?', 'Beriete kartu?'],
-    ['¿Me das una bolsa, por favor?', 'Dáš mi tašku, prosím?'],
-    ['¿Me puede hacer un descuento?', 'Dali by ste mi zľavu?'],
-    ['Quiero devolver esto.', 'Chcel by som to vrátiť.'],
-    ['Aquí tiene el tíquet.', 'Tu je bloček.'],
-    ['Medio kilo de tomates, por favor.', 'Pol kila paradajok, prosím.'],
-    ['Un poco más, por favor.', 'Trochu viac, prosím.'],
-    ['Eso es todo, gracias.', 'To je všetko, ďakujem.'],
-    ['¿Dónde está el supermercado?', 'Kde je supermarket?'],
-    ['Busco un regalo.', 'Hľadám darček.'],
-    ['¿Tiene garantía?', 'Má to záruku?'],
-    ['Necesito un cargador para el móvil.', 'Potrebujem nabíjačku na mobil.'],
-    ['¿Está abierto los domingos?', 'Máte otvorené v nedeľu?'],
-  ],
-  smalltalk: [
-    ['Soy de Eslovaquia.', 'Som zo Slovenska.'],
-    ['¿De dónde eres?', 'Odkiaľ si?'],
-    ['Vivo en Bratislava.', 'Bývam v Bratislave.'],
-    ['¿Dónde vives?', 'Kde bývaš?'],
-    ['Estoy aprendiendo español.', 'Učím sa španielčinu.'],
-    ['Trabajo en informática.', 'Pracujem v IT.'],
-    ['¿A qué te dedicas?', 'Čím sa živíš?'],
-    ['Tengo dos hijos.', 'Mám dve deti.'],
-    ['Estoy aquí de vacaciones.', 'Som tu na dovolenke.'],
-    ['Es mi primera vez en España.', 'Som v Španielsku prvýkrát.'],
-    ['Me encanta esta ciudad.', 'Toto mesto sa mi veľmi páči.'],
-    ['¿Qué te gusta hacer?', 'Čo rád robíš?'],
-    ['Me gusta viajar.', 'Rád cestujem.'],
-    ['Me gusta mucho la comida española.', 'Španielske jedlo mi veľmi chutí.'],
-    ['¡Qué buen tiempo hace hoy!', 'Dnes je ale pekné počasie!'],
-    ['Hace mucho calor.', 'Je veľmi teplo.'],
-    ['Hace frío.', 'Je zima.'],
-    ['¿Qué hora es?', 'Koľko je hodín?'],
-    ['Son las tres y media.', 'Je pol štvrtej.'],
-    ['¿Quedamos mañana?', 'Stretneme sa zajtra?'],
-    ['¿A qué hora quedamos?', 'O koľkej sa stretneme?'],
-    ['Me parece bien.', 'To mi vyhovuje.'],
-    ['¡Qué bien!', 'To je super!'],
-    ['¡Qué pena!', 'To je škoda!'],
-    ['Tienes razón.', 'Máš pravdu.'],
-    ['Creo que sí.', 'Myslím, že áno.'],
-    ['Creo que no.', 'Myslím, že nie.'],
-    ['Estoy cansado.', 'Som unavený.'],
-    ['Tengo hambre.', 'Mám hlad.'],
-    ['¡Feliz cumpleaños!', 'Všetko najlepšie k narodeninám!'],
-  ],
-};
+export const LANGS = [es, de, fr, ar, ru];
 
-export const PHRASES = Object.entries(RAW).flatMap(([topic, list]) =>
-  list.map(([es, sk, note = ''], i) => ({ id: `${topic}-${String(i + 1).padStart(2, '0')}`, topic, es, sk, note }))
-);
+function build(L) {
+  return Object.entries(L.phrases).flatMap(([topic, list]) => list.map((row, i) => {
+    const [tl, tr, sk, note] = L.translit ? row : [row[0], '', row[1], row[2]];
+    const n = String(i + 1).padStart(2, '0');
+    return {
+      id: L.id === 'es' ? `${topic}-${n}` : `${L.id}-${topic}-${n}`,
+      topic, lang: L.id, code: L.code, tl, tr: tr || '', sk, note: note || '',
+    };
+  }));
+}
+
+// The current target language. Live bindings: importers always see the current set.
+export let LANG = es;
+export let PHRASES = build(es);
+
+export function setLanguage(id) {
+  const next = LANGS.find((l) => l.id === id) || es;
+  if (next !== LANG) { LANG = next; PHRASES = build(next); }
+  return LANG;
+}
+
+// Every phrase of every language (used by tools/make_audio.py).
+export const allPhrases = () => LANGS.flatMap(build);

@@ -133,3 +133,9 @@ button.danger { color: var(--again); }
   #rate-speak { grid-template-columns: repeat(2, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) { #progress { transition: none; } }
+
+/* language picker and target-language text */
+.seg.langs { grid-template-columns: repeat(5, 1fr); margin-top: 4px; }
+.lang-name { margin: 6px 0 12px; color: var(--muted, inherit); opacity: 0.75; font-size: 0.9rem; text-align: center; }
+.prompt .tr, .answer .tr { display: block; margin-top: 4px; font-size: 0.6em; font-weight: 400; opacity: 0.75; }
+[lang="ar"] { font-family: "Geeza Pro", "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif; }

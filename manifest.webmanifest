@@ -1,6 +1,6 @@
 {
-  "name": "Frázy ES – slovensko-španielsky audio tréner",
-  "short_name": "Frázy ES",
+  "name": "Frázy – audio tréner jazykov zo slovenčiny",
+  "short_name": "Frázy",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

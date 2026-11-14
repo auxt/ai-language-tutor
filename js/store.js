@@ -1,7 +1,7 @@
 // Local persistence: settings, per-phrase learning state, append-only review log.
 // Everything lives in localStorage so the app works offline with no account.
 import { createEmptyCard, fsrs, generatorParameters, Rating, State } from '../vendor/ts-fsrs.mjs';
-import { PHRASES } from './phrases.js';
+import { PHRASES, LANG } from './phrases.js';
 
 const KEY = 'tutor.v1';
 const LOG_CAP = 20000;
@@ -9,11 +9,13 @@ const LOG_CAP = 20000;
 export const DEFAULT_SETTINGS = {
   pauseFactor: 1,          // multiplies every answer pause
   rate: 0.95,              // speech rate for browser voices
-  repeatTarget: true,      // replay the Spanish phrase after the answer
+  lang: 'es',              // current target language (js/lang/<id>.js)
+  repeatTarget: true,      // replay the target-language phrase after the answer
   showText: true,          // show the transcript on screen
   dailyNewCap: 15,
-  esVoice: '',             // browser voice name ('' = best guess)
+  esVoice: '',             // browser voice name for Spanish ('' = best guess)
   skVoice: '',
+  voicePrefs: {},          // browser voice name per language code, e.g. { 'de-DE': '…' }
   azureKey: '',
   azureRegion: 'westeurope',
   bundledVoices: true,     // play the bundled natural voice clips (audio/) when available
@@ -72,13 +74,16 @@ export function direction(id) {
   return item(id).successes >= db.settings.productionAfter ? 'prod' : 'recv';
 }
 
+// The daily cap on new phrases counts per language (Spanish keeps the old field).
+const newKey = () => (LANG.id === 'es' ? 'newCount' : `newCount_${LANG.id}`);
+
 export function noteExposure(id) {
   const it = item(id);
   if (!it.introduced) {
     it.introduced = true;
     const d = today();
     db.days[d] = db.days[d] || { newCount: 0, plays: 0 };
-    db.days[d].newCount++;
+    db.days[d][newKey()] = (db.days[d][newKey()] || 0) + 1;
   }
   it.exposures++;
   it.lastSeen = Date.now();
@@ -118,7 +123,7 @@ export function today() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-export const newToday = () => (db.days[today()] || {}).newCount || 0;
+export const newToday = () => (db.days[today()] || {})[newKey()] || 0;
 
 export function retrievability(id, now = new Date()) {
   const c = reviveCard(item(id).card);

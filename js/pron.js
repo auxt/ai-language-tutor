@@ -28,18 +28,23 @@ export function scoringMethod() {
 }
 
 // Listens once and resolves { score, method, heard, words?, detail? } or null if nothing was heard.
-export async function assess(reference, { timeoutMs = 7000 } = {}) {
+export async function assess(reference, { timeoutMs = 7000, lang = 'es-ES' } = {}) {
   const method = scoringMethod();
-  if (method === 'azure') return assessAzure(reference, timeoutMs);
-  if (method === 'browser') return assessBrowser(reference, timeoutMs);
+  if (method === 'azure') {
+    try { return await assessAzure(reference, timeoutMs, lang); }
+    catch (e) { console.warn('Azure pronunciation assessment failed', e); }
+    if (window.SpeechRecognition || window.webkitSpeechRecognition) return assessBrowser(reference, timeoutMs, lang);
+    return null;
+  }
+  if (method === 'browser') return assessBrowser(reference, timeoutMs, lang);
   return null;
 }
 
-async function assessAzure(reference, timeoutMs) {
+async function assessAzure(reference, timeoutMs, lang) {
   const SDK = await loadSdk();
   const s = settings();
   const speechConfig = SDK.SpeechConfig.fromSubscription(s.azureKey, s.azureRegion);
-  speechConfig.speechRecognitionLanguage = 'es-ES';
+  speechConfig.speechRecognitionLanguage = lang;
   speechConfig.setProperty(SDK.PropertyId.SpeechServiceConnection_InitialSilenceTimeoutMs, String(timeoutMs));
   speechConfig.setProperty(SDK.PropertyId.SpeechServiceConnection_EndSilenceTimeoutMs, '900');
   const audioConfig = SDK.AudioConfig.fromDefaultMicrophoneInput();
@@ -76,8 +81,13 @@ async function assessAzure(reference, timeoutMs) {
   }
 }
 
+// Lower-case, drop accents (Latin and Cyrillic) and Arabic vowel marks, keep letters of
+// any script.
 function norm(t) {
-  return t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zñ0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+  return t.toLowerCase().replace(/ß/g, 'ss').normalize('NFD')
+    .replace(/[\u0300-\u036f\u064B-\u0652\u0670\u0640]/g, '')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .split(/\s+/).filter(Boolean);
 }
 
 function editDistance(a, b) {
@@ -97,11 +107,11 @@ export function similarity(reference, heard) {
   return Math.max(0, Math.round(100 * (1 - d / Math.max(r.length, h.length))));
 }
 
-function assessBrowser(reference, timeoutMs) {
+function assessBrowser(reference, timeoutMs, lang) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   return new Promise((resolve) => {
     const rec = new SR();
-    rec.lang = 'es-ES';
+    rec.lang = lang;
     rec.interimResults = false;
     rec.maxAlternatives = 5;
     let best = null;

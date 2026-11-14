@@ -2,7 +2,7 @@
 // Reviews come from every topic by due date; the chosen topic only decides which
 // NEW phrases appear. New phrases come back after other items have played
 // (expanding gaps), never back-to-back.
-import { PHRASES } from './phrases.js';
+import { PHRASES, LANG } from './phrases.js';
 import * as store from './store.js';
 import { say, wait, cancelAll, isAbort, syllables, prefetch, setNowPlaying } from './audio.js';
 import { assess, scoringMethod } from './pron.js';
@@ -11,7 +11,11 @@ const NEW_BY_LENGTH = { 5: 2, 10: 5, 20: 9, 30: 12 };
 const NEW_LADDER = [3, 7, 15, 30];   // positions after the previous play
 const AGAIN_GAP = 4;
 
-const byId = Object.fromEntries(PHRASES.map((p) => [p.id, p]));
+let idMap = null, idMapFor = null;
+function byId(id) {
+  if (idMapFor !== PHRASES) { idMap = Object.fromEntries(PHRASES.map((p) => [p.id, p])); idMapFor = PHRASES; }
+  return idMap[id];
+}
 
 export function plan({ topic, minutes, mode }) {
   const s = store.settings();
@@ -103,9 +107,9 @@ export class Session {
 
   pauseFor(id, dir) {
     const s = store.settings();
-    const p = byId[id];
+    const p = byId(id);
     let ms;
-    if (dir === 'prod') ms = Math.min(6000, Math.max(3000, syllables(p.es) * 500 + 1500));
+    if (dir === 'prod') ms = Math.min(6000, Math.max(3000, syllables(p.tr || p.tl) * 500 + 1500));
     else ms = store.item(id).successes > 0 ? 2000 : 3000;
     return ms * s.pauseFactor;
   }
@@ -161,7 +165,7 @@ export class Session {
   // ----- main loop -----
   async run() {
     this.startedAt = Date.now();
-    prefetch(this.fresh.slice(0, 6).map((id) => byId[id]));
+    prefetch(this.fresh.slice(0, 6).map((id) => byId(id)));
     let id = this.pickNext();
     while (id && !this.stopped) {
       try {
@@ -170,7 +174,7 @@ export class Session {
         this.pos++;
         if (this.timeUp()) break;
         id = this.pickNext();
-        const look = [...this.pending.map((x) => x.id), ...this.fresh].slice(0, 4).map((x) => byId[x]);
+        const look = [...this.pending.map((x) => x.id), ...this.fresh].slice(0, 4).map((x) => byId(x));
         prefetch(look);
       } catch (e) {
         if (!isAbort(e)) { console.error(e); this.ui.error?.(String(e.message || e)); await wait(1000).catch(() => {}); }
@@ -201,12 +205,12 @@ export class Session {
   }
 
   async playItem(id) {
-    const p = byId[id];
+    const p = byId(id);
     const st = this.st(id);
     st.ratedThisPlay = false;
     this.lastPron = null;
     this.current = id;
-    // New phrases always start receptive (Spanish first).
+    // New phrases always start receptive (target language first).
     const dir = st.isNew && st.plays === 0 ? 'recv' : store.direction(id);
     this.currentDir = dir;
     if (st.plays === 0 && st.isNew) this.summary.newIntroduced++;
@@ -217,20 +221,20 @@ export class Session {
     const voiceIndex = this.voiceTurn++;
     const ui = this.ui;
     ui.item?.({ phrase: p, dir, isNew: st.isNew && st.plays === 1, mode: this.opts.mode, pos: this.pos, progress: this.progress() });
-    setNowPlaying(dir === 'recv' ? p.es : p.sk, dir === 'recv' ? '¿Qué significa?' : 'Povedz po španielsky');
+    setNowPlaying(dir === 'recv' ? p.tl : p.sk, dir === 'recv' ? 'Čo to znamená?' : `Povedz ${LANG.po}`);
 
     const pauseMs = this.pauseFor(id, dir);
     if (this.opts.mode === 'listen') {
       if (dir === 'recv') {
-        ui.phase?.('prompt'); await say(p.es, 'es-ES', { voiceIndex });
+        ui.phase?.('prompt'); await say(p.tl, p.code, { voiceIndex });
         ui.phase?.('pause', pauseMs); await wait(pauseMs);
         ui.phase?.('answer'); await say(p.sk, 'sk-SK');
-        if (store.settings().repeatTarget) { await wait(600); ui.phase?.('repeat'); await say(p.es, 'es-ES', { voiceIndex: voiceIndex + 1 }); }
+        if (store.settings().repeatTarget) { await wait(600); ui.phase?.('repeat'); await say(p.tl, p.code, { voiceIndex: voiceIndex + 1 }); }
       } else {
         ui.phase?.('prompt'); await say(p.sk, 'sk-SK');
         ui.phase?.('pause', pauseMs); await wait(pauseMs);
-        ui.phase?.('answer'); await say(p.es, 'es-ES', { voiceIndex });
-        if (store.settings().repeatTarget) { ui.phase?.('shadow', 1800); await wait(1800); ui.phase?.('repeat'); await say(p.es, 'es-ES', { voiceIndex: voiceIndex + 1 }); }
+        ui.phase?.('answer'); await say(p.tl, p.code, { voiceIndex });
+        if (store.settings().repeatTarget) { ui.phase?.('shadow', 1800); await wait(1800); ui.phase?.('repeat'); await say(p.tl, p.code, { voiceIndex: voiceIndex + 1 }); }
       }
       ui.phase?.('window', 1400);
       await wait(1400); // time to press "knew it" / "again"
@@ -240,7 +244,7 @@ export class Session {
     // Speak-aloud mode (foreground). Correctness rating and pronunciation score stay separate.
     const scoring = scoringMethod();
     if (dir === 'recv') {
-      ui.phase?.('prompt'); await say(p.es, 'es-ES', { voiceIndex });
+      ui.phase?.('prompt'); await say(p.tl, p.code, { voiceIndex });
       ui.phase?.('pause', pauseMs); await wait(pauseMs);
       ui.phase?.('answer'); await say(p.sk, 'sk-SK');
       await wait(300);
@@ -248,7 +252,7 @@ export class Session {
     } else {
       ui.phase?.('prompt'); await say(p.sk, 'sk-SK');
       await this.listenAndScore(p, scoring, 'produce', pauseMs);
-      ui.phase?.('answer'); await say(p.es, 'es-ES', { voiceIndex });
+      ui.phase?.('answer'); await say(p.tl, p.code, { voiceIndex });
     }
     if (this.stopped) return;
     ui.phase?.('rate');
@@ -261,7 +265,7 @@ export class Session {
     if (scoring === 'none') { this.ui.phase?.('pause', pauseMs); await wait(pauseMs); return; }
     this.ui.phase?.(kind === 'repeat' ? 'mic-repeat' : 'mic-produce');
     let res = null;
-    try { res = await assess(p.es, { timeoutMs: kind === 'repeat' ? 6000 : 8000 }); }
+    try { res = await assess(p.tl, { lang: p.code, timeoutMs: kind === 'repeat' ? 6000 : 8000 }); }
     catch (e) { this.ui.error?.(`Scoring failed: ${e.message || e}`); }
     if (this.stopped || this.paused) { const err = new Error('aborted'); err.name = 'Aborted'; throw err; }
     this.lastPron = res ? { score: res.score, method: res.method, heard: res.heard } : null;

@@ -1,10 +1,11 @@
-import { PHRASES, TOPICS } from './phrases.js';
+import { PHRASES, TOPICS, LANG, LANGS, setLanguage } from './phrases.js';
 import * as store from './store.js';
 import { Session, plan } from './session.js';
 import { voicesFor, startKeepAlive, stopKeepAlive, setMediaHandlers, azureEnabled, bundledEnabled, lastAudioError } from './audio.js';
 import { scoringMethod } from './pron.js';
 
 const $ = (s) => document.querySelector(s);
+setLanguage(store.settings().lang);
 const screens = ['home', 'player', 'summary', 'settings'];
 function show(name) { for (const s of screens) $('#' + s).hidden = s !== name; window.scrollTo(0, 0); }
 
@@ -22,7 +23,15 @@ function statTiles(el, tiles) {
   el.innerHTML = tiles.map(([v, label]) => `<div class="stat"><b>${v}</b><span>${label}</span></div>`).join('');
 }
 
+function renderLang() {
+  $('#lang-short').textContent = LANG.short;
+  $('#lang-name').textContent = `${LANG.name} zo slovenčiny`;
+  document.title = `Frázy ${LANG.short}`;
+  $('#langs').innerHTML = LANGS.map((l) => `<button role="radio" data-lang="${l.id}" aria-checked="${l.id === LANG.id}" title="${l.name}" aria-label="${l.name}">${l.short}</button>`).join('');
+}
+
 function renderHome() {
+  renderLang();
   const s = store.stats();
   statTiles($('#stats'), [
     [s.known, 'fráz vieš'],
@@ -34,7 +43,7 @@ function renderHome() {
   $('#topics').innerHTML = TOPICS.map((t) => {
     const all = PHRASES.filter((p) => p.topic === t.id);
     const seen = all.filter((p) => store.item(p.id).introduced).length;
-    return `<button role="radio" data-topic="${t.id}" aria-checked="${t.id === ui.topic}"><span>${t.sk}<br><small>${t.es}</small></span><small>${seen}/${all.length}</small></button>`;
+    return `<button role="radio" data-topic="${t.id}" aria-checked="${t.id === ui.topic}"><span>${t.sk}<br><small lang="${LANG.id}" dir="auto">${LANG.topics[t.id]}</small></span><small>${seen}/${all.length}</small></button>`;
   }).join('');
   for (const b of document.querySelectorAll('#lengths button')) b.setAttribute('aria-checked', String(Number(b.dataset.min) === ui.minutes));
   for (const b of document.querySelectorAll('#modes button')) b.setAttribute('aria-checked', String(b.dataset.mode === ui.mode));
@@ -52,6 +61,13 @@ function renderHome() {
   $('#plan-note').textContent = note;
 }
 
+$('#langs').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-lang]');
+  if (!b || b.dataset.lang === LANG.id) return;
+  store.updateSettings({ lang: b.dataset.lang });
+  setLanguage(b.dataset.lang);
+  renderHome();
+});
 $('#topics').addEventListener('click', (e) => { const b = e.target.closest('[data-topic]'); if (b) { ui.topic = b.dataset.topic; remember(); renderHome(); } });
 $('#lengths').addEventListener('click', (e) => { const b = e.target.closest('[data-min]'); if (b) { ui.minutes = Number(b.dataset.min); remember(); renderHome(); } });
 $('#modes').addEventListener('click', (e) => { const b = e.target.closest('[data-mode]'); if (b) { ui.mode = b.dataset.mode; remember(); renderHome(); } });
@@ -61,24 +77,24 @@ let session = null;
 let wakeLock = null;
 let progressTimer = null;
 
-const PHASE_TEXT = {
+const phaseText = () => ({
   listen: {
     prompt: 'Počúvaj…',
     pause: 'Povedz význam nahlas',
     answer: 'Odpoveď',
-    repeat: 'Ešte raz po španielsky',
-    shadow: 'Zopakuj po španielsky',
+    repeat: `Ešte raz ${LANG.po}`,
+    shadow: `Zopakuj ${LANG.po}`,
     window: 'Vedel si to?',
   },
   speak: {
     prompt: 'Počúvaj…',
     pause: 'Povedz význam nahlas',
     answer: 'Odpoveď',
-    'mic-repeat': '🎙 Zopakuj španielsku frázu',
-    'mic-produce': '🎙 Povedz to po španielsky',
+    'mic-repeat': `🎙 Zopakuj ${LANG.adjF} frázu`,
+    'mic-produce': `🎙 Povedz to ${LANG.po}`,
     rate: 'Vedel si to? Ohodnoť sa.',
   },
-};
+});
 
 function setCountdown(ms) {
   const cd = $('#countdown');
@@ -95,13 +111,16 @@ function setCountdown(ms) {
 let cur = null;
 // Slovak line as shown on screen: the spoken text plus any usage note.
 const skText = (p) => (p.note ? `${p.sk} (${p.note})` : p.sk);
+// Target-language line as shown: the text (right-to-left where needed) plus any transliteration.
+const tlHtml = (p) => `<span lang="${p.lang}" dir="auto">${escapeHtml(p.tl)}</span>${p.tr ? `<small class="tr">${escapeHtml(p.tr)}</small>` : ''}`;
+const skHtml = (p) => escapeHtml(skText(p));
 const sessionUi = {
   item({ phrase, dir, isNew, progress }) {
     cur = { phrase, dir };
     const show = store.settings().showText;
     $('#p-badge').hidden = !isNew;
-    $('#prompt-text').textContent = show ? (dir === 'recv' ? phrase.es : skText(phrase)) : '';
-    $('#answer-text').textContent = '';
+    $('#prompt-text').innerHTML = show ? (dir === 'recv' ? tlHtml(phrase) : skHtml(phrase)) : '';
+    $('#answer-text').innerHTML = '';
     $('#score').hidden = true;
     $('#progress').style.width = `${Math.round(progress * 100)}%`;
     for (const b of document.querySelectorAll('.rate button')) b.classList.remove('flash');
@@ -110,11 +129,11 @@ const sessionUi = {
   phase(name, ms) {
     const mode = session.opts.mode;
     const el = $('#phase');
-    el.textContent = PHASE_TEXT[mode][name] || '';
+    el.textContent = phaseText()[mode][name] || '';
     el.classList.toggle('mic', name.startsWith('mic'));
     setCountdown(name === 'pause' || name === 'shadow' ? ms : 0);
     if ((name === 'answer' || name === 'rate') && cur && store.settings().showText) {
-      $('#answer-text').textContent = cur.dir === 'recv' ? skText(cur.phrase) : cur.phrase.es;
+      $('#answer-text').innerHTML = cur.dir === 'recv' ? skHtml(cur.phrase) : tlHtml(cur.phrase);
     }
     if (name === 'rate') $('#rate-speak').classList.add('waiting');
   },
@@ -130,7 +149,7 @@ const sessionUi = {
     const words = (res.words || []).map((w) => `<span class="w ${w.score < 60 || w.error !== 'None' ? 'bad' : w.score < 80 ? 'mid' : ''}">${escapeHtml(w.word)} ${w.score}</span>`).join('');
     const d = res.detail ? `<small>Presnosť ${res.detail.accuracy} · Plynulosť ${res.detail.fluency} · Úplnosť ${res.detail.completeness}</small>` : '<small>Približné skóre z rozpoznávania reči prehliadača</small>';
     el.innerHTML = `<div><span class="num">${res.score}</span><small> / 100 výslovnosť</small></div>${d}<div><small>Počul som: „${escapeHtml(res.heard || '')}“</small></div>${words ? `<div class="words">${words}</div>` : ''}`;
-    if (!store.settings().showText) $('#answer-text').textContent = phrase.es;
+    if (!store.settings().showText) $('#answer-text').innerHTML = tlHtml(phrase);
   },
   paused(p) { $('#pause-btn').textContent = p ? 'Pokračovať' : 'Pauza'; if (p) $('#phase').textContent = 'Pozastavené'; setCountdown(0); },
   error(msg) { const e = $('#error'); e.hidden = false; e.textContent = msg; setTimeout(() => { e.hidden = true; }, 6000); },
@@ -208,15 +227,17 @@ document.addEventListener('keydown', (e) => {
 // ---------- settings ----------
 function fillVoices() {
   const s = store.settings();
-  for (const [id, lang, key] of [['#s-esVoice', 'es-ES', 'esVoice'], ['#s-skVoice', 'sk-SK', 'skVoice']]) {
+  const tlWanted = s.voicePrefs?.[LANG.code] ?? (LANG.code === 'es-ES' ? s.esVoice : '');
+  $('#tl-voice-label').textContent = `${LANG.name}: hlas prehliadača`;
+  for (const [id, lang, wanted] of [['#s-tlVoice', LANG.code, tlWanted], ['#s-skVoice', 'sk-SK', s.skVoice]]) {
     const list = voicesFor(lang);
     const sel = $(id);
-    sel.innerHTML = '<option value="">Automaticky</option>' + list.map((v) => `<option ${v.name === s[key] ? 'selected' : ''}>${escapeHtml(v.name)}</option>`).join('');
+    sel.innerHTML = '<option value="">Automaticky</option>' + list.map((v) => `<option ${v.name === wanted ? 'selected' : ''}>${escapeHtml(v.name)}</option>`).join('');
   }
-  const missing = ['es-ES', 'sk-SK'].filter((l) => !voicesFor(l).length);
+  const missing = [LANG.code, 'sk-SK'].filter((l) => !voicesFor(l).length);
   const fallback = missing.includes('sk-SK') && voicesFor('cs-CZ').length ? ' Pre slovenčinu sa zatiaľ použije český hlas.' : '';
   $('#voice-note').textContent = bundledEnabled()
-    ? 'Frázy hrajú nahraté prirodzené hlasy (Viktória, Elvira, Álvaro, Ximena). Hlasy prehliadača sú len záloha pre text bez nahrávky.'
+    ? 'Frázy hrajú nahraté prirodzené hlasy (slovenčina: Viktória; pre každý jazyk 2–3 rodení hovoriaci). Hlasy prehliadača sú len záloha pre text bez nahrávky.'
     : missing.length
       ? `Prehliadač nemá hlas pre: ${missing.join(', ')}.${fallback} Zapni nahraté hlasy alebo doinštaluj hlas v systéme (Nastavenia > Jazyk/Reč).`
       : (azureEnabled() ? 'Používajú sa Azure neurónové hlasy; hlasy prehliadača sú záloha.' : '');
@@ -234,7 +255,7 @@ function renderSettings() {
 
 $('#settings').addEventListener('input', (e) => {
   const el = e.target;
-  if (!el.id?.startsWith('s-')) return;
+  if (!el.id?.startsWith('s-') || el.id === 's-tlVoice' || el.id === 's-skVoice') return;
   const k = el.id.slice(2);
   let v = el.type === 'checkbox' ? el.checked : el.value;
   if (['rate', 'pauseFactor'].includes(k)) { v = Number(v); $('#o-' + k).textContent = `${v}×`; }
@@ -243,7 +264,7 @@ $('#settings').addEventListener('input', (e) => {
   store.updateSettings({ [k]: v });
   if (k === 'bundledVoices') fillVoices();
 });
-$('#s-esVoice').addEventListener('change', (e) => store.updateSettings({ esVoice: e.target.value }));
+$('#s-tlVoice').addEventListener('change', (e) => store.updateSettings({ voicePrefs: { ...(store.settings().voicePrefs || {}), [LANG.code]: e.target.value } }));
 $('#s-skVoice').addEventListener('change', (e) => store.updateSettings({ skVoice: e.target.value }));
 $('#open-settings').addEventListener('click', () => { renderSettings(); show('settings'); });
 $('#close-settings').addEventListener('click', () => { renderHome(); show('home'); });
@@ -264,7 +285,7 @@ $('#export').addEventListener('click', () => {
   const blob = new Blob([store.exportData()], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `frazy-es-${store.today()}.json`;
+  a.download = `frazy-${store.today()}.json`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 });
