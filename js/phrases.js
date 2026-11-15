@@ -24,10 +24,26 @@ export const TOPICS = [
   { id: 'travel', sk: 'Cestovanie a orientácia' },
   { id: 'shopping', sk: 'Nakupovanie' },
   { id: 'smalltalk', sk: 'Rozhovor o sebe' },
+  { id: 'numbers', sk: 'Čísla, čas a dátumy' },
+  { id: 'family', sk: 'Rodina a vzťahy' },
+  { id: 'home', sk: 'Bývanie a domácnosť' },
+  { id: 'work', sk: 'Práca a kancelária' },
+  { id: 'health', sk: 'Zdravie a lekár' },
+  { id: 'food', sk: 'Jedlo a varenie' },
+  { id: 'hobbies', sk: 'Voľný čas a záľuby' },
+  { id: 'weather', sk: 'Počasie a príroda' },
+  { id: 'city', sk: 'Mesto, banka a úrady' },
+  { id: 'tech', sk: 'Telefón a internet' },
+  { id: 'feelings', sk: 'Pocity a názory' },
+  { id: 'emergency', sk: 'Problémy a núdzové situácie' },
+  { id: 'social', sk: 'Pozvania a stretnutia' },
+  { id: 'school', sk: 'Škola a učenie sa' },
   { id: 'quotes', sk: 'Slávne vety z filmov a seriálov' },
 ];
 
 export const LANGS = [es, de, fr, ar, ru];
+// Topic names for the extra topics live next to their phrases (generated block).
+for (const L of LANGS) Object.assign(L.topics, L.extraTopics || {});
 
 export const LEVELS = [
   { id: 'A1', sk: 'A1 – začiatočník: pozdravy a najjednoduchšie vety' },
@@ -38,7 +54,8 @@ export const LEVELS = [
 ];
 
 // The starter sets (A1/A2): short lines (up to 3 Slovak words) count as A1, longer as
-// A2. B1–C1 come from each pack's `levels` block. Film lines have no level.
+// A2. B1–C1 come from each pack's `levels` block; the later topics come from its
+// `extra` block with an explicit level for every line. Film lines have no level.
 const baseLevel = (sk) => (sk.split(/\s+/).length <= 3 ? 'A1' : 'A2');
 
 function rows(L, topic, list, level, idPrefix) {
@@ -56,9 +73,10 @@ function rows(L, topic, list, level, idPrefix) {
 function build(L) {
   const pre = L.id === 'es' ? '' : `${L.id}-`;
   const base = Object.entries(L.phrases).flatMap(([topic, list]) => rows(L, topic, list, null, pre));
-  const higher = Object.entries(L.levels || {}).flatMap(([level, topics]) =>
+  const leveled = (block) => Object.entries(block || {}).flatMap(([level, topics]) =>
     Object.entries(topics).flatMap(([topic, list]) => rows(L, topic, list, level, `${pre}${level.toLowerCase()}-`)));
-  return [...base, ...higher];
+  // levels: B1–C1 of the first five topics; extra: the later topics, every level A1–C1.
+  return [...base, ...leveled(L.levels), ...leveled(L.extra)];
 }
 
 // The current target language. Live bindings: importers always see the current set.

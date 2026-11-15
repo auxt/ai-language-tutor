@@ -68,6 +68,9 @@ def trim(path):
     tmp.replace(path)
 
 
+DONE = [0]
+
+
 async def make(text, voice, path, sem):
     async with sem:
         for attempt in range(6):
@@ -78,6 +81,9 @@ async def make(text, voice, path, sem):
                     raise RuntimeError('empty clip')
                 tmp.replace(path)
                 await asyncio.to_thread(trim, path)
+                DONE[0] += 1
+                if DONE[0] % 250 == 0:
+                    print(f'  {DONE[0]} clips done', flush=True)
                 return
             except Exception as e:  # network hiccups: back off and retry
                 if attempt == 5:
@@ -103,7 +109,7 @@ async def main(force):
         wanted.setdefault('sk-SK', {}).setdefault(p['sk'], p['id'])
 
     manifest = {'voices': {lang: list(v) for lang, v in VOICES.items() if lang in wanted}, 'clips': {}}
-    jobs, sem = [], asyncio.Semaphore(4)
+    jobs, sem = [], asyncio.Semaphore(int(os.environ.get('AUDIO_JOBS', '4')))
     for lang, texts in wanted.items():
         manifest['clips'][lang] = texts
         prev = {cid: text for text, cid in old.get(lang, {}).items()}
