@@ -1,6 +1,6 @@
 import { PHRASES, TOPICS, LANG, LANGS, LEVELS, setLanguage } from './phrases.js';
 import * as store from './store.js';
-import { Session, plan, levelMatch } from './session.js';
+import { Session, plan, levelMatch, inScope } from './session.js';
 import { voicesFor, startKeepAlive, stopKeepAlive, setMediaHandlers, azureEnabled, bundledEnabled, lastAudioError } from './audio.js';
 import { scoringMethod } from './pron.js';
 
@@ -56,8 +56,10 @@ function renderHome() {
   const parts = [];
   if (p.dueCount) parts.push(`${p.dueCount} na opakovanie`);
   if (p.unratedCount) parts.push(`${p.unratedCount} počutých bez hodnotenia`);
-  parts.push(p.newCount ? `${p.newCount} nových fráz` : 'žiadne nové frázy');
-  let note = `Plán: ${parts.join(', ')}.`;
+  parts.push(p.newCount === 1 ? '1 nová fráza' : p.newCount >= 2 && p.newCount <= 4 ? `${p.newCount} nové frázy` : p.newCount ? `${p.newCount} nových fráz` : 'žiadne nové frázy');
+  const scopeName = ui.topic === 'quotes' ? 'len filmové vety' : `len úroveň ${store.settings().level}`;
+  let note = `Plán (${scopeName}): ${parts.join(', ')}.`;
+  if (p.capReached) note += ' Denný limit nových fráz je vyčerpaný (Nastavenia).';
   if (ui.mode === 'speak') {
     const m = scoringMethod();
     note += m === 'azure' ? ' Výslovnosť hodnotí Azure.' : m === 'browser' ? ' Výslovnosť: približné skóre z prehliadača.' : ' Tento prehliadač nevie rozpoznať reč, skóre nebude.';
@@ -98,8 +100,9 @@ const phaseText = () => ({
   },
   speak: {
     prompt: 'Počúvaj…',
-    pause: 'Povedz význam nahlas',
-    answer: 'Odpoveď',
+    pause: `Povedz to ${LANG.po}`,
+    think: 'Čo to znamená? Stačí v duchu.',
+    answer: 'Význam',
     'mic-repeat': `🎙 Zopakuj ${LANG.adjF} frázu`,
     'mic-produce': `🎙 Povedz to ${LANG.po}`,
     rate: 'Vedel si to? Ohodnoť sa.',
@@ -141,7 +144,7 @@ const sessionUi = {
     const el = $('#phase');
     el.textContent = phaseText()[mode][name] || '';
     el.classList.toggle('mic', name.startsWith('mic'));
-    setCountdown(name === 'pause' || name === 'shadow' ? ms : 0);
+    setCountdown(name === 'pause' || name === 'shadow' || name === 'think' ? ms : 0);
     if ((name === 'answer' || name === 'rate') && cur && store.settings().showText) {
       $('#answer-text').innerHTML = cur.dir === 'recv' ? skHtml(cur.phrase) : tlHtml(cur.phrase);
     }
@@ -169,9 +172,11 @@ function escapeHtml(t) { return String(t).replace(/[&<>"]/g, (c) => ({ '&': '&am
 
 async function startSession() {
   if (!PHRASES.some(() => true)) return;
-  const p = plan({ ...ui, level: store.settings().level });
-  if (!p.fresh.length) {
-    $('#plan-note').textContent = 'Na dnes nič nečaká a denný limit nových fráz je vyčerpaný. Zvýš limit v nastaveniach alebo príď zajtra.';
+  const level = store.settings().level;
+  const p = plan({ ...ui, level });
+  const heard = PHRASES.some((x) => inScope(x, { ...ui, level }) && store.item(x.id).introduced);
+  if (!p.fresh.length && !heard && p.capReached) {
+    $('#plan-note').textContent = `Na úrovni ${level} zatiaľ nemáš čo opakovať a denný limit nových fráz je vyčerpaný. Zvýš limit v nastaveniach alebo príď zajtra.`;
     return;
   }
   session = new Session({ ...ui, level: store.settings().level }, sessionUi);
@@ -212,7 +217,7 @@ function showSummary(r) {
   const notes = [`Trvanie ${Math.max(1, Math.round(r.minutes))} min.`];
   if (!r.rated) notes.push('Žiadne hodnotenie: frázy sa zaznamenali len ako vypočuté, plánovač sa nepohol. Stlač „Vedel som“ alebo tlačidlo ďalšej skladby na slúchadlách.');
   else if (r.again) notes.push(`${r.again}× znova. Tieto frázy prídu skôr.`);
-  if (r.endedEarly) notes.push('Skončili sme skôr: všetko ostatné by sa opakovalo skôr ako o 5 minút a denný limit nových fráz je vyčerpaný. Zvýš ho v nastaveniach, ak chceš viac.');
+  if (r.endedEarly) notes.push('Skončili sme skôr: na tejto úrovni by sa všetko ostatné opakovalo skôr ako o 5 minút a nové frázy už nie sú (alebo je vyčerpaný denný limit v nastaveniach).');
   notes.push('Krátke opakovanie ráno po večernom učení pomáha najviac.');
   $('#sum-note').textContent = notes.join(' ');
   show('summary');

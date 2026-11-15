@@ -1,8 +1,11 @@
 // Builds and runs one topic session.
-// Reviews come from every topic by due date; the chosen topic and level only decide
-// which NEW phrases appear. Within a session a phrase never comes back sooner than
-// MIN_GAP (5 minutes of session time); the time in between is filled with other new
-// phrases and reviews instead of quick repeats.
+// Scope: a session uses only phrases of the chosen level (or only the film lines when
+// that topic is chosen). Phrases of other levels never play; their reviews wait until
+// that level is chosen again. Within the level the chosen topic goes first: its due
+// reviews and its new phrases. Only when the topic has nothing left that can play
+// without repeating too soon does the session borrow from the level's other topics,
+// reviews before new phrases. A phrase never comes back sooner than MIN_GAP
+// (5 minutes of session time).
 import { PHRASES, LANG } from './phrases.js';
 import * as store from './store.js';
 import { say, wait, cancelAll, isAbort, syllables, prefetch, setNowPlaying } from './audio.js';
@@ -15,8 +18,10 @@ const NEW_LADDER = [5 * MIN, 12 * MIN];  // a new phrase returns after 5, then 1
 const AGAIN_GAP = 5 * MIN;               // "again" brings it back after 5 minutes
 const UNRATED_GAP = 8 * MIN;             // an unrated review is heard once more after 8
 
-// New phrases come from the chosen level; the film lines belong to every level.
+// For the topic counts on the home screen: the film lines show at every level.
 export const levelMatch = (p, level) => p.topic === 'quotes' || p.level === level;
+// What a session may play.
+export const inScope = (p, { topic, level }) => (topic === 'quotes' ? p.topic === 'quotes' : p.topic !== 'quotes' && p.level === level);
 
 let idMap = null, idMapFor = null;
 function byId(id) {
@@ -30,31 +35,37 @@ export function plan({ topic, minutes, mode, level = 'A1' }) {
   const perMin = mode === 'speak' ? 3 : 5;
   const capacity = Math.round(minutes * perMin);
 
-  const due = PHRASES.filter((p) => { const c = store.cardOf(p.id); return c && c.due <= now; })
-    .sort((a, b) => store.cardOf(a.id).due - store.cardOf(b.id).due);
-  const unrated = PHRASES.filter((p) => { const it = store.item(p.id); return it.introduced && !it.card; })
-    .sort((a, b) => store.item(a.id).lastSeen - store.item(b.id).lastSeen);
-  let reviews = [...due, ...unrated];
+  const scope = PHRASES.filter((p) => inScope(p, { topic, level }));
+  const isDue = (p) => { const c = store.cardOf(p.id); return c && c.due <= now; };
+  const isUnrated = (p) => { const it = store.item(p.id); return it.introduced && !it.card; };
+  const byDue = (a, b) => store.cardOf(a.id).due - store.cardOf(b.id).due;
+  const byHeard = (a, b) => store.item(a.id).lastSeen - store.item(b.id).lastSeen;
+  const reviewsOf = (list) => [...list.filter(isDue).sort(byDue), ...list.filter(isUnrated).sort(byHeard)];
+  const mine = scope.filter((p) => p.topic === topic);
+  const topicReviews = reviewsOf(mine);
+  const otherReviews = reviewsOf(scope.filter((p) => p.topic !== topic));
 
+  const capLeft = Math.max(0, s.dailyNewCap - store.newToday());
   let newCount = NEW_BY_LENGTH[minutes] ?? Math.round(minutes / 2.5);
   if (mode === 'speak') newCount = Math.ceil(newCount / 2);
-  newCount = Math.max(0, Math.min(newCount, s.dailyNewCap - store.newToday()));
-  if (reviews.length >= 0.8 * capacity) newCount = 0; // backlog: reviews only
-  const news = PHRASES.filter((p) => p.topic === topic && levelMatch(p, level) && !store.item(p.id).introduced).slice(0, newCount);
+  newCount = Math.min(newCount, capLeft);
+  if (topicReviews.length + otherReviews.length >= 0.8 * capacity) newCount = 0; // backlog: reviews only
+  const news = mine.filter((p) => !store.item(p.id).introduced).slice(0, newCount);
 
-  const reviewSlots = Math.max(0, capacity - news.length * 4);
-  // Warm-up: a couple of reviews from the chosen topic first.
-  const topicReviews = reviews.filter((p) => p.topic === topic);
-  const warm = topicReviews.slice(0, 2);
-  reviews = reviews.filter((p) => !warm.includes(p)).slice(0, Math.max(0, reviewSlots - warm.length));
-
-  const fresh = [...warm];
-  const r = [...reviews], n = [...news];
+  // The chosen topic first (two reviews, then a new phrase), then the level's other reviews.
+  const reviewSlots = Math.max(0, capacity - news.length * 3);
+  const r = topicReviews.slice(0, reviewSlots), n = [...news];
+  const fresh = [];
   while (r.length || n.length) {
     for (let k = 0; k < 2 && r.length; k++) fresh.push(r.shift());
     if (n.length) fresh.push(n.shift());
   }
-  return { fresh, newIds: new Set(news.map((p) => p.id)), capacity, dueCount: due.length, unratedCount: unrated.length, newCount: news.length };
+  fresh.push(...otherReviews.slice(0, Math.max(0, reviewSlots - topicReviews.length)));
+  return {
+    fresh, newIds: new Set(news.map((p) => p.id)), capacity,
+    dueCount: scope.filter(isDue).length, unratedCount: scope.filter(isUnrated).length, newCount: news.length,
+    capReached: capLeft === 0, scopeSize: scope.length,
+  };
 }
 
 export class Session {
@@ -62,6 +73,7 @@ export class Session {
     this.opts = { topic, minutes, mode, level };
     this.ui = ui;
     this.plan = plan(this.opts);
+    this.scope = PHRASES.filter((p) => inScope(p, this.opts));
     this.fresh = this.plan.fresh.map((p) => p.id);
     this.pending = [];        // { id, at }
     this.state = {};          // per-item state for this session
@@ -97,33 +109,33 @@ export class Session {
       const id = this.fresh.shift();
       if (this.restedEnough(id)) return id;
     }
-    // 3. another new phrase (chosen topic first, then the rest of the level)
-    const extra = this.topUpNew();
-    if (extra) return extra;
-    // 4. an older phrase of this language that has not played for a while
-    const review = this.extraReview();
-    if (review) return review;
+    // 3. the chosen topic: another new phrase, else one not heard for a while
+    // 4. then the level's other topics the same way
+    for (const sameTopic of [true, false]) {
+      const id = this.topUpNew(sameTopic) || this.extraReview(sameTopic);
+      if (id) return id;
+    }
     // 5. a spaced repeat that is nearly due (at most a minute early)
     const soon = [...this.pending].sort((a, b) => a.at - b.at)[0];
     if (soon && soon.at - now <= MIN) return take(soon);
-    // Nothing left that would not repeat too soon: end here rather than drill.
+    // Nothing left in this level that would not repeat too soon: end here rather than drill.
     this.endedEarly = true;
     return null;
   }
 
-  topUpNew() {
-    const s = store.settings();
-    if (store.newToday() >= s.dailyNewCap) return null;
-    const fresh = (p) => levelMatch(p, this.opts.level) && !store.item(p.id).introduced && !this.state[p.id];
-    const p = PHRASES.find((x) => x.topic === this.opts.topic && fresh(x))
-      || PHRASES.find((x) => x.topic !== 'quotes' && x.level === this.opts.level && fresh(x));
+  inTopic(p, sameTopic) { return (p.topic === this.opts.topic) === sameTopic; }
+
+  topUpNew(sameTopic) {
+    if (store.newToday() >= store.settings().dailyNewCap) return null;
+    const p = this.scope.find((x) => this.inTopic(x, sameTopic) && !store.item(x.id).introduced && !this.state[x.id]);
     if (!p) return null;
     this.plan.newIds.add(p.id);
     return p.id;
   }
 
-  extraReview() {
-    const seen = PHRASES.filter((p) => store.item(p.id).introduced && this.restedEnough(p.id) && !this.pending.some((x) => x.id === p.id));
+  extraReview(sameTopic) {
+    const seen = this.scope.filter((p) => this.inTopic(p, sameTopic) && store.item(p.id).introduced
+      && this.restedEnough(p.id) && !this.pending.some((x) => x.id === p.id));
     if (!seen.length) return null;
     // least recently heard first, so the whole set gets refreshed over time
     seen.sort((a, b) => store.item(a.id).lastSeen - store.item(b.id).lastSeen);
@@ -270,8 +282,9 @@ export class Session {
     // Speak-aloud mode (foreground). Correctness rating and pronunciation score stay separate.
     const scoring = scoringMethod();
     if (dir === 'recv') {
+      // Hear it, recall the meaning silently, hear the meaning, then repeat the phrase aloud.
       ui.phase?.('prompt'); await say(p.tl, p.code, { voiceIndex });
-      ui.phase?.('pause', pauseMs); await wait(pauseMs);
+      ui.phase?.('think', pauseMs); await wait(pauseMs);
       ui.phase?.('answer'); await say(p.sk, 'sk-SK');
       await wait(300);
       await this.listenAndScore(p, scoring, 'repeat');
