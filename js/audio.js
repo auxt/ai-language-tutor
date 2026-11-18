@@ -7,6 +7,7 @@
 // All recorded audio goes through one HTMLAudioElement. Plus cancellable pauses and a
 // silent keep-alive track so lock-screen / earbud buttons reach the page.
 import { settings } from './store.js';
+import { spoken } from './phrases.js';
 
 const AZURE_VOICES = {
   'es-ES': ['es-ES-ElviraNeural', 'es-ES-AlvaroNeural', 'es-ES-XimenaNeural'],
@@ -233,7 +234,7 @@ export async function say(text, lang, { voiceIndex = 0 } = {}) {
   }
   if (azureEnabled() && azureFailures < 3) {
     try {
-      const url = await azureClip(text, lang, voiceIndex);
+      const url = await azureClip(spoken(text), lang, voiceIndex);
       if (sig.aborted) throw new Aborted();
       await playUrl(url, sig);
       azureFailures = 0;
@@ -245,7 +246,7 @@ export async function say(text, lang, { voiceIndex = 0 } = {}) {
       console.warn('Azure TTS failed, using browser voice', e);
     }
   }
-  await speakBrowser(text, lang, sig);
+  await speakBrowser(spoken(text), lang, sig);
 }
 
 // Pre-generate the clips for upcoming phrases so playback has no gaps.
@@ -253,7 +254,8 @@ export function prefetch(phrases) {
   if (bundledEnabled()) {
     bundleReady.then(() => {
       for (const p of phrases) {
-        const n = bundle?.voices?.[p.code]?.length || 1;
+        // The word list has one voice per language: fetch only that one.
+        const n = p.topic === 'words' ? 1 : bundle?.voices?.[p.code]?.length || 1;
         for (let v = 0; v < n; v++) bundledClip(p.tl, p.code, v).catch(() => {});
         bundledClip(p.sk, 'sk-SK', 0).catch(() => {});
       }
@@ -261,8 +263,8 @@ export function prefetch(phrases) {
   }
   if (!azureEnabled()) return;
   for (const [i, p] of phrases.entries()) {
-    azureClip(p.tl, p.code, i).catch(() => {});
-    azureClip(p.sk, 'sk-SK', 0).catch(() => {});
+    azureClip(spoken(p.tl), p.code, p.topic === 'words' ? 0 : i).catch(() => {});
+    azureClip(spoken(p.sk), 'sk-SK', 0).catch(() => {});
   }
 }
 

@@ -40,6 +40,13 @@ if os.environ.get('SSL_CERT_FILE'):
     ec._SSL_CTX = ssl.create_default_context(cafile=os.environ['SSL_CERT_FILE'])
 
 
+def spoken(text):
+    """Same as spoken() in js/phrases.js: word-list entries show gender marks "(m.)" and
+    alternatives "el / la" on screen; the voice says "el, la"."""
+    import re
+    return re.sub(r'\s*/\s*', ', ', re.sub(r'\s*\([^)]*\)', '', text)).strip()
+
+
 def load_phrases():
     js = "import('./js/phrases.js').then(m => console.log(JSON.stringify(m.allPhrases())))"
     out = subprocess.run(['node', '--input-type=module', '-e', js], cwd=ROOT, check=True, capture_output=True, text=True)
@@ -76,7 +83,7 @@ async def make(text, voice, path, sem):
         for attempt in range(6):
             try:
                 tmp = path.with_suffix('.part')
-                await edge_tts.Communicate(text, voice).save(str(tmp))
+                await edge_tts.Communicate(spoken(text), voice).save(str(tmp))
                 if tmp.stat().st_size < 1000:
                     raise RuntimeError('empty clip')
                 tmp.replace(path)
@@ -101,12 +108,20 @@ async def main(force):
 
     # (language code, text) -> clip id. Target lines use their phrase id; a Slovak line
     # uses the id of the first phrase that says it, so shared lines are recorded once.
-    wanted = {}
+    # The word list (topic 'words') is recorded in the first voice of each language only;
+    # a text that also occurs in a phrase gets every voice.
+    wanted, every_voice = {}, set()
     for p in phrases:
         if p['code'] not in VOICES:
             sys.exit(f"no voices configured for {p['code']}")
         wanted.setdefault(p['code'], {}).setdefault(p['tl'], p['id'])
         wanted.setdefault('sk-SK', {}).setdefault(p['sk'], p['id'])
+        if p['topic'] != 'words':
+            every_voice.add((p['code'], p['tl']))
+
+    def voices_for(lang, text):
+        names = list(VOICES[lang])
+        return names if lang == 'sk-SK' or (lang, text) in every_voice else names[:1]
 
     manifest = {'voices': {lang: list(v) for lang, v in VOICES.items() if lang in wanted}, 'clips': {}}
     jobs, sem = [], asyncio.Semaphore(int(os.environ.get('AUDIO_JOBS', '4')))
@@ -114,7 +129,8 @@ async def main(force):
         manifest['clips'][lang] = texts
         prev = {cid: text for text, cid in old.get(lang, {}).items()}
         for text, cid in texts.items():
-            for short, voice in VOICES[lang].items():
+            for short in voices_for(lang, text):
+                voice = VOICES[lang][short]
                 path = OUT / short / f'{cid}.mp3'
                 path.parent.mkdir(parents=True, exist_ok=True)
                 # A file with no manifest entry yet comes from an interrupted run: keep it.
@@ -134,10 +150,11 @@ async def main(force):
             if not any((OUT / v / f'{cid}.mp3').exists() for v in VOICES[lang]):
                 del texts[text]
     # List per voice the clips it lacks, so the app goes straight to another voice.
+    # Word-list clips have one voice by design; the app asks for that voice only.
     missing = {}
     for lang, texts in manifest['clips'].items():
-        for cid in texts.values():
-            for v in VOICES[lang]:
+        for text, cid in texts.items():
+            for v in voices_for(lang, text):
                 if not (OUT / v / f'{cid}.mp3').exists():
                     missing.setdefault(v, []).append(cid)
     if missing:

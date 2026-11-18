@@ -6,7 +6,7 @@
 // without repeating too soon does the session borrow from the level's other topics,
 // reviews before new phrases. A phrase never comes back sooner than MIN_GAP
 // (5 minutes of session time).
-import { PHRASES, LANG } from './phrases.js';
+import { PHRASES, LANG, spoken } from './phrases.js';
 import * as store from './store.js';
 import { say, wait, cancelAll, isAbort, syllables, prefetch, setNowPlaying } from './audio.js';
 import { assess, scoringMethod } from './pron.js';
@@ -256,7 +256,10 @@ export class Session {
     this.summary.plays++;
     store.noteExposure(id);
 
-    const voiceIndex = this.voiceTurn++;
+    // Phrases rotate the language's voices; the word list is recorded in one voice only.
+    const single = p.topic === 'words';
+    const voiceIndex = single ? 0 : this.voiceTurn++;
+    const nextVoice = single ? 0 : voiceIndex + 1;
     const ui = this.ui;
     ui.item?.({ phrase: p, dir, isNew: st.isNew && st.plays === 1, mode: this.opts.mode, pos: this.pos, progress: this.progress() });
     setNowPlaying(dir === 'recv' ? p.tl : p.sk, dir === 'recv' ? 'Čo to znamená?' : `Povedz ${LANG.po}`);
@@ -267,12 +270,12 @@ export class Session {
         ui.phase?.('prompt'); await say(p.tl, p.code, { voiceIndex });
         ui.phase?.('pause', pauseMs); await wait(pauseMs);
         ui.phase?.('answer'); await say(p.sk, 'sk-SK');
-        if (store.settings().repeatTarget) { await wait(600); ui.phase?.('repeat'); await say(p.tl, p.code, { voiceIndex: voiceIndex + 1 }); }
+        if (store.settings().repeatTarget) { await wait(600); ui.phase?.('repeat'); await say(p.tl, p.code, { voiceIndex: nextVoice }); }
       } else {
         ui.phase?.('prompt'); await say(p.sk, 'sk-SK');
         ui.phase?.('pause', pauseMs); await wait(pauseMs);
         ui.phase?.('answer'); await say(p.tl, p.code, { voiceIndex });
-        if (store.settings().repeatTarget) { ui.phase?.('shadow', 1800); await wait(1800); ui.phase?.('repeat'); await say(p.tl, p.code, { voiceIndex: voiceIndex + 1 }); }
+        if (store.settings().repeatTarget) { ui.phase?.('shadow', 1800); await wait(1800); ui.phase?.('repeat'); await say(p.tl, p.code, { voiceIndex: nextVoice }); }
       }
       ui.phase?.('window', 1400);
       await wait(1400); // time to press "knew it" / "again"
@@ -304,7 +307,7 @@ export class Session {
     if (scoring === 'none') { this.ui.phase?.('pause', pauseMs); await wait(pauseMs); return; }
     this.ui.phase?.(kind === 'repeat' ? 'mic-repeat' : 'mic-produce');
     let res = null;
-    try { res = await assess(p.tl, { lang: p.code, timeoutMs: kind === 'repeat' ? 6000 : 8000 }); }
+    try { res = await assess(spoken(p.tl), { lang: p.code, timeoutMs: kind === 'repeat' ? 6000 : 8000 }); }
     catch (e) { this.ui.error?.(`Scoring failed: ${e.message || e}`); }
     if (this.stopped || this.paused) { const err = new Error('aborted'); err.name = 'Aborted'; throw err; }
     this.lastPron = res ? { score: res.score, method: res.method, heard: res.heard } : null;

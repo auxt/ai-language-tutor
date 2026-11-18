@@ -44,10 +44,15 @@ function renderHome() {
   ]);
 
   const level = store.settings().level;
+  // A topic with nothing at this level (the word list stops at B2) is shown but disabled.
+  const counts = Object.fromEntries(TOPICS.map((t) => [t.id, PHRASES.filter((p) => p.topic === t.id && levelMatch(p, level))]));
+  if (!counts[ui.topic]?.length) ui.topic = TOPICS.find((t) => counts[t.id].length)?.id || TOPICS[0].id;
   $('#topics').innerHTML = TOPICS.map((t) => {
-    const all = PHRASES.filter((p) => p.topic === t.id && levelMatch(p, level));
+    const all = counts[t.id];
     const seen = all.filter((p) => store.item(p.id).introduced).length;
-    return `<button role="radio" data-topic="${t.id}" aria-checked="${t.id === ui.topic}"><span>${t.sk}<br><small lang="${LANG.id}" dir="auto">${LANG.topics[t.id]}</small></span><small>${seen}/${all.length}</small></button>`;
+    const off = all.length === 0;
+    const label = off && t.id === 'words' ? 'len A1–B2' : `${seen}/${all.length}`;
+    return `<button role="radio" data-topic="${t.id}" aria-checked="${t.id === ui.topic}"${off ? ' disabled' : ''}><span>${t.sk}<br><small lang="${LANG.id}" dir="auto">${LANG.topics[t.id]}</small></span><small>${label}</small></button>`;
   }).join('');
   for (const b of document.querySelectorAll('#lengths button')) b.setAttribute('aria-checked', String(Number(b.dataset.min) === ui.minutes));
   for (const b of document.querySelectorAll('#modes button')) b.setAttribute('aria-checked', String(b.dataset.mode === ui.mode));
@@ -56,7 +61,8 @@ function renderHome() {
   const parts = [];
   if (p.dueCount) parts.push(`${p.dueCount} na opakovanie`);
   if (p.unratedCount) parts.push(`${p.unratedCount} počutých bez hodnotenia`);
-  parts.push(p.newCount === 1 ? '1 nová fráza' : p.newCount >= 2 && p.newCount <= 4 ? `${p.newCount} nové frázy` : p.newCount ? `${p.newCount} nových fráz` : 'žiadne nové frázy');
+  const nw = ui.topic === 'words' ? ['nové slovo', 'nové slová', 'nových slov', 'žiadne nové slová'] : ['nová fráza', 'nové frázy', 'nových fráz', 'žiadne nové frázy'];
+  parts.push(p.newCount === 1 ? `1 ${nw[0]}` : p.newCount >= 2 && p.newCount <= 4 ? `${p.newCount} ${nw[1]}` : p.newCount ? `${p.newCount} ${nw[2]}` : nw[3]);
   const scopeName = ui.topic === 'quotes' ? 'len filmové vety' : `len úroveň ${store.settings().level}`;
   let note = `Plán (${scopeName}): ${parts.join(', ')}.`;
   if (p.capReached) note += ' Denný limit nových fráz je vyčerpaný (Nastavenia).';

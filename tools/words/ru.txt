@@ -1,0 +1,3000 @@
+я | ja
+не | nie
+ты | ty
+что | čo | aj: že
+этот | tento
+в | v
+и | a
+быть | byť
+он | on
+мы | my
+вы | vy | aj: zdvorilé oslovenie
+на | na
+весь | celý | всё = všetko, все = všetci
+с | s
+как | ako
+мочь | môcť
+да | áno
+у | u | у меня есть = mám
+они | oni
+нет | nie | nemám
+она | ona
+знать | vedieť | poznať
+так | tak
+но | ale
+тот | tamten
+мой | môj
+хотеть | chcieť
+о | o
+если | ak
+сказать | povedať
+за | za
+бы | by | podmieňovací spôsob
+думать | myslieť
+чтобы | aby
+твой | tvoj
+же | predsa | zdôrazňovacia častica
+свой | svoj
+просто | jednoducho
+ещё | ešte
+из | z
+говорить | hovoriť
+должен | musieť | mal by
+к | k
+её | jej
+для | pre
+ну | no | nuž
+когда | keď | kedy
+хорошо | dobre
+кто | kto
+здесь | tu
+такой | taký
+нужно | treba
+по | po
+который | ktorý
+только | len
+сделать | urobiť
+один | jeden
+человек | človek | množné č.: люди
+делать | robiť
+вот | hľa | tu je
+от | od
+ваш | váš
+себя | seba
+видеть | vidieť
+почему | prečo
+дело | vec | záležitosť
+очень | veľmi
+время | čas
+уже | už
+наш | náš
+спасибо | ďakujem
+или | alebo
+большой | veľký
+хороший | dobrý
+давать | dávať | давай = poďme
+там | tam
+ничего | nič
+сейчас | teraz
+где | kde
+идти | ísť | pešo
+пойти | ísť | odísť
+найти | nájsť
+ладно | dobre | v poriadku
+до | do
+потому что | pretože
+теперь | teraz
+какой | aký
+день | deň
+раз | raz
+год | rok
+сам | sám
+другой | iný
+жизнь | život
+надо | treba
+друг | priateľ
+правда | pravda
+ли | či | otázková častica
+пока | zatiaľ | aj: ahoj (pri lúčení)
+даже | dokonca
+привет | ahoj
+дом | dom
+тоже | tiež
+понимать | rozumieť
+Бог | Boh
+помочь | pomôcť
+любить | ľúbiť
+никогда | nikdy
+эй | hej
+смочь | dokázať | zvládnuť
+ребёнок | dieťa | množné č.: дети
+парень | chlapec | chalan
+тогда | potom | vtedy
+ни | ani
+тут | tu
+конечно | samozrejme
+работа | práca
+прийти | prísť
+стать | stať sa
+дать | dať
+место | miesto
+взять | vziať
+простить | odpustiť | прости = prepáč
+отец | otec
+мама | mama
+убить | zabiť
+иметь | mať
+пожалуйста | prosím
+вернуться | vrátiť sa
+работать | pracovať
+сегодня | dnes
+два | dva
+значить | znamenať | значит = teda
+порядок | poriadok | всё в порядке = všetko je v poriadku
+сюда | sem
+понять | pochopiť
+смотреть | pozerať
+никто | nikto
+всегда | vždy
+можно | možno | smie sa
+без | bez
+слышать | počuť
+посмотреть | pozrieť sa
+самый | najviac | самый лучший = najlepší
+слушать | počúvať
+первый | prvý
+собираться | chystať sa
+деньги | peniaze
+нравиться | páčiť sa
+много | veľa
+после | po
+новый | nový
+рука | ruka
+случиться | stať sa
+узнать | zistiť | spoznať
+ночь | noc
+жить | žiť
+плохой | zlý | плохо = zle
+отличный | výborný | отлично = výborne
+возможно | možno
+пытаться | snažiť sa
+получить | dostať
+поговорить | porozprávať sa
+каждый | každý
+уверен | istý | som si istý
+похоже | zdá sa
+ведь | veď
+просить | prosiť
+потом | potom
+остаться | zostať
+машина | auto | aj: stroj
+через | cez | aj: o (čase)
+проблема | problém
+казаться | zdať sa
+женщина | žena
+немного | trochu
+увидеть | uvidieť
+слишком | príliš
+последний | posledný
+стоить | stáť | o cene; стоит = oplatí sa
+пора | čas | пора идти = je čas ísť
+зачем | načo
+уйти | odísť
+рассказать | rozpovedať
+папа | otec | ocko
+готов | pripravený
+доктор | doktor
+ждать | čakať
+час | hodina
+оставить | nechať
+извинить | ospravedlniť | извините = prepáčte
+точно | presne | určite
+право | právo | ты прав = máš pravdu
+под | pod
+умереть | zomrieť
+назад | späť | aj: pred (časom)
+помнить | pamätať si
+вместе | spolu
+добрый | dobrý | láskavý
+сын | syn
+мир | svet | aj: mier
+куда | kam
+подождать | počkať
+слово | slovo
+вопрос | otázka
+поэтому | preto
+подумать | porozmýšľať
+маленький | malý
+чувствовать | cítiť
+сколько | koľko
+снова | znova
+семья | rodina
+утро | ráno
+мать | matka
+три | tri
+милый | milý
+минута | minúta
+вещь | vec
+забыть | zabudnúť
+жена | manželka
+лучший | najlepší | lepší
+выйти | vyjsť
+домой | domov | smer
+позволить | dovoliť
+вечер | večer
+девушка | dievča | aj: priateľka
+конец | koniec
+важный | dôležitý
+надеяться | dúfať
+никакой | žiadny
+выглядеть | vyzerať
+вид | výhľad | vzhľad
+придётся | bude treba
+брат | brat
+именно | práve | presne
+послушать | vypočuť si
+искать | hľadať
+неделя | týždeň
+начать | začať
+прямо | priamo | rovno
+решить | rozhodnúť | vyriešiť
+разве | či vari
+голова | hlava
+лишь | iba
+несколько | niekoľko
+рад | rád
+имя | meno
+бояться | báť sa
+происходить | diať sa
+позвонить | zavolať
+считать | počítať | aj: považovať
+случай | prípad
+прекрасный | krásny | nádherný
+держать | držať
+пройти | prejsť
+звать | volať | меня зовут = volám sa
+верить | veriť
+совсем | celkom | úplne
+смерть | smrť
+играть | hrať
+город | mesto
+глаз | oko
+стоять | stáť
+уходить | odchádzať
+поверить | uveriť
+про | o
+ребята | chalani | decká
+спать | spať
+помощь | pomoc
+жаль | škoda
+туда | tam | smer
+действительно | naozaj
+любой | akýkoľvek
+завтра | zajtra
+показать | ukázať
+мужчина | muž
+оно | ono
+следующий | nasledujúci
+использовать | používať
+хватит | stačí | dosť
+поехать | ísť | odísť (dopravou)
+полиция | polícia
+школа | škola
+перед | pred
+чёрт | čert | черт! = do čerta!
+отсюда | odtiaľto
+сторона | strana
+настоящий | skutočný
+история | príbeh | aj: história
+нормальный | normálny | нормально = v pohode
+старый | starý
+единственный | jediný
+верно | správne | pravda
+дорога | cesta
+произойти | stať sa
+раньше | skôr | predtým
+месяц | mesiac
+насчёт | ohľadom
+часть | časť
+заниматься | zaoberať sa | venovať sa
+против | proti
+оба | obaja
+дверь | dvere
+лицо | tvár
+странный | zvláštny
+пара | pár
+любовь | láska
+спросить | spýtať sa
+Господь | Pán | Господи! = Bože!
+более | viac
+итак | takže
+при | pri
+комната | izba
+вообще | vôbec | vlastne
+звонить | volať | telefonovať
+убийство | vražda
+нельзя | nesmie sa | nedá sa
+наверное | asi | pravdepodobne
+полный | plný
+ясно | jasne
+кровь | krv
+ради | kvôli | pre
+игра | hra
+смысл | zmysel
+равно | rovnako | всё равно = jedno
+счастливый | šťastný
+принести | priniesť
+сила | sila
+потерять | stratiť
+ужасный | hrozný
+номер | číslo | aj: hotelová izba
+живой | živý
+быстро | rýchlo
+бросить | hodiť | aj: opustiť
+хотя | hoci
+скоро | čoskoro
+тело | telo
+сестра | sestra
+план | plán
+идея | nápad
+откуда | odkiaľ
+приехать | prísť | dopravou
+муж | manžel
+дорогой | drahý | milý
+телефон | telefón
+господин | pán
+сердце | srdce
+забрать | vziať si | vyzdvihnúť
+закончить | skončiť
+момент | okamih
+девочка | dievčatko
+правильный | správny
+путь | cesta
+над | nad
+сидеть | sedieť
+будто | akoby
+оставаться | zostávať
+дочь | dcéra
+здоровый | zdravý | здорово = super
+купить | kúpiť
+земля | zem
+между | medzi
+мальчик | chlapec
+почти | takmer
+ходить | chodiť
+причина | príčina
+написать | napísať
+вода | voda
+начало | začiatok
+отношение | vzťah | postoj
+вернуть | vrátiť
+достаточно | dosť
+красивый | pekný
+рядом | vedľa | blízko
+нога | noha
+спасти | zachrániť
+хоть | aspoň
+второй | druhý
+интересный | zaujímavý
+встреча | stretnutie
+проверить | skontrolovať
+здравствуйте | dobrý deň
+попробовать | skúsiť
+некоторый | niektorý
+попасть | trafiť | dostať sa
+принять | prijať
+продолжать | pokračovať
+начинать | začínať
+шанс | šanca
+провести | stráviť | viesť
+приходить | prichádzať
+отдать | odovzdať
+пять | päť
+дальше | ďalej
+пусть | nech
+попросить | požiadať
+ехать | ísť | dopravou
+волноваться | báť sa | не волнуйся = neboj sa
+свет | svetlo | aj: svet
+обещать | sľúbiť
+команда | tím | aj: príkaz
+больной | chorý | больно = bolí
+брать | brať
+серьёзный | vážny
+иногда | niekedy
+скорее | skôr | rýchlejšie
+вроде | akoby | údajne
+следовать | nasledovať
+приятный | príjemný | приятно = teší ma
+занят | zaneprázdnený
+родители | rodičia
+встретиться | stretnúť sa
+капитан | kapitán
+открыть | otvoriť
+встречаться | stretávať sa | chodiť spolu
+остальной | ostatný
+перестать | prestať
+заставить | prinútiť
+прекратить | prestať | zastaviť
+спокойный | pokojný | спокойной ночи = dobrú noc
+вчера | včera
+называть | nazývať
+долго | dlho
+книга | kniha
+вести | viesť
+ненавидеть | nenávidieť
+оружие | zbraň
+ум | rozum
+довольный | spokojný | довольно = dosť
+оказаться | ukázať sa | ocitnúť sa
+выходить | vychádzať
+кроме | okrem
+вперёд | vpred
+честный | čestný | честно = úprimne
+захотеть | zachcieť sa
+главный | hlavný | главное = hlavne
+душа | duša
+внимание | pozornosť
+чувство | pocit
+быстрый | rýchly
+чувак | kámo | hovorovo
+новость | novinka | správa
+свидание | rande
+война | vojna
+компания | spoločnosť | firma
+давно | dávno
+жертва | obeť
+убийца | vrah
+сильный | silný
+также | tiež
+находиться | nachádzať sa
+пить | piť
+опять | znova
+привести | priviesť
+понравиться | zapáčiť sa
+еда | jedlo
+лёгкий | ľahký | легко = ľahko
+крутой | super | hovorovo; aj: strmý
+вечеринка | večierok
+возвращаться | vracať sa
+сначала | najprv
+разговаривать | rozprávať sa
+спрашивать | pýtať sa
+секунда | sekunda
+уехать | odísť | odcestovať
+дама | dáma
+полагать | predpokladať
+убивать | zabíjať
+получиться | podariť sa
+счёт | účet | aj: skóre
+увидимся | uvidíme sa
+остановить | zastaviť
+целый | celý
+связь | spojenie
+улица | ulica
+сразу | hneď
+близкий | blízky
+фильм | film
+мёртвый | mŕtvy
+страна | krajina
+помогать | pomáhať
+тюрьма | väzenie
+услышать | začuť
+прошлый | minulý
+тысяча | tisíc
+бежать | bežať | utekať
+решение | rozhodnutie | riešenie
+представлять | predstavovať si
+агент | agent
+ответить | odpovedať
+читать | čítať
+способ | spôsob
+бывать | bývať | stávať sa
+группа | skupina
+суд | súd
+собственный | vlastný
+справиться | zvládnuť
+молодой | mladý
+сильно | silno | veľmi
+выпить | vypiť
+писать | písať
+известный | známy
+ответ | odpoveď
+появиться | objaviť sa
+отправить | poslať
+ошибка | chyba
+остановиться | zastaviť sa
+принимать | prijímať
+честь | česť
+президент | prezident
+беспокоиться | znepokojovať sa
+отпустить | pustiť
+понятно | jasné | rozumiem
+корабль | loď
+выбор | výber
+больница | nemocnica
+столько | toľko
+хотеться | chcieť sa | мне хочется = chce sa mi
+белый | biely
+представить | predstaviť
+безопасность | bezpečnosť
+четыре | štyri
+прежде | predtým
+выбрать | vybrať
+информация | informácia
+замечательный | úžasný
+назвать | nazvať
+камера | kamera | aj: cela
+возможность | možnosť
+заметить | všimnúť si
+глупый | hlúpy
+объяснить | vysvetliť
+чёрный | čierny
+тихий | tichý | тихо = ticho
+мера | miera | по крайней мере = aspoň
+познакомиться | zoznámiť sa
+передать | odovzdať | podať
+затем | potom
+снять | zložiť | aj: prenajať, natočiť
+пол | podlaha | aj: pohlavie
+рассказывать | rozprávať
+прошлое | minulosť
+сон | sen | spánok
+зайти | zájsť | zastaviť sa
+трудный | ťažký
+вино | víno
+держаться | držať sa
+миллион | milión
+общий | spoločný | в общем = celkovo
+однажды | raz | jedného dňa
+страшный | strašný | страшно = je strach
+обычно | zvyčajne
+успокоиться | upokojiť sa
+позже | neskôr
+адвокат | advokát
+алло | haló
+иначе | inak
+мысль | myšlienka
+поймать | chytiť
+мозг | mozog
+согласен | súhlasím
+система | systém
+неплохой | nezlý | неплохо = celkom dobre
+курс | kurz
+обратно | späť
+сообщение | správa
+король | kráľ
+звучать | znieť
+цель | cieľ
+песня | pieseň
+детектив | detektív
+изменить | zmeniť
+сложный | zložitý
+квартира | byt
+свободный | voľný | slobodný
+приятель | kamarát
+ключ | kľúč
+отвечать | odpovedať
+насколько | nakoľko
+правило | pravidlo
+поставить | postaviť | položiť
+поздно | neskoro
+ситуация | situácia
+доверять | dôverovať
+мало | málo
+письмо | list
+становиться | stávať sa
+образ | obraz | таким образом = takto
+собака | pes
+магазин | obchod
+стрелять | strieľať
+связан | spojený
+боль | bolesť
+проводить | tráviť | aj: odprevadiť
+клиент | klient
+есть | jesť | aj: je, existuje
+чистый | čistý
+голос | hlas
+доллар | dolár
+кстати | mimochodom
+заткнуться | stíchnuť | заткнись = drž hubu
+перевод | preklad
+часто | často
+проходить | prechádzať
+смешной | smiešny
+достать | dosiahnuť | vytiahnuť
+разговор | rozhovor
+список | zoznam
+шутить | žartovať
+погоди | počkaj
+кофе | káva
+разобраться | vyznať sa | vyriešiť
+врач | lekár
+опасный | nebezpečný
+операция | operácia
+преступление | zločin
+уметь | vedieť | mať schopnosť
+устроить | zariadiť
+заплатить | zaplatiť
+ужин | večera
+войти | vojsť
+звонок | zvonček | hovor
+подойти | pristúpiť | aj: hodiť sa
+следить | sledovať
+закончиться | skončiť sa
+полицейский | policajt
+офис | kancelária
+умирать | umierať
+получать | dostávať
+простой | jednoduchý
+совершенно | úplne
+штука | vec | kus
+понадобиться | byť potrebný
+запись | nahrávka | záznam
+умный | múdry
+огромный | obrovský
+подобный | podobný
+мужик | chlap | hovorovo
+небольшой | malý | nevelký
+выяснить | zistiť
+любимый | obľúbený | milovaný
+положить | položiť
+стол | stôl
+взглянуть | pozrieť sa
+сесть | sadnúť si
+подарок | darček
+поступить | konať | aj: nastúpiť (na školu)
+закон | zákon
+пригласить | pozvať
+угодно | ľubovoľne | что угодно = čokoľvek
+член | člen
+вызвать | zavolať | privolať
+музыка | hudba
+день рождения | narodeniny
+закрыть | zatvoriť
+состояние | stav
+измениться | zmeniť sa
+выиграть | vyhrať
+шесть | šesť
+прощение | odpustenie
+внутри | vnútri
+свадьба | svadba
+многие | mnohí
+класс | trieda | aj: super
+подруга | priateľka | kamarátka
+совет | rada
+босс | šéf
+сбежать | utiecť
+убрать | upratať | odstrániť
+начаться | začať sa
+платить | platiť
+сообщить | oznámiť
+далеко | ďaleko
+вокруг | okolo
+предложить | navrhnúť | ponúknuť
+садиться | sadať si
+заходить | zachádzať | заходи = poď dnu
+согласиться | súhlasiť
+невозможный | nemožný
+повод | dôvod | príčina
+пистолет | pištoľ
+малыш | maličký | bábo
+удача | šťastie | удачи = veľa šťastia
+всякий | akýkoľvek
+придумать | vymyslieť
+речь | reč | о чём речь = o čom je reč
+волосы | vlasy
+неужели | naozaj? | vari
+около | okolo | pri
+встретить | stretnúť
+фотография | fotografia
+огонь | oheň
+скучать | nudiť sa | aj: chýbať (я скучаю по тебе = chýbaš mi)
+вдруг | zrazu
+стена | stena
+попытаться | pokúsiť sa
+красный | červený
+подходить | pristupovať | hodiť sa
+шоу | šou
+палец | prst
+идиот | idiot
+украсть | ukradnúť
+существовать | existovať
+уничтожить | zničiť
+дядя | strýko
+постоянно | neustále
+исчезнуть | zmiznúť
+например | napríklad
+великий | veľký | velikánsky
+знакомый | známy
+предложение | návrh | aj: veta
+врать | klamať
+народ | národ | ľudia
+ожидать | očakávať
+правый | pravý | ты прав = máš pravdu
+сходить | zájsť
+учиться | učiť sa | študovať
+пропасть | zmiznúť | stratiť sa
+след | stopa
+обычный | obyčajný
+повезти | mať šťastie | мне повезло = mal som šťastie
+карта | mapa | aj: karta
+являться | byť | javiť sa
+виноват | vinný
+означать | znamenať
+очевидно | zrejme
+данные | údaje
+носить | nosiť
+третий | tretí
+необходимый | nevyhnutný
+полностью | úplne
+стараться | snažiť sa
+одежда | oblečenie
+леди | dáma
+серьёзно | vážne
+встать | vstať
+желать | želať
+центр | centrum
+крайний | krajný | по крайней мере = aspoň
+арестовать | zatknúť
+личный | osobný
+десять | desať
+результат | výsledok
+создать | vytvoriť
+хватать | chytať | aj: stačiť
+вспомнить | spomenúť si
+клуб | klub
+чуть | trochu | чуть не = takmer
+самолёт | lietadlo
+понятие | pojem | понятия не имею = netuším
+выход | východ
+рано | skoro
+позаботиться | postarať sa
+ад | peklo
+секрет | tajomstvo
+погибнуть | zahynúť
+дух | duch
+офицер | dôstojník
+продать | predať
+добраться | dostať sa
+сойти | zísť | сойти с ума = zblázniť sa
+отказаться | odmietnuť | vzdať sa
+определённо | určite
+удаться | podariť sa
+пропустить | vynechať | zmeškať
+свидетель | svedok
+невероятный | neuveriteľný
+смеяться | smiať sa
+благодарить | ďakovať
+идеальный | ideálny
+вместо | namiesto
+сделка | obchod | dohoda
+настолько | natoľko
+добро пожаловать | vitajte
+разный | rôzny
+окно | okno
+долгий | dlhý | o čase
+обнаружить | objaviť
+высокий | vysoký
+удар | úder
+переводчик | prekladateľ | tlmočník
+открытый | otvorený
+либо | alebo | либо... либо = buď... alebo
+здание | budova
+пациент | pacient
+обед | obed
+особенно | najmä
+куча | kopa
+реальный | skutočný
+половина | polovica
+доказательство | dôkaz
+клясться | prisahať
+бизнес | biznis
+язык | jazyk
+шутка | vtip
+род | rod | druh
+великолепный | nádherný
+заставлять | nútiť
+снимать | zložiť | natáčať
+послать | poslať
+обязательно | určite | nevyhnutne
+доказать | dokázať
+звезда | hviezda
+отель | hotel
+поднять | zdvihnúť
+святой | svätý
+лежать | ležať
+мадам | madam
+форма | forma | uniforma
+немедленно | okamžite
+шаг | krok
+наркотики | drogy
+отправиться | vydať sa
+гость | hosť
+рот | ústa
+плакать | plakať
+защитить | ochrániť
+защищать | chrániť
+удовольствие | potešenie | с удовольствием = s radosťou
+служба | služba
+наконец | konečne
+петь | spievať
+победить | zvíťaziť
+уезжать | odchádzať | odcestovať
+девчонка | dievča | hovorovo
+защита | ochrana
+слава | sláva | слава богу = vďaka Bohu
+будущее | budúcnosť
+молодец | šikovný | dobrá práca!
+вытащить | vytiahnuť
+документ | dokument
+способный | schopný
+абсолютно | absolútne
+двигаться | hýbať sa
+штат | štát | v USA
+небо | nebo
+враг | nepriateľ
+бабушка | babka
+упасть | spadnúť
+сработать | zafungovať
+предлагать | ponúkať
+желание | želanie
+переживать | trápiť sa | prežívať
+жениться | oženiť sa
+расследование | vyšetrovanie
+вставать | vstávať
+роль | rola
+тяжёлый | ťažký
+покой | pokoj
+отвезти | odviezť
+окей | okej
+власть | moc
+готовить | pripravovať | variť
+весёлый | veselý
+счастье | šťastie
+признать | priznať | uznať
+нечего | nie je čo
+директор | riaditeľ
+собраться | zhromaždiť sa | chystať sa
+уровень | úroveň
+мнение | názor
+действовать | konať | pôsobiť
+называться | volať sa
+факт | fakt
+многое | mnohé
+съесть | zjesť
+блин | palacinka | hovorovo: do kelu
+потрясающий | úžasný
+знак | znak | znamenie
+приказ | rozkaz
+костюм | oblek | kostým
+очередь | rad | fronta
+лгать | klamať
+учитель | učiteľ
+неправильный | nesprávny
+словно | akoby
+свобода | sloboda
+сомневаться | pochybovať
+гора | hora
+заботиться | starať sa
+холодный | studený | холодно = je zima
+спина | chrbát
+постараться | vynasnažiť sa
+сумасшедший | blázon | šialený
+устать | unaviť sa | я устал = som unavený
+разница | rozdiel
+договориться | dohodnúť sa
+контроль | kontrola
+забавный | zábavný
+планета | planéta
+шеф | šéf
+входить | vchádzať
+поле | pole
+поиск | hľadanie
+мечта | sen | túžba
+терять | strácať
+показывать | ukazovať
+оставлять | nechávať
+программа | program
+намного | omnoho
+кричать | kričať
+дерево | strom
+убираться | upratovať | убирайся = zmizni
+серия | séria | epizóda
+судья | sudca
+пиво | pivo
+собрать | zhromaždiť | pozbierať
+обвинение | obvinenie
+трогать | dotýkať sa
+воздух | vzduch
+течение | prúd | в течение = počas
+животное | zviera
+ударить | udrieť
+судьба | osud
+принадлежать | patriť
+семь | sedem
+долг | dlh | povinnosť
+герой | hrdina
+связаться | spojiť sa
+лекарство | liek
+армия | armáda
+отойти | odstúpiť
+точка | bod
+среди | medzi | uprostred
+камень | kameň
+брак | manželstvo
+нести | niesť
+выходные | víkend
+бедный | chudobný | úbohý
+отдел | oddelenie
+вероятно | pravdepodobne
+постой | počkaj
+память | pamäť
+избавиться | zbaviť sa
+Рождество | Vianoce
+церковь | kostol
+танцевать | tancovať
+неважно | nezáleží
+действие | čin | dej
+успеть | stihnúť
+цена | cena
+случайно | náhodou
+пустой | prázdny
+покинуть | opustiť
+надежда | nádej
+адрес | adresa
+чудесный | zázračný | nádherný
+сожалеть | ľutovať
+колледж | vysoká škola
+бить | biť
+почувствовать | pocítiť
+приготовить | pripraviť | uvariť
+вниз | dole | smer
+бросать | hádzať
+проснуться | zobudiť sa
+компьютер | počítač
+наверняка | určite
+солдат | vojak
+касаться | dotýkať sa | týkať sa
+платье | šaty
+старший | starší
+урок | lekcia | hodina
+военный | vojenský | vojak
+убедиться | presvedčiť sa
+старик | starec
+нос | nos
+гораздо | oveľa
+солнце | slnko
+впервые | prvýkrát
+кровать | posteľ
+судить | súdiť
+бумага | papier
+чай | čaj
+яйцо | vajce
+продавать | predávať
+получается | vychádza | takže
+дышать | dýchať
+местный | miestny
+сигнал | signál
+сынок | synček
+чей | čí
+возраст | vek
+ошибаться | mýliť sa
+лес | les
+билет | lístok
+гордиться | byť hrdý
+нож | nôž
+остров | ostrov
+качество | kvalita
+поезд | vlak
+особенный | zvláštny | výnimočný
+короткий | krátky
+научиться | naučiť sa
+грязный | špinavý
+кольцо | prsteň
+линия | čiara | linka
+совершить | spáchať | vykonať
+поздравлять | blahoželať
+обязан | povinný
+бороться | bojovať
+ложь | lož
+вызывать | volať | vyvolávať
+продолжить | pokračovať
+решать | rozhodovať
+опасность | nebezpečenstvo
+выжить | prežiť
+никуда | nikam
+удивительный | úžasný | prekvapujúci
+большинство | väčšina
+надеть | obliecť si
+пуля | guľka
+оттуда | odtiaľ
+выбирать | vyberať
+фото | fotka
+королева | kráľovná
+бомба | bomba
+сцена | scéna | javisko
+позволять | dovoľovať
+сезон | sezóna
+никак | nijako
+уволить | prepustiť | vyhodiť z práce
+недавно | nedávno
+страх | strach
+покупать | kupovať
+профессор | profesor
+взгляд | pohľad
+бывший | bývalý
+сержант | seržant
+показаться | zdať sa
+расслабиться | uvoľniť sa
+родиться | narodiť sa
+обсудить | prediskutovať
+газета | noviny
+звук | zvuk
+туалет | záchod
+злиться | hnevať sa
+значение | význam
+несчастный | nešťastný
+привезти | priviezť
+опоздать | meškať
+открывать | otvárať
+к сожалению | žiaľ | bohužiaľ
+угроза | hrozba
+позвать | zavolať | privolať
+благодаря | vďaka
+цветок | kvet
+навсегда | navždy
+наблюдать | pozorovať
+вполне | celkom
+вариант | možnosť
+сюрприз | prekvapenie
+относиться | týkať sa | správať sa k
+ухо | ucho
+лейтенант | poručík
+одинокий | osamelý
+ставить | stavať | klásť
+подписать | podpísať
+положение | situácia | poloha
+выйти замуж | vydať sa
+охрана | stráž | ochranka
+горячий | horúci
+кабинет | pracovňa | kancelária
+стоп | stop
+прислать | poslať
+показания | výpoveď
+заслуживать | zaslúžiť si
+радость | radosť
+лошадь | kôň
+планировать | plánovať
+ресторан | reštaurácia
+признаться | priznať sa
+море | more
+замок | zámok | hrad
+взрослый | dospelý
+плевать | pľuť | мне плевать = je mi to fuk
+вина | vina
+подозревать | podozrievať
+установить | nainštalovať | stanoviť
+прощай | zbohom
+правительство | vláda
+грудь | hruď
+кухня | kuchyňa
+сосед | sused
+сохранить | zachovať | uložiť
+Америка | Amerika
+величество | veličenstvo
+учить | učiť | učiť sa (slovíčka)
+постель | posteľ
+преступник | zločinec
+американский | americký
+парк | park
+дурак | hlupák
+лично | osobne
+район | štvrť | oblasť
+бой | boj
+научить | naučiť
+мечтать | snívať | túžiť
+обожать | zbožňovať
+лодка | čln
+выбраться | dostať sa von
+разумеется | samozrejme
+восемь | osem
+видимо | zrejme
+событие | udalosť
+менее | menej
+цвет | farba
+рабочий | pracovný | robotník
+разрешить | dovoliť
+вкус | chuť
+забирать | brať si
+труп | mŕtvola
+кость | kosť
+записать | zapísať | nahrať
+улика | dôkaz | stopa
+переехать | presťahovať sa
+вырасти | vyrásť
+условие | podmienka
+месье | monsieur | pán
+участок | pozemok | aj: policajný okrsok
+волновать | znepokojovať
+поступать | konať | postupovať
+генерал | generál
+хранить | uchovávať
+болеть | bolieť | aj: byť chorý
+забывать | zabúdať
+база | základňa
+картина | obraz
+богатый | bohatý
+граница | hranica
+сумка | taška
+напасть | zaútočiť
+подать | podať
+видно | vidno | zrejme
+беспокоить | znepokojovať | rušiť
+выше | vyššie
+человеческий | ľudský
+однако | však
+вовсе | vôbec
+пользоваться | používať
+присоединиться | pridať sa
+поесть | najesť sa
+расти | rásť
+угол | roh | uhol
+осторожно | opatrne
+дедушка | dedko
+попытка | pokus
+успех | úspech
+название | názov
+болезнь | choroba
+банк | banka
+нуждаться | potrebovať
+ездить | jazdiť | cestovať
+госпожа | pani
+ход | ťah | chod
+вкусный | chutný
+пьяный | opitý
+находить | nachádzať
+победа | víťazstvo
+срочно | naliehavo
+сметь | odvážiť sa | не смей = neopováž sa
+запомнить | zapamätať si
+чудо | zázrak
+безопасный | bezpečný
+нечто | niečo
+задать | zadať | задать вопрос = položiť otázku
+доставить | doručiť
+тест | test
+убедить | presvedčiť
+тупой | tupý | hlúpy
+тётя | teta
+кожа | koža
+автобус | autobus
+приём | príjem | recepcia
+помешать | prekážať | vyrušiť
+энергия | energia
+поддерживать | podporovať
+поцелуй | bozk
+кусок | kus
+расстроен | rozrušený | smutný
+сотня | stovka
+общество | spoločnosť
+левый | ľavý
+разрушить | zničiť
+роман | román
+проект | projekt
+чёртов | prekliaty
+дикий | divoký
+обсуждать | diskutovať
+управление | správa | riadenie
+услуга | služba | láskavosť
+молчать | mlčať
+поддержка | podpora
+доступ | prístup
+опыт | skúsenosť
+заказать | objednať
+обращаться | obracať sa | zaobchádzať
+осторожный | opatrný
+Париж | Paríž
+выпустить | vypustiť
+глава | hlava | šéf; aj: kapitola
+задание | úloha
+включить | zapnúť
+танец | tanec
+крыша | strecha
+уважение | rešpekt | úcta
+освободить | oslobodiť
+проверять | kontrolovať
+видео | video
+участвовать | zúčastniť sa
+миля | míľa
+исправить | opraviť
+проиграть | prehrať
+вечно | večne
+запах | vôňa | pach
+классный | super | hovorovo
+русский | ruský | Rus
+перезвонить | zavolať späť
+поскольку | keďže
+трубка | slúchadlo | взять трубку = zdvihnúť telefón
+скрывать | skrývať
+жестокий | krutý
+зуб | zub
+весьма | veľmi | dosť
+покончить | skoncovať
+здоровье | zdravie
+отпечаток | odtlačok
+неприятность | nepríjemnosť | problém
+снаружи | zvonku
+лаборатория | laboratórium
+подружка | kamarátka | priateľka
+сыграть | zahrať
+сто | sto
+исследование | výskum
+общаться | komunikovať | stýkať sa
+кино | kino
+процесс | proces
+движение | pohyb | aj: doprava
+круг | kruh
+мешать | prekážať | aj: miešať
+женат | ženatý
+испортить | pokaziť
+безумный | šialený
+тратить | míňať
+примерно | približne
+служить | slúžiť
+нанять | najať
+карьера | kariéra
+зал | sála
+беременна | tehotná
+бар | bar
+тайна | tajomstvo
+извиниться | ospravedlniť sa
+управлять | riadiť
+ангел | anjel
+бутылка | fľaša
+ранен | ranený
+шея | krk
+прочитать | prečítať
+преследовать | prenasledovať
+сегодняшний | dnešný
+сломать | zlomiť | pokaziť
+воспоминание | spomienka
+требовать | požadovať
+семейный | rodinný
+хозяин | majiteľ | hostiteľ
+сдать | odovzdať | aj: zložiť skúšku
+Лондон | Londýn
+рыба | ryba
+угадать | uhádnuť
+поездка | cesta | výlet
+ценить | ceniť si
+детский | detský
+начинаться | začínať sa
+возражать | namietať | вы не возражаете? = nevadí vám?
+видеться | vídať sa
+полезный | užitočný
+скорость | rýchlosť
+интерес | záujem
+подарить | darovať
+собирать | zbierať
+подняться | vystúpiť | zdvihnúť sa
+число | číslo | dátum
+зло | zlo
+воспользоваться | využiť
+лагерь | tábor
+голодный | hladný
+особый | zvláštny | osobitný
+извиняться | ospravedlňovať sa
+ящик | debna | zásuvka
+слух | sluch | povesť
+предупредить | varovať | upozorniť
+вера | viera
+жалкий | úbohý | жалко = škoda
+прятаться | skrývať sa
+ранее | skôr | predtým
+рана | rana
+лететь | letieť
+сражаться | bojovať
+размер | veľkosť
+рисковать | riskovať
+лить | liať
+джентльмен | džentlmen
+повторять | opakovať
+менять | meniť
+пустить | pustiť
+страдать | trpieť
+вызов | výzva | privolanie
+возвращение | návrat
+заявление | vyhlásenie | žiadosť
+полковник | plukovník
+дождь | dážď
+средство | prostriedok
+внизу | dole
+случаться | stávať sa
+добиться | dosiahnuť
+занятие | činnosť | hodina
+медицинский | lekársky
+длинный | dlhý
+разрешение | povolenie
+перевести | preložiť | aj: previesť
+вряд ли | sotva
+кончено | skončené
+лето | leto
+пережить | prežiť
+источник | zdroj
+устраивать | vyhovovať | organizovať
+построить | postaviť
+ответственность | zodpovednosť
+детство | detstvo
+слабый | slabý
+трое | traja
+анализ | analýza | rozbor
+река | rieka
+зависеть | závisieť
+назначить | určiť | vymenovať
+учитывать | brať do úvahy
+перейти | prejsť
+количество | množstvo
+таблетка | tabletka
+взрыв | výbuch
+срок | lehota | trest
+несмотря на | napriek
+начальник | šéf | náčelník
+закрытый | zatvorený
+завтрак | raňajky
+напоминать | pripomínať
+приезжать | prichádzať | dopravou
+деревня | dedina
+отчёт | správa | hlásenie
+юный | mladý
+глупость | hlúposť
+посадить | posadiť | aj: zavrieť (do väzenia)
+воля | vôľa
+задний | zadný
+колено | koleno
+принцесса | princezná
+угрожать | vyhrážať sa
+контролировать | kontrolovať
+умолять | prosiť | úpenlivo
+очки | okuliare | aj: body
+искусство | umenie
+этаж | poschodie
+США | USA
+помощник | pomocník
+верный | verný | správny
+бесплатный | bezplatný | бесплатно = zadarmo
+пожалуй | asi | azda
+курить | fajčiť
+борьба | boj
+заслужить | zaslúžiť si
+инспектор | inšpektor
+вверх | hore | smer
+праздник | sviatok | oslava
+папочка | ocko
+принц | princ
+станция | stanica
+добавить | pridať
+роза | ruža
+давление | tlak
+такси | taxík
+беда | nešťastie | bieda
+получше | trochu lepšie
+отдохнуть | oddýchnuť si
+мамочка | mamička
+недостаточно | nedostatočne
+встречать | stretávať | vítať
+грузовик | nákladiak
+статья | článok
+пахнуть | voňať | páchnuť
+птица | vták
+шериф | šerif
+коллега | kolega
+каков | aký
+приносить | prinášať
+наверху | hore | miesto
+век | storočie | vek
+безумие | šialenstvo
+глубокий | hlboký
+виновный | vinný
+едва | sotva
+секретный | tajný
+личность | osobnosť | totožnosť
+телевизор | televízor
+мэр | starosta
+спустя | po | о čase
+скучный | nudný
+спорить | hádať sa | staviť sa
+худший | horší | najhorší
+нападение | útok
+невеста | nevesta | snúbenica
+захватить | zmocniť sa
+путешествие | cestovanie | cesta
+привыкнуть | zvyknúť si
+внутрь | dovnútra
+выстрел | výstrel
+ветер | vietor
+на борту | na palube
+призрак | prízrak | duch
+журнал | časopis
+деталь | detail
+бакс | dolár | hovorovo
+убежать | utiecť
+появляться | objavovať sa
+карман | vrecko
+дно | dno
+способность | schopnosť
+прокурор | prokurátor
+младший | mladší
+дойти | dôjsť
+чертовски | sakramentsky
+свежий | čerstvý
+отвратительный | odporný
+золотой | zlatý
+университет | univerzita
+теория | teória
+ошибиться | pomýliť sa
+проклятый | prekliaty
+злой | zlý | nahnevaný
+существо | bytosť
+наслаждаться | užívať si
+сознание | vedomie
+везде | všade
+подходящий | vhodný
+заработать | zarobiť
+отвести | odviesť
+сомнение | pochybnosť
+сеть | sieť
+зона | zóna
+потратить | minúť
+фирма | firma
+поведение | správanie
+винить | obviňovať
+ночной | nočný
+двор | dvor
+зелёный | zelený
+почта | pošta
+готовиться | pripravovať sa
+коробка | krabica
+луна | mesiac | na oblohe
+настроение | nálada
+кошмар | nočná mora
+пятница | piatok
+девять | deväť
+естественно | prirodzene
+достойный | hodný | dôstojný
+польза | úžitok
+код | kód
+потеря | strata
+мяч | lopta
+неправда | nepravda
+штаны | nohavice
+чужой | cudzí
+женский | ženský
+природа | príroda
+норма | norma | в норме = v poriadku
+нервничать | byť nervózny
+английский | anglický
+допустить | pripustiť
+ужас | hrôza
+повторить | zopakovať
+прибыть | doraziť
+побыть | pobudnúť
+осторожнее | opatrnejšie
+благодарный | vďačný
+поработать | popracovať
+сладкий | sladký
+модель | model
+автомобиль | automobil
+вовремя | včas
+подтвердить | potvrdiť
+напомнить | pripomenúť
+причинить | spôsobiť
+спешить | ponáhľať sa
+зато | zato | ale zas
+контракт | zmluva
+плечо | rameno
+товарищ | súdruh | kamarát
+плюс | plus
+клетка | klietka | bunka
+стиль | štýl
+поцеловать | pobozkať
+разбить | rozbiť
+согласно | podľa
+крупный | veľký
+падать | padať
+частный | súkromný
+пугать | strašiť
+вне | mimo
+мясо | mäso
+супер | super
+тип | typ
+двадцать | dvadsať
+предел | hranica | limit
+интернет | internet
+застрять | uviaznuť
+спуститься | zísť dole
+выполнять | plniť | vykonávať
+слегка | trochu
+необычный | nezvyčajný
+задавать | dávať | klásť (otázky)
+наверх | hore | smer
+расстаться | rozísť sa
+сериал | seriál
+сад | záhrada
+метр | meter
+лестница | schodisko | rebrík
+присесть | sadnúť si
+золото | zlato
+ерунда | hlúposť | nezmysel
+вселенная | vesmír
+обратиться | obrátiť sa
+банка | pohár | plechovka
+пример | príklad
+грустный | smutný
+дважды | dvakrát
+дружище | kamarát | hovorovo
+предпочитать | uprednostňovať
+партнёр | partner
+пушка | delo | hovorovo: pištoľ
+зрение | zrak
+монстр | príšera
+уважать | vážiť si
+болтать | tárať | kecať
+приказать | prikázať
+дурацкий | hlúpy | sprostý
+каково | aké je
+схватить | chytiť
+дьявол | diabol
+повсюду | všade
+тёмный | tmavý
+меч | meč
+запереть | zamknúť
+владелец | majiteľ
+молоко | mlieko
+мелкий | drobný
+драться | biť sa
+рубашка | košeľa
+чушь | nezmysel
+позиция | pozícia
+ловушка | pasca
+совпадение | zhoda okolností
+практически | prakticky
+голый | nahý
+внутренний | vnútorný
+ведьма | čarodejnica
+тренер | tréner
+морской | morský
+трус | zbabelec
+удивлён | prekvapený
+сдаваться | vzdávať sa
+утверждать | tvrdiť
+средний | stredný | priemerný
+опаздывать | meškať
+отправляться | vydávať sa | odchádzať
+водитель | vodič
+мимо | okolo | popri
+лечение | liečba
+объяснять | vysvetľovať
+сотрудник | zamestnanec
+грех | hriech
+кончиться | skončiť sa
+миссия | misia
+вход | vchod
+выполнить | splniť
+тень | tieň
+застрелить | zastreliť
+похороны | pohreb
+притворяться | predstierať
+радио | rádio
+терпеть | znášať
+передумать | rozmyslieť si
+газ | plyn
+отменить | zrušiť
+магия | mágia
+образец | vzorka
+особо | obzvlášť
+отказываться | odmietať
+авария | nehoda
+повесить | zavesiť | obesiť
+школьный | školský
+домашний | domáci
+арест | zatknutie
+риск | riziko
+молиться | modliť sa
+аэропорт | letisko
+возле | pri
+красота | krása
+фунт | libra
+спрятать | skryť
+справляться | zvládať
+ощущение | pocit
+предполагать | predpokladať
+голубой | modrý | bledomodrý
+продажа | predaj
+километр | kilometer
+сдаться | vzdať sa
+национальный | národný
+стыдно | hanba | мне стыдно = hanbím sa
+сок | džús | šťava
+интересовать | zaujímať
+американец | Američan
+контакт | kontakt
+проверка | kontrola
+вампир | upír
+жуткий | desivý
+симпатичный | sympatický | pekný
+явно | zjavne
+подниматься | stúpať | ísť hore
+наблюдение | pozorovanie | sledovanie
+поддержать | podporiť
+столь | tak
+опустить | spustiť | sklopiť
+обстоятельство | okolnosť
+Иисус | Ježiš
+завести | naštartovať | aj: založiť
+разум | rozum
+поблагодарить | poďakovať
+торопиться | ponáhľať sa
+итог | výsledok | в итоге = nakoniec
+территория | územie
+банда | banda
+майор | major
+масло | maslo | olej
+материал | materiál
+лидер | vodca
+пострадать | utrpieť | byť zranený
+отдавать | odovzdávať
+фамилия | priezvisko
+улыбаться | usmievať sa
+прочь | preč
+страница | strana
+испытывать | pociťovať | testovať
+рассчитывать | počítať s
+задержать | zadržať
+битва | bitka
+отпуск | dovolenka
+суббота | sobota
+спальня | spálňa
+прочесть | prečítať
+упустить | prepásť
+синий | modrý | tmavomodrý
+атака | útok
+канал | kanál
+впереди | vpredu
+влюбиться | zamilovať sa
+специальный | špeciálny
+демон | démon
+пожениться | vziať sa
+выключить | vypnúť
+зря | zbytočne
+мост | most
+ручка | pero | aj: kľučka
+бегать | behať
+труд | práca | námaha
+везти | viezť | ему везёт = má šťastie
+снимок | snímka
+кусочек | kúsok
+устройство | zariadenie
+подготовить | pripraviť
+запрещено | zakázané
+майка | tielko | tričko
+наедине | osamote
+травма | zranenie | trauma
+ближайший | najbližší
+напугать | vystrašiť
+отвали | odpáľ | hovorovo
+пообещать | sľúbiť
+разбираться | rozumieť sa | vyznať sa
+бесполезный | zbytočný
+шум | hluk
+задача | úloha
+издеваться | posmievať sa
+кошка | mačka
+игрок | hráč
+французский | francúzsky
+бег | beh
+предать | zradiť
+медленно | pomaly
+извинение | ospravedlnenie
+вывести | vyviesť
+ванная | kúpeľňa
+вред | škoda | ujma
+смена | smena | zmena
+неизвестный | neznámy
+раскрыть | odhaliť
+насилие | násilie
+поиграть | zahrať sa
+представление | predstavenie | predstava
+спасать | zachraňovať
+лезть | liezť
+похитить | uniesť
+руль | volant
+ученик | žiak
+копия | kópia
+участие | účasť
+тайный | tajný
+парочка | pár | dvojica
+сигарета | cigareta
+внезапно | náhle
+партия | strana | aj: partia
+специально | špeciálne | naschvál
+пробовать | skúšať | ochutnávať
+выступать | vystupovať
+версия | verzia
+глубоко | hlboko
+перерыв | prestávka
+пожар | požiar
+самоубийство | samovražda
+наука | veda
+сумма | suma
+собрание | schôdza | zhromaždenie
+мастер | majster
+сценарий | scenár
+направляться | smerovať
+южный | južný
+четвёртый | štvrtý
+направление | smer
+кот | kocúr
+двигать | hýbať
+реальность | realita
+тянуть | ťahať
+вновь | znova
+пожелать | zaželať
+как поживаешь | ako sa máš
+талант | talent
+выслушать | vypočuť
+изучать | študovať | skúmať
+ордер | príkaz | zatykač
+март | marec
+создавать | vytvárať
+летать | lietať
+предупреждать | varovať
+множество | množstvo
+приближаться | približovať sa
+совершать | páchať | vykonávať
+мусор | odpadky
+ложиться | líhať si
+Англия | Anglicko
+ловить | chytať
+лишний | zbytočný | navyše
+основной | hlavný | základný
+надоесть | omrzieť | мне надоело = mám toho dosť
+северный | severný
+толпа | dav
+крик | výkrik
+проклятье | kliatba
+маска | maska
+свинья | prasa
+напарник | parťák
+найтись | nájsť sa
+выпивка | pitie | alkohol
+пляж | pláž
+священник | kňaz
+удобный | pohodlný
+предположить | predpokladať
+спасение | záchrana
+горло | hrdlo
+могила | hrob
+живот | brucho
+развод | rozvod
+одет | oblečený
+меняться | meniť sa
+строить | stavať
+доверие | dôvera
+исключение | výnimka
+потребоваться | byť potrebný
+дыра | diera
+фургон | dodávka
+псих | blázon | psychopat
+берег | breh
+выстрелить | vystreliť
+догадаться | uhádnuť | dovtípiť sa
+поторопиться | poponáhľať sa
+интервью | rozhovor
+вор | zlodej
+родственник | príbuzný
+вынужден | nútený
+процент | percento
+концерт | koncert
+организация | organizácia
+пицца | pizza
+присяжный | porotca
+водить | viesť | šoférovať
+студент | študent
+обмануть | oklamať
+продолжаться | pokračovať
+обвинять | obviňovať
+передача | relácia | odovzdanie
+реклама | reklama
+предоставить | poskytnúť
+ставка | stávka | sadzba
+королевский | kráľovský
+среда | streda | aj: prostredie
+охота | lov | aj: chuť
+шляпа | klobúk
+рынок | trh
+поискать | pohľadať
+ура | hurá
+малышка | maličká | zlatko
+заключить | uzavrieť
+записка | odkaz | lístok
+сменить | vymeniť
+север | sever
+гений | génius
+дар | dar
+лорд | lord
+творить | tvoriť | vyvádzať
+крыса | potkan
+отстань | daj mi pokoj
+пост | post | miesto
+создание | vytvorenie | stvorenie
+прибыль | zisk
+одолжение | láskavosť
+двойной | dvojitý
+в основном | prevažne
+влюблён | zamilovaný
+взяться | pustiť sa do
+учёный | vedec
+прикрыть | kryť | zakryť
+объявить | vyhlásiť
+ничего не поделаешь | nedá sa nič robiť
+превратиться | premeniť sa
+сзади | zozadu | vzadu
+сжечь | spáliť
+прикрытие | krytie
+возникнуть | vzniknúť
+организовать | zorganizovať
+житель | obyvateľ
+охотиться | loviť
+позади | vzadu | za
+Франция | Francúzsko
+необходимость | nevyhnutnosť
+волна | vlna
+забота | starosť | starostlivosť
+очнуться | prebrať sa
+выбросить | vyhodiť
+дружба | priateľstvo
+игрушка | hračka
+ферма | farma
+шевелиться | hýbať sa | шевелись = pohni sa
+файл | súbor
+гулять | prechádzať sa
+подвал | pivnica
+охранник | strážnik
+министр | minister
+заключённый | väzeň
+телефонный | telefonický
+бред | blúznenie | nezmysel
+поделиться | podeliť sa
+лёд | ľad
+воскресенье | nedeľa
+обязанность | povinnosť
+реакция | reakcia
+наказание | trest
+толк | zmysel | úžitok
+ограбление | lúpež
+хлеб | chlieb
+мешок | vrece
+урод | ohava | hovorovo
+божий | boží
+высший | najvyšší
+мальчишка | chlapec | hovorovo
+одиночество | samota
+обойтись | zaobísť sa
+океан | oceán
+квартал | štvrť | aj: štvrťrok
+зарабатывать | zarábať
+еврей | Žid
+клёвый | super | hovorovo
+убегать | utekať
+превратить | premeniť
+истинный | pravý | skutočný
+экзамен | skúška
+пятый | piaty
+избежать | vyhnúť sa
+городской | mestský
+приглашать | pozývať
+край | okraj | kraj
+футбол | futbal
+поднимать | zdvíhať
+приступ | záchvat
+должность | funkcia | pozícia
+торт | torta
+пирог | koláč
+достичь | dosiahnuť
+степень | stupeň
+доля | podiel
+гореть | horieť
+менеджер | manažér
+двигатель | motor
+классно | super
+оказываться | ukazovať sa | оказывается = ukazuje sa
+пацан | chalan | hovorovo
+работник | pracovník
+зеркало | zrkadlo
+командир | veliteľ
+награда | odmena | ocenenie
+замечать | všímať si
+федеральный | federálny
+субтитры | titulky
+медсестра | zdravotná sestra
+товар | tovar
+грязь | špina | blato
+наоборот | naopak
+невинный | nevinný
+стул | stolička
+основание | základ | dôvod
+понедельник | pondelok
+глядеть | hľadieť
+судебный | súdny
+признак | znak | príznak
+обратный | spätný | opačný
+заказ | objednávka
+определить | určiť
+обещание | sľub
+включая | vrátane
+отделение | oddelenie
+последствие | následok
+испугаться | zľaknúť sa
+предпочесть | uprednostniť
+впечатление | dojem
+чек | šek | bloček
+постоянный | stály
+волшебный | čarovný
+заменить | nahradiť
+прыгать | skákať
+присутствие | prítomnosť
+передавать | odovzdávať | vysielať
+мужской | mužský
+драка | bitka
+древний | starobylý
+разумный | rozumný
+пакет | balík | igelitka
+упоминать | spomínať
+губа | pera
+изменение | zmena
+неловко | trápne | neprijemne
+красавица | krásavica
+волк | vlk
+прежний | predošlý
+мотив | motív
+буквально | doslova
+настаивать | trvať na
+вирус | vírus
+солгать | zaklamať
+иной | iný
+останавливаться | zastavovať sa
+в одиночку | sám | osamote
+сосредоточиться | sústrediť sa
+обвинить | obviniť
+бассейн | bazén
+беречь | chrániť | šetriť
+репутация | povesť
+поступок | čin
+ниже | nižšie
+выступление | vystúpenie
+заглянуть | nazrieť
+разбудить | zobudiť
+профессиональный | profesionálny
+предмет | predmet
+посылать | posielať
+диван | gauč
+ненадолго | nakrátko
+настать | nastať
+сенатор | senátor
+печальный | smutný
+проследить | dohliadnuť | vystopovať
+озеро | jazero
+родной | rodný | vlastný
+вспоминать | spomínať
+рай | raj
+валить | váľať | вали отсюда = zmizni
+выдать | vydať | prezradiť
+дыхание | dych
+дед | dedo
+выборы | voľby
+кресло | kreslo
+рост | rast | výška (postavy)
+официально | oficiálne
+мировой | svetový
+погода | počasie
+медведь | medveď
+столик | stolík
+вдвоём | vo dvojici
+коридор | chodba
+заинтересован | zainteresovaný
+невиновен | nevinný
+слеза | slza
+требоваться | byť potrebný
+эфир | vysielanie | éter
+договор | zmluva
+студия | štúdio
+лечь | ľahnúť si
+отправлять | posielať
+нарушение | porušenie
+художник | maliar | umelec
+колесо | koleso
+просьба | prosba
+покидать | opúšťať
+удачный | úspešný | удачно = úspešne
+месть | pomsta
+марка | značka | aj: známka
+хвост | chvost
+составить | zostaviť
+вчерашний | včerajší
+навредить | uškodiť
+визит | návšteva
+эксперт | odborník
+допрос | výsluch
+юг | juh
+тревога | poplach | úzkosť
+гражданский | civilný | občiansky
+наступить | nastať | aj: stúpiť
+нелегко | nie je ľahké
+общественный | verejný
+страсть | vášeň
+технология | technológia
+признание | priznanie | uznanie
+нарушить | porušiť
+объект | objekt
+вынести | vyniesť | zniesť
+заканчивать | končiť
+подозреваемый | podozrivý
+принцип | princíp | в принципе = v podstate
+полегче | ľahšie | pomalšie
+дружок | kamoško
+клиника | klinika
+славный | milý | slávny
+обращать | obracať | обращать внимание = venovať pozornosť
+указывать | ukazovať
+приготовиться | pripraviť sa
+приглашение | pozvanie
+дракон | drak
+лифт | výťah
+вес | váha
+охотник | lovec
+прожить | prežiť
+дочка | dcérka
+статус | postavenie
+крыло | krídlo
+побольше | trochu viac
+попрощаться | rozlúčiť sa
+единый | jednotný
+замолчать | stíchnuť
+пространство | priestor
+жалеть | ľutovať
+напиток | nápoj
+одолжить | požičať
+змея | had
+слепой | slepý
+присмотреть | dozrieť | pozrieť sa
+область | oblasť
+орган | orgán
+обмен | výmena
+неприятный | nepríjemný
+политика | politika
+инструмент | nástroj
+гнев | hnev
+убит | zabitý
+велеть | rozkázať
+починить | opraviť
+попасться | byť chytený
+полчаса | pol hodiny
+уладить | urovnať
+замужем | vydatá
+китайский | čínsky
+подставить | nastaviť | hodiť vinu
+знание | znalosť
+Европа | Európa
+буква | písmeno
+похоронить | pochovať
+Рим | Rím
+очередной | ďalší
+улыбка | úsmev
+отдых | oddych
+высота | výška
+продукты | potraviny
+считаться | považovať sa
+внимательно | pozorne
+шкаф | skriňa
+кафе | kaviareň
+просыпаться | prebúdzať sa
+жених | ženích
+толстый | hrubý | tučný
+зарплата | plat
+террорист | terorista
+виски | whisky
+незаконный | nezákonný
+дата | dátum
+трава | tráva
+переговоры | rokovania
+подавать | podávať
+задумать | zamýšľať
+привлечь | pritiahnuť | zapojiť
+закрывать | zatvárať
+сквозь | cez | skrz
+приводить | privádzať
+владеть | vlastniť | ovládať
+обманывать | klamať
+зверь | zviera | šelma
+труба | potrubie | trúbka
+ожидание | čakanie | očakávanie
+заложник | rukojemník
+жаловаться | sťažovať sa
+склад | sklad
+автор | autor
+проехать | prejsť | autom
+гонка | pretek
+победитель | víťaz
+соглашение | dohoda
+эмоция | emócia
+прямой | priamy
+посреди | uprostred
+надолго | nadlho
+бельё | bielizeň
+открытие | otvorenie | objav
+рак | rakovina | aj: rak
+характер | povaha
+официальный | oficiálny
+мороженое | zmrzlina
+пункт | bod | miesto
+температура | teplota
+временный | dočasný
+отсутствие | neprítomnosť
+выкинуть | vyhodiť
+алкоголь | alkohol
+поспать | pospať si
+описать | opísať
+чудовище | netvor
+полюбить | zamilovať si
+поменять | vymeniť
+театр | divadlo
+библиотека | knižnica
+окончен | skončený
+дополнительный | dodatočný
+туфля | topánka | črievička
+темнота | tma
+метод | metóda
+подросток | tínedžer
+расстояние | vzdialenosť
+обратить | obrátiť
+шок | šok
+смех | smiech
+кит | veľryba
+уход | odchod | starostlivosť
+заболеть | ochorieť
+секундочку | sekundičku
+обидеть | uraziť | ublížiť
+ботинок | topánka | bota
+сайт | webstránka
+отследить | vystopovať
+покупка | nákup
+объяснение | vysvetlenie
+наказать | potrestať
+одновременно | súčasne
+рейс | let | spoj
+совесть | svedomie
+церемония | obrad
+финансовый | finančný
+тьма | tma
+заговорить | prehovoriť
+шпион | špión
+представитель | zástupca
+выдержать | vydržať
+шампанское | šampanské
+тренировка | tréning
+порвать | roztrhnúť | rozísť sa
+научный | vedecký
+дитя | dieťa
+ввести | zaviesť | zadať
+отнести | odniesť
+интересоваться | zaujímať sa
+предыдущий | predchádzajúci
+немножко | troška
+дождаться | dočkať sa
+режиссёр | režisér
+гражданин | občan
+голод | hlad
+осознать | uvedomiť si
+флот | flotila | námorníctvo
+восторг | nadšenie
+путешествовать | cestovať
+восхитительный | úchvatný
+боевой | bojový
+отряд | oddiel
+точный | presný
+перенести | preniesť | odložiť
+дворец | palác
+увести | odviesť
+обувь | obuv
+сбить | zraziť | zostreliť
+остановка | zastávka
+пожарный | hasič
+политический | politický
+присматривать | dozerať
+браво | bravo
+усилие | úsilie
+легенда | legenda
+актёр | herec
+карточка | karta | kartička
+присаживайтесь | sadnite si
+нажать | stlačiť
+современный | moderný
+посидеть | posedieť
+собственность | vlastníctvo
+повернуться | otočiť sa
+прятать | skrývať
+диск | disk
+испытание | skúška
+потерпеть | vydržať | strpieť
+глянуть | pozrieť sa
+давить | tlačiť
+крайне | mimoriadne
+минимум | minimum
+жаркий | horúci | жарко = je horúco
+снег | sneh
+стакан | pohár
+стекло | sklo
+суп | polievka
+достаться | dostať sa | pripadnúť
+судно | loď | plavidlo
+кампания | kampaň
+печенье | sušienky
+справедливый | spravodlivý
+гараж | garáž
+страховка | poistenie
+соврать | zaklamať
+сведения | informácie
+навестить | navštíviť
+солнечный | slnečný
+алиби | alibi
+осмотреть | prezrieť
+громкий | hlasný
+пожалеть | oľutovať
+запад | západ
+шар | guľa | balón
+свалить | zvaliť | hovorovo: zmiznúť
+заявить | vyhlásiť
+налево | doľava
+повеселиться | zabaviť sa
+яд | jed
+натворить | vyviesť | narobiť
+присутствовать | byť prítomný
+впечатляющий | pôsobivý
+кандидат | kandidát
+дура | hlupaňa
+эксперимент | experiment
+чашка | šálka
+корова | krava
+довериться | zveriť sa
+восстановить | obnoviť
+четверг | štvrtok
+техника | technika
+лечить | liečiť
+восток | východ
+отличие | rozdiel | в отличие от = na rozdiel od
+повреждение | poškodenie
+знаменитый | slávny
+сахар | cukor
+департамент | oddelenie | úrad
+остаток | zvyšok
+смириться | zmieriť sa
+Калифорния | Kalifornia
+тащить | ťahať
+лист | list | hárok
+конь | kôň
+холодильник | chladnička
+выгнать | vyhnať
+очаровательный | očarujúci
+губернатор | guvernér
+подвести | sklamať | aj: priviesť
+ценный | cenný
+спускаться | zostupovať
+нигде | nikde
+эффект | efekt
+человечество | ľudstvo
+комитет | výbor
+заснуть | zaspať
+благодарность | vďačnosť
+изменять | meniť | aj: byť neverný
+ровно | presne | rovno
+фонд | fond | nadácia
+направить | nasmerovať
+воин | bojovník
+мелочь | maličkosť | aj: drobné
+нижний | spodný
+веселиться | zabávať sa
+заплакать | rozplakať sa
+целоваться | bozkávať sa
+подозрение | podozrenie
+пресса | tlač
+социальный | sociálny
+тишина | ticho
+аминь | amen
+отдыхать | oddychovať
+наплевать | je jedno | kašlať na
+неудачник | smoliar | lúzer
+робот | robot
+сводить | zobrať | сводить с ума = privádzať do šialenstva
+отказать | odmietnuť
+уснуть | zaspať
+курица | sliepka | kura
+образование | vzdelanie
+протокол | protokol | zápisnica
+чемодан | kufor
+сказка | rozprávka
+центральный | ústredný
+крошка | omrvinka | zlatíčko
+сперва | najprv
+существование | existencia
+миллиард | miliarda
+космос | vesmír
+упомянуть | spomenúť
+пристрелить | zastreliť
+скрыть | skryť
+кукла | bábika
+острый | ostrý
+кролик | králik
+гостиница | hotel
+наделать | narobiť
+любезный | láskavý
+открыться | otvoriť sa
+выражение | výraz
+проникнуть | preniknúť
+кнопка | tlačidlo
+сверху | zhora
+обида | krivda | urážka
+журналист | novinár
+непросто | nie je jednoduché
+несомненно | nepochybne
+вторник | utorok
+спрятаться | skryť sa
+капля | kvapka
+отрицать | popierať
+сокровище | poklad
+засунуть | strčiť
+соус | omáčka
+пилот | pilot
+пригодиться | hodiť sa
+переходить | prechádzať
+катастрофа | katastrofa
+физический | fyzický
+чемпион | šampión
+правосудие | spravodlivosť
+сыр | syr
+заново | odznova
+напротив | naproti | naopak
+ракета | raketa
+эпизод | epizóda
+период | obdobie
+юрист | právnik
+сердечный | srdcový | srdečný
+ненависть | nenávisť
+прогуляться | prejsť sa
+кормить | kŕmiť
+тридцать | tridsať
+процедура | procedúra
+зима | zima
+оценка | hodnotenie | známka
+наружу | von
+конкурс | súťaž
+разочаровать | sklamať
+включать | zapínať | zahŕňať
+подготовка | príprava
+взорваться | vybuchnúť
+Китай | Čína
+нанести | spôsobiť | нанести удар = zasadiť úder
+велосипед | bicykel
+вскоре | čoskoro
+состоять | pozostávať
+запустить | spustiť
+пятно | škvrna
+кража | krádež
+твориться | diať sa
+палата | izba | v nemocnici
+нехорошо | nedobre
+спорт | šport
+пища | potrava
+полёт | let
+поспорить | pohádať sa | staviť sa
+задержаться | zdržať sa
+чокнутый | cvok | hovorovo
+знакомство | zoznámenie
+столкнуться | zraziť sa | stretnúť sa
+неожиданно | nečakane
+поколение | generácia
+проявить | prejaviť
+смелый | odvážny
+рисовать | kresliť
+домик | domček
+ответственный | zodpovedný
+гордость | hrdosť
+западный | západný
+отключить | vypnúť | odpojiť
+ревновать | žiarliť
+законный | zákonný
+ванна | vaňa
+полночь | polnoc
+благо | dobro
+вооружён | ozbrojený
+похищение | únos
+приветствовать | vítať
+новичок | nováčik
+писатель | spisovateľ
+заполучить | získať
+беседа | rozhovor
+глубина | hĺbka
+биться | biť sa | tĺcť
+комиссар | komisár
+предатель | zradca
+бокал | pohár | na víno
+блюдо | jedlo | chod
+прогулка | prechádzka
+немец | Nemec
+любовник | milenec
+империя | ríša
+забить | zatĺcť | dať gól
+оборудование | vybavenie
+предупреждение | varovanie
+соединить | spojiť
+соревнование | súťaž
+космический | vesmírny
+завидовать | závidieť
+заключение | záver | aj: väzenie
+намерение | úmysel
+заканчиваться | končiť sa
+видение | videnie
+государственный | štátny
+некий | istý | akýsi
+нерв | nerv
+соль | soľ
+розовый | ružový
+повести | viesť | zaviesť
+безусловно | bezpochyby
+куртка | bunda
+грубый | hrubý | drzý
+беспокойство | znepokojenie
+Германия | Nemecko
+езжай | choď | dopravou
+примета | znamenie | povera
+голосовать | hlasovať
+парковка | parkovisko
+слуга | sluha
+секретарь | tajomník | sekretárka
+рождественский | vianočný
+недалеко | neďaleko
+страдание | utrpenie
+агентство | agentúra
+одинаковый | rovnaký
+Африка | Afrika
+ткань | látka | tkanivo
+популярный | populárny
+полдень | poludnie
+попадать | trafiť | dostávať sa
+редко | zriedka
+принято | je zvykom
+Япония | Japonsko
+фанат | fanúšik
+целовать | bozkávať
+проваливай | vypadni
+дневник | denník
+специалист | odborník
+пасть | padnúť
+настроить | naladiť | nastaviť
+направо | doprava
+любопытный | zvedavý | zaujímavý
+дорогуша | zlatko
+слышно | počuť
+председатель | predseda
+вечный | večný
+акция | akcia | aj: cenný papier
+подпись | podpis
+железный | železný
+радоваться | tešiť sa
+политик | politik
+побежать | rozbehnúť sa
+бал | ples
+сообщать | oznamovať
+Россия | Rusko
+некуда | niet kam
+высочество | výsosť
+тарелка | tanier
+практика | prax
+сердиться | hnevať sa
+явиться | dostaviť sa
+пустыня | púšť
+основа | základ
+сравнение | porovnanie
+деться | podieť sa | куда он делся? = kam sa podel?
+восточный | východný
+превосходно | výborne
+оценить | oceniť | ohodnotiť
+вмешиваться | zasahovať | miešať sa
+верхний | horný
+обнять | objať
+хорошенько | poriadne
+побег | útek
+плавать | plávať
+фраза | fráza | veta
+персонал | personál
+справедливость | spravodlivosť
+стрелка | ručička | šípka
+союз | zväz | spojenectvo
+подробность | podrobnosť
+верх | vrch
+немецкий | nemecký
+привлекательный | príťažlivý
+впустить | vpustiť
+полгода | pol roka
+терапия | terapia
+кадр | záber | aj: kádr
+доска | doska | tabuľa
+цифра | číslica
+уверять | uisťovať
+мягкий | mäkký
+шикарный | luxusný | skvelý
+смертный | smrteľný
+обезьяна | opica
+приключение | dobrodružstvo
+музей | múzeum
+величайший | najväčší
+налог | daň
+спятить | zblázniť sa
+вывод | záver
+крепкий | pevný | silný
+ворота | brána
+позор | hanba
+башня | veža
+советник | poradca
+выступить | vystúpiť
+хирург | chirurg
+тошнить | byť zle | меня тошнит = je mi zle
+отличаться | líšiť sa
+указать | ukázať | uviesť
+разрешать | dovoľovať
+продюсер | producent
+поход | túra | výprava
+истина | pravda
+шоколад | čokoláda
+традиция | tradícia
+торговый | obchodný
+паспорт | pas
+уверенность | istota | sebadôvera
+символ | symbol
+освобождение | oslobodenie
+доставать | vyťahovať | otravovať
+влияние | vplyv
+тварь | potvora
+прикончить | zabiť | dobiť
+слабость | slabosť
+надевать | obliekať si
+согласие | súhlas
+нарисовать | nakresliť
+ведущий | moderátor | vedúci
+руководство | vedenie
+поклясться | prisahať
+собачий | psí
+набрать | nabrať | vytočiť (číslo)
+отомстить | pomstiť sa
+экран | obrazovka
+подержать | podržať
+спортивный | športový
+тёплый | teplý
+шина | pneumatika
+площадка | ihrisko | plošina
+удалить | odstrániť
+альбом | album
+красавчик | fešák
+набор | súprava
+государство | štát
+сейф | trezor
+завтрашний | zajtrajší
+вероятность | pravdepodobnosť
+сбор | zbierka | zber
+раб | otrok
+взорвать | vyhodiť do vzduchu
+преимущество | výhoda
+император | cisár
+противный | odporný
+мода | móda
+прочий | ostatný | и прочее = a podobne
+четверо | štyria
+одеваться | obliekať sa
+обеспечить | zabezpečiť
+заполнить | vyplniť
+красть | kradnúť
+оправдание | ospravedlnenie | výhovorka
+футболка | tričko
+повернуть | otočiť | zabočiť
+подход | prístup
+повлиять | ovplyvniť
+объявление | oznámenie | inzerát
+причём | pričom
+трюк | trik
+отпускать | púšťať
+пальто | kabát
+цент | cent
+британский | britský
+ненормальный | nenormálny
+фантазия | fantázia
+летний | letný
+повредить | poškodiť
+рецепт | recept
+производство | výroba
+середина | stred
+пари | stávka
+взломать | vlámať sa | prelomiť
+мобильный | mobilný | mobil
+шрам | jazva
+оплатить | zaplatiť
+округ | okres
+полететь | odletieť
+сломаться | pokaziť sa
+яркий | jasný | žiarivý
+терпение | trpezlivosť
+обыскать | prehľadať
+залог | záloha | kaucia
+иск | žaloba
+расписание | rozvrh | cestovný poriadok
+использование | použitie
+вступить | vstúpiť
+убежище | úkryt | azyl
+тост | prípitok | hrianka
+сбросить | zhodiť
+рассказ | poviedka | rozprávanie
+поверхность | povrch
+атаковать | útočiť
+выпускной | maturitný ples | promócia
+пассажир | cestujúci
+желудок | žalúdok
+перчатка | rukavica
+тон | tón
+расследовать | vyšetrovať
+персонаж | postava
+обучение | výučba
+подушка | vankúš
+поужинать | navečerať sa
+напиться | opiť sa
+скорая помощь | záchranka
+тронуть | dotknúť sa | dojať
+минуточку | moment
+развитие | rozvoj
+трагедия | tragédia
+госпиталь | nemocnica | vojenská
+жирный | mastný | tučný
+наручники | putá
+электричество | elektrina
+Мексика | Mexiko
+заехать | zaviezť sa | zastaviť sa
+поворот | zákruta | obrat
+пенсия | dôchodok
+красотка | kráska
+понимание | porozumenie
+низкий | nízky
+веселье | zábava
+опухоль | nádor
+разделить | rozdeliť
+мотоцикл | motorka
+шестой | šiesty
+запас | zásoba
+музыкальный | hudobný
+подвезти | podviezť
+избегать | vyhýbať sa
+расходы | výdavky
+молитва | modlitba
+противник | protivník
+жалоба | sťažnosť
+череп | lebka
+зацепка | stopa | vodítko
+математика | matematika
+картинка | obrázok
+завершить | dokončiť
+предстоять | čakať | нам предстоит = čaká nás
+повториться | zopakovať sa
+выставить | vystaviť | vyhodiť
+послание | posolstvo
+посетитель | návštevník
+внести | vniesť | zaplatiť
+записывать | zapisovať | nahrávať
+рассвет | úsvit
+разведка | prieskum | rozviedka
+налить | naliať
+подряд | za sebou
+свадебный | svadobný
+неверный | nesprávny | neverný
+фабрика | továreň
+познакомить | zoznámiť
+публика | publikum
+отрезать | odrezať
+разойтись | rozísť sa
+ограбить | olúpiť
+беспорядок | neporiadok
+ядерный | jadrový
+фактически | v skutočnosti
+сэндвич | sendvič
+откровенный | úprimný
+суть | podstata
+стесняться | hanbiť sa
+суметь | dokázať
+благородный | šľachetný
+слева | zľava | vľavo
+ярость | zúrivosť
+режим | režim
+вершина | vrchol
+пульс | pulz
+подобрать | zdvihnúť | vybrať
+граф | gróf
+матч | zápas
+обедать | obedovať
+телевидение | televízia
+прелесть | pôvab | rozkoš
+нелепый | absurdný
+отставка | odstúpenie | výpoveď
+приговор | rozsudok
+опознать | identifikovať
+спор | spor | hádka
+точнее | presnejšie
+надпись | nápis
+краска | farba | na maľovanie
+министерство | ministerstvo
+щит | štít
+мерзкий | hnusný
+несчастье | nešťastie
+приличный | slušný
+заказывать | objednávať
+доставка | doručenie
+ссора | hádka
+слушание | pojednávanie
+внук | vnuk
+бюро | kancelária | úrad
+уговорить | prehovoriť
+полотенце | uterák
+вонять | smrdieť
+международный | medzinárodný
+ужинать | večerať
+стресс | stres
+родить | porodiť
+кататься | jazdiť | korčuľovať sa
+переезжать | sťahovať sa
+стрельба | streľba
+развлекаться | zabávať sa
+милость | milosť
+оказать | preukázať | оказать помощь = poskytnúť pomoc
+книжка | knižka
+пещера | jaskyňa
+местечко | miestečko
+мощный | mocný | silný
+фальшивый | falošný
+сниться | snívať sa | мне снилось = snívalo sa mi
+седьмой | siedmy
+инструкция | návod
+падение | pád
+поправиться | uzdraviť sa | aj: pribrať
+нервный | nervózny
+проделать | vykonať
+лишить | pripraviť o
+смертельный | smrteľný
+полтора | jeden a pol
+комиссия | komisia
+бандит | bandita
+нора | nora
+отложить | odložiť
+завод | závod | továreň
+печень | pečeň
+помещение | priestor | miestnosť
+обман | podvod
+стремиться | usilovať sa
+груз | náklad
+игнорировать | ignorovať
+советовать | radiť
+яблоко | jablko
+облако | oblak
+кровотечение | krvácanie
+изучить | preštudovať
+аренда | prenájom
+смотреться | vyzerať
+январь | január
+февраль | február
+апрель | apríl
+май | máj
+июнь | jún
+июль | júl
+август | august
+сентябрь | september
+октябрь | október
+ноябрь | november
+декабрь | december
+весна | jar
+осень | jeseň
+одиннадцать | jedenásť
+двенадцать | dvanásť
+сорок | štyridsať
+пятьдесят | päťdesiat
+картошка | zemiaky
+помидор | paradajka
+огурец | uhorka
+морковь | mrkva
+лук | cibuľa
+рис | ryža
+мука | múka
+перец | korenie | aj: paprika
+апельсин | pomaranč
+банан | banán
+клубника | jahody
+виноград | hrozno
+овощи | zelenina
+фрукты | ovocie
+колбаса | saláma | klobása
+ветчина | šunka
+ложка | lyžica
+вилка | vidlička
+кастрюля | hrniec
+сковородка | panvica
+мыло | mydlo
+зубная щётка | zubná kefka
+метро | metro
+трамвай | električka
+супермаркет | supermarket
+аптека | lekáreň
+рюкзак | ruksak
+носок | ponožka
+свитер | sveter
+зонт | dáždnik
+перекрёсток | križovatka
+светофор | semafor
+коричневый | hnedý
+жёлтый | žltý
+серый | sivý
+оранжевый | oranžový
+фиолетовый | fialový
+спокойствие | pokoj
+Италия | Taliansko
+приют | útulok
+беречься | dávať si pozor
+конфета | cukrík
+депрессия | depresia
+поблизости | nablízku
+салат | šalát
+изображение | obraz | zobrazenie
+сутки | deň a noc | 24 hodín
+отметить | označiť | aj: osláviť
+мышь | myš
+обладать | vlastniť | disponovať
+привычка | zvyk
+паника | panika
+загадка | hádanka
+заранее | vopred
+лига | liga
+занимать | zaberať | požičiavať si
+пыль | prach
+поместить | umiestniť
+удержать | udržať
+лжец | klamár
+разбитый | rozbitý
+оплата | platba
+обстановка | situácia | zariadenie
+коллекция | zbierka
+заклинание | kúzlo
+воображение | predstavivosť
+незнакомец | cudzinec
+кризис | kríza
+бензин | benzín
+профессионал | profesionál
+клоун | klaun
+исключить | vylúčiť
+юридический | právny
+справа | sprava | vpravo
+точность | presnosť
+произнести | vysloviť
+культура | kultúra
+акт | akt | čin
+симптом | príznak
+хранилище | úložisko | trezor
+навык | zručnosť
+повышение | zvýšenie | povýšenie
+воздушный | vzdušný | letecký
+холм | kopec
+вечность | večnosť
+съездить | zájsť | zaskočiť
+храм | chrám
+скрытый | skrytý
+дурной | zlý
+побережье | pobrežie
+пошутить | zažartovať
+гольф | golf
+градус | stupeň
+Библия | Biblia
+перемена | zmena | prestávka
+редактор | redaktor
+просмотреть | prezrieť
+относительно | relatívne | ohľadom
+нужда | núdza | potreba
+отнять | vziať | odobrať
+покупатель | kupujúci
+электронный | elektronický
+внешний | vonkajší
+нарушать | porušovať
+академия | akadémia
+спутник | satelit | spoločník
+приступить | pustiť sa do
+пожертвовать | obetovať | darovať
+няня | opatrovateľka
+уважаемый | vážený
+громко | nahlas
+дым | dym
+доложить | hlásiť
+наиболее | najviac
+акцент | prízvuk
+избить | zbiť
+песок | piesok
+вещество | látka
+заведение | podnik | zariadenie
+ноготь | necht
+портить | kaziť
+неправ | nemá pravdu
+актриса | herečka
+поболтать | pokecať
+аппетит | chuť do jedla
+королевство | kráľovstvo
+руководитель | vedúci
+слушаться | poslúchať
+основать | založiť
+багажник | kufor | auta
+удаваться | dariť sa
+татуировка | tetovanie
+свеча | sviečka
+дружить | kamarátiť sa
+разозлиться | nahnevať sa
+праздновать | oslavovať
+грань | hrana | hranica
+плата | poplatok
+галстук | kravata
+нечестно | nečestne | nefér
+болван | hlupák
+торговля | obchod
+кислород | kyslík
+молчание | mlčanie
+выпуск | vydanie | epizóda
+улететь | odletieť
+наличные | hotovosť
+нападать | útočiť
+участник | účastník
+мгновение | okamih
+распоряжение | nariadenie | k dispozícii
+беременность | tehotenstvo
+пьеса | divadelná hra
+бок | bok
+ценность | hodnota
+атмосфера | atmosféra
+притвориться | predstierať
+блестящий | skvelý | lesklý
+автомат | automat | samopal
+совпадать | zhodovať sa
+взамен | namiesto | výmenou
+неподалёку | neďaleko
+выразить | vyjadriť
+развлечение | zábava
+кровавый | krvavý
+гарантировать | zaručiť
+ложный | falošný
+соседка | susedka
+отчаяние | zúfalstvo
+рыцарь | rytier
+неудобно | nepohodlne | trápne
+зритель | divák
+младенец | bábätko
+пешком | pešo
+каникулы | prázdniny
+монета | minca
+ремонт | oprava | rekonštrukcia
+неудача | neúspech
+поздороваться | pozdraviť sa
+поражение | porážka
+хозяйка | gazdiná | hostiteľka
+водка | vodka
+посещать | navštevovať
+юмор | humor
+описание | opis
+потанцевать | zatancovať si
+недостаток | nedostatok | chyba
+бумажник | peňaženka
